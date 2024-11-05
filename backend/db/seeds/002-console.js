@@ -13,7 +13,7 @@ exports.seed = async function(knex) {
       is_handheld: false
     },
     {
-      name: 'Super Famicom/Super Nintendo Entertainment System',
+      name: 'Super Famicom / Super Nintendo Entertainment System',
       maker: 'Nintendo',
       release_year: new Date("1990"),
       is_handheld: false

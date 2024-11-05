@@ -10,7 +10,8 @@ function getNextPageQuery() {
 
 async function getRAWGDataByPage() {
   const fullURL = baseURL + RAWG_API_KEY_QUERY + getNextPageQuery(); 
-  const responseObject = await fetch(fullURL);
+  const rawResponse = await fetch(fullURL);
+  const responseObject = await rawResponse.json();
   const originalGameObjectArray = responseObject.results;
 
   let newGameObjectArray  = [];
@@ -31,24 +32,22 @@ async function getRAWGDataByPage() {
   return newGameObjectArray;
 }
 
-function getGameObjects() {
+async function getGameObjects() {
   let gameObjectArray = [];
 
   for (let i = 0; i < 50; i++) {
-    gameObjectArray = gameObjectArray.concat(getRAWGDataByPage());
+    gameObjectArray = gameObjectArray.concat(await getRAWGDataByPage());
   }
 
   return gameObjectArray;
 }
-
-const seedData = getGameObjects();
-
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
+  const seedData = await getGameObjects();
   // Deletes ALL existing entries
   await knex('game').del()
   await knex('game').insert(seedData);

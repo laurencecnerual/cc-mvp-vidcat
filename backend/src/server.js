@@ -102,6 +102,46 @@ app.post("/logout", (req, res) => {
   });
 });
 
+app.get("/console", async (req, res) => {
+  try {
+    const allConsoles = await getAllConsolesOrderByName();
+    res.status(200).json(allConsoles);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.get("/user/:id/console", async (req, res) => {
+  const userID = parseInt(req.params.uid);
+
+  try {
+    const allConsolesForUser = await getAllUserConsoles(userID);
+    res.status(200).json(allConsolesForUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.get("/game", async (req, res) => {
+  try {
+    const allGames = await getAllGamesOrderByName();
+    res.status(200).json(allGames);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.get("/user/:id/game", async (req, res) => {
+  const userID = parseInt(req.params.uid);
+
+  try {
+    const allGamesForUser = await getAllUserGames(userID);
+    res.status(200).json(allGamesForUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 //for new user creation
 async function hashPassword(plainTextPassword) {
   const saltRounds = 10; //the higher the more secure but more time-consuming

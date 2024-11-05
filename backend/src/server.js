@@ -124,6 +124,10 @@ async function verifyPassword(plainTextPassword, hashedPasswordFromDB) {
 }
 
 const GAMER_TABLE = "gamer";
+const CONSOLE_TABLE = "console";
+const USERCONSOLE_TABLE = "userconsole";
+const GAME_TABLE = "game";
+const USERGAME_TABLE = "usergame";
 
 function getChatUserByUsername(username) {
   return knex
@@ -146,6 +150,53 @@ function addUser(newUserObject) {
     .returning("*")
     .insert(newUserObject)
     .into(GAMER_TABLE);
+}
+
+function getAllConsolesOrderByName() {
+  return knex
+    .select("*")
+    .from(CONSOLE_TABLE)
+    .orderBy("name", "asc");
+}
+
+function getAllConsolesOrderByYear() {
+  return knex
+    .select("*")
+    .from(CONSOLE_TABLE)
+    .orderBy("release_year", "desc");
+}
+
+function getAllUserConsoles(userID) {
+  return knex
+    .select("*")
+    .from(USERCONSOLE_TABLE)
+    .where({ "userconsole.gamer_id": userID })
+    .leftJoin("console", "userconsole.console_id", "console.id")
+    .orderBy("userconsole.id", "asc");
+}
+
+function getAllGamesOrderByName() {
+  return knex
+    .select("*")
+    .from(GAME_TABLE)
+    .orderBy("name", "asc");
+}
+
+function getAllGamesOrderByReleaseDate() {
+  return knex
+    .select("*")
+    .from(GAME_TABLE)
+    .orderBy("released", "desc");
+}
+
+function getAllUserGames(userID) {
+  return knex
+    .select("*")
+    .from(USERGAME_TABLE)
+    .where({ "userconsole.gamer_id": userID })
+    .leftJoin("userconsole", "usergame.userconsole_id", "userconsole.id")
+    .leftJoin("game", "usergame.game_id", "game.rawg_id")
+    .orderBy("id", "asc");
 }
 
 const server = app.listen(PORT, () => {

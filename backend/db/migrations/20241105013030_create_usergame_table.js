@@ -8,7 +8,7 @@ exports.up = async function(knex) {
     table.integer('userconsole_id').notNullable();
     table.foreign('userconsole_id').references("id").inTable("userconsole");
     table.integer('game_id').notNullable();
-    table.foreign('game_id').references("id").inTable("game");
+    table.foreign('game_id').references("rawg_id").inTable("game");
     table.boolean('is_completed').defaultTo(false);
     table.boolean('is_favorite').defaultTo(false);
     table.decimal("personal_rating", 3, 2);

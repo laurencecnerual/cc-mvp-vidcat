@@ -9,6 +9,8 @@ exports.up = async function(knex) {
     table.foreign('gamer_id').references("id").inTable("gamer");
     table.integer('console_id').notNullable();
     table.foreign('console_id').references("id").inTable("console");
+    table.boolean('is_owned').defaultTo(true);
+    table.boolean('is_favorite').defaultTo(false);
   });
 };
 

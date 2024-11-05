@@ -4,12 +4,11 @@
  */
 exports.up = async function(knex) {
   await knex.schema.createTable("game", (table) => {
-    table.increments("id").primary();
-    table.increments("rawg_id").notNullable().unique();
+    table.integer("rawg_id").primary();
     table.string("name").notNullable();
     table.string("lookup_name").notNullable().unique();
     table.timestamp("released");
-    table.decimal("rating", 3, 2)
+    table.decimal("rating", 3, 2);
     table.string("background_image_link");
   });
 };

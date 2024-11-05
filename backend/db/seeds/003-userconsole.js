@@ -16,7 +16,8 @@ exports.seed = async function(knex) {
     },
     {
       gamer_id: 1,
-      console_id: 20
+      console_id: 20,
+      is_favorite: true
     },
     {
       gamer_id: 1,
@@ -25,6 +26,11 @@ exports.seed = async function(knex) {
     {
       gamer_id: 1,
       console_id: 23
+    },
+    {
+      gamer_id: 1,
+      console_id: 26,
+      is_owned: false
     },
   ]);
 };

@@ -2,9 +2,10 @@ const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type LoginProps = {
   setScreen: Function
+  setGamer: Function
 }
 
-export default function Login({setScreen}: LoginProps) {
+export default function Login({setScreen, setGamer}: LoginProps) {
   async function handleLogin(username: string, password: string) {
     const response = await fetch(apiUrl + "/login", {
       method: "POST",
@@ -16,10 +17,16 @@ export default function Login({setScreen}: LoginProps) {
     });
 
     if (response.status === 200) {
-      //const payload = await response.json();
-      setScreen("MAIN");
+      const payload = await response.json();
+
+      if (payload.authenticationSuccessful) {
+        setGamer(payload.gamer);
+        setScreen("MAIN");
+      } else {
+        alert("There was an error authenticating");
+      }
     } else {
-      alert("There was an error logging in")
+      alert("There was an error logging in");
     }
   }
 

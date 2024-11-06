@@ -26,7 +26,14 @@ export default function Login({setScreen}: LoginProps) {
   return (
     <>
       <h2>Existing Account</h2>
-      <form action="" onSubmit={(event) => {event.preventDefault(); let form = document.querySelector("form"); handleLogin((form?.querySelector("input.username") as HTMLInputElement).value, (form?.querySelector("input.password") as HTMLInputElement).value)}}>
+      <form action="" onSubmit={(event) => {
+        event.preventDefault(); 
+        let form = document.querySelector("form"); 
+        handleLogin(
+          (form?.querySelector("input.username") as HTMLInputElement).value, 
+          (form?.querySelector("input.password") as HTMLInputElement).value
+        )
+      }}>
         <div id="username">
           <label htmlFor="username">Username</label>
           <input type="text" className="username" id="username" name="username" placeholder="username" required/>

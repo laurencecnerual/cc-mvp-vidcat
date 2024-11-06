@@ -42,7 +42,13 @@ app.get("/", (req, res) => {
 
 app.post("/signup", async (req, res) => {
   const { username, password, firstname, lastname } = req.body;
-  const userFound = await getChatUserByUsername(username);
+
+  if (!username || !password || !firstname || !lastname) {
+    res.status(400).send("First Name, Last Name, Username, and Password are all required");
+    return;
+  }
+
+  const userFound = await getGamerByUsername(username);
 
   if (!userFound) {
     const saltedHash = await hashPassword(password);
@@ -65,7 +71,13 @@ app.post("/signup", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const user = await getChatUserByUsername(username);
+
+  if (!username || !password) {
+    res.status(400).send("Both Username and Password are required");
+    return;
+  }
+
+  const user = await getGamerByUsername(username);
 
   if (user) {
     const saltedHash = user.salted_hash;
@@ -169,7 +181,7 @@ const USERCONSOLE_TABLE = "userconsole";
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
 
-function getChatUserByUsername(username) {
+function getGamerByUsername(username) {
   return knex
     .select("*")
     .from(GAMER_TABLE)

@@ -1,3 +1,7 @@
+import Header from "./Header"
+import CoreContent from "./CoreContent";
+import Footer from "./Footer";
+
 type MainPageProps = {
   setScreen: Function
 }
@@ -5,9 +9,9 @@ type MainPageProps = {
 export default function MainPage({setScreen}: MainPageProps) {
   return (
     <>
-      <div>This is the header</div>
-      <div>Thanks for logging in</div>
-      <div>This is the footer</div>
+      <Header setScreen={setScreen}/>
+      <CoreContent />
+      <Footer />
     </>
   );
 }

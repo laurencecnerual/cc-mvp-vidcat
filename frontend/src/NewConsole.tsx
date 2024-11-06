@@ -1,9 +1,15 @@
-export default function NewConsole({}) {
+import { Gamer } from "./App";
+
+type NewConsoleProps = {
+  gamer: Gamer | null,
+}
+
+export default function NewConsole({gamer}: NewConsoleProps) {
 
 
   return (
     <>
-      <div>New Console Page</div>
+      <div>{gamer?.username}'s New Console Page</div>
     </>
   );
 }

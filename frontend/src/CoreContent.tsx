@@ -13,11 +13,10 @@ export default function CoreContent({gamer, action}: CoreContentProps) {
 
   return (
     <>
-      <div>{gamer?.username}'s Games Galore</div>
       { 
-        action === "NEWCONSOLE"? <NewConsole />
-        : action === "NEWGAME"? <NewGame />
-        : <Profile />
+        action === "NEWCONSOLE"? <NewConsole gamer={gamer}/>
+        : action === "NEWGAME"? <NewGame gamer={gamer}/>
+        : <Profile gamer={gamer}/>
       }
     </>
   );

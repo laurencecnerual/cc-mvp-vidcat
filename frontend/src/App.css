@@ -1,13 +1,24 @@
+body {
+  margin: 0;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 div.top-mid-bot {
   display: flex;
   flex-direction: column;
-  height: 98vh;
+  height: 100vh;
   justify-content: space-between;
 }
 
 div.banner {
   display: flex;
   justify-content: space-between;
+  background-color: aqua;
+  padding: 16px 8px;
+}
+
+div.logo {
+  font-size: 1.2rem;
 }
 
 div.menu-options {
@@ -17,9 +28,11 @@ div.menu-options {
 
 div.disclaimer {
   text-align: center;
+  background-color: yellow;
+  padding: 8px 0;
 }
 
-h2 {
+h1, h2 {
   text-align: center;
 }
 
@@ -29,4 +42,10 @@ form.login, form.signup, form.new-console, form.new-game {
   align-items: center;
   height: 100vh;
   justify-content: center;
+  gap: 12px
+}
+
+div.label-input-pair {
+  display: flex;
+  gap: 6px;
 }

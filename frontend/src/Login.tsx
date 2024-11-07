@@ -41,11 +41,11 @@ export default function Login({setScreen, setGamer}: LoginProps) {
         )
       }}>
         <h2>Existing Account</h2>
-        <div id="username">
+        <div id="username" className="label-input-pair">
           <label htmlFor="username">Username</label>
           <input type="text" className="username" id="username" name="username" placeholder="username" required/>
         </div>
-        <div id="password">
+        <div id="password" className="label-input-pair">
           <label htmlFor="password">Password</label>
           <input type="password" className="password" id="password" name="password" placeholder="password" required/>
        </div>

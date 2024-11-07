@@ -36,19 +36,19 @@ export default function Signup({setScreen}: SignupProps) {
         )
       }}>
         <h2>New Account</h2>
-        <div id="firstname">
+        <div id="firstname" className="label-input-pair">
           <label htmlFor="firstname">First Name</label>
           <input type="text" className="firstname" id="firstname" name="firstname" placeholder="Patrick" required/>
         </div>
-        <div id="lastname">
+        <div id="lastname" className="label-input-pair">
           <label htmlFor="lastname">Last Name</label>
           <input type="text" className="lastname" id="lastname" name="lastname" placeholder="Star" required/>
         </div>
-        <div id="username">
+        <div id="username" className="label-input-pair">
           <label htmlFor="username">Username</label>
           <input type="text" className="username" id="username" name="username" placeholder="pstar777" required/>
         </div>
-        <div id="password">
+        <div id="password" className="label-input-pair">
           <label htmlFor="password">Password</label>
           <input type="password" className="password" id="password" name="password" placeholder="m4k3175tr0ng!!" required/>
        </div>

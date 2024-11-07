@@ -71,19 +71,19 @@ export default function NewConsole({gamer, setAction}: NewConsoleProps) {
           (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
         )
       }}>
-        <div id="console-name">
-          <h2>New Console</h2>
-          <label htmlFor="console-name">Name of Console</label>
+        <h2>New Console</h2>
+        <div id="console-name" className="label-input-pair">
+          <label htmlFor="console-name" >Name of Console</label>
           <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
           <datalist id="console-list">
             {consoleList.map((console) => <option id={"" + console.id} value={console.name}>{console.name}</option>)}
           </datalist>
         </div>
-        <div id="is-owned">
+        <div id="is-owned" className="label-input-pair">
           <label htmlFor="is-owned">I own this console</label>
           <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
         </div>
-        <div id="is-favorite">
+        <div id="is-favorite" className="label-input-pair">
           <label htmlFor="is-favorite">This console is one of my favorites</label>
           <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
         </div>

@@ -123,12 +123,36 @@ app.get("/console", async (req, res) => {
   }
 });
 
-app.get("/user/:id/console", async (req, res) => {
+app.get("/gamer/:id/userconsole", async (req, res) => {
   const userID = parseInt(req.params.uid);
 
   try {
     const allConsolesForUser = await getAllUserConsoles(userID);
     res.status(200).json(allConsolesForUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.post("/gamer/:id/userconsole", async (req, res) => {
+  const userID = parseInt(req.params.id);
+  const {consoleID, isOwned, isFavorite} = req.body;
+
+  if (!userID || !consoleID) {
+    res.status(400).send("Gamer ID, Console ID, isOwned, and isFavorite are all required");
+    return;
+  }
+
+  const newUserConsole = {
+    gamer_id: userID,
+    console_id: consoleID,
+    is_owned: isOwned,
+    is_favorite: isFavorite
+  };
+
+  try {
+    const newlyAdded = await addUserConsole(newUserConsole);
+    res.status(200).json(newlyAdded[0]);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -143,7 +167,7 @@ app.get("/game", async (req, res) => {
   }
 });
 
-app.get("/user/:id/game", async (req, res) => {
+app.get("/gamer/:id/usergame", async (req, res) => {
   const userID = parseInt(req.params.uid);
 
   try {
@@ -225,6 +249,13 @@ function getAllUserConsoles(userID) {
     .where({ "userconsole.gamer_id": userID })
     .leftJoin("console", "userconsole.console_id", "console.id")
     .orderBy("userconsole.id", "asc");
+}
+
+function addUserConsole(userConsole) {
+  return knex
+  .returning("*")
+  .insert(userConsole)
+  .into(USERCONSOLE_TABLE);
 }
 
 function getAllGamesOrderByName() {

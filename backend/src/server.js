@@ -124,7 +124,7 @@ app.get("/console", async (req, res) => {
 });
 
 app.get("/gamer/:id/userconsole", async (req, res) => {
-  const userID = parseInt(req.params.uid);
+  const userID = parseInt(req.params.id);
 
   try {
     const allConsolesForUser = await getAllUserConsoles(userID);
@@ -168,7 +168,7 @@ app.get("/game", async (req, res) => {
 });
 
 app.get("/gamer/:id/usergame", async (req, res) => {
-  const userID = parseInt(req.params.uid);
+  const userID = parseInt(req.params.id);
 
   try {
     const allGamesForUser = await getAllUserGames(userID);

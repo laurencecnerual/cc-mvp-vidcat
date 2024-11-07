@@ -200,6 +200,33 @@ app.get("/gamer/:id/usergame", async (req, res) => {
   }
 });
 
+app.post("/gamer/:id/usergame", async (req, res) => {
+  const userID = parseInt(req.params.id);
+  const {consoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
+
+  if (!userID || !consoleID) {
+    res.status(400).send("Gamer ID, Console ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
+    return;
+  }
+
+  const newUserGame = {
+    gamer_id: userID,
+    console_id: consoleID,
+    is_owned: isOwned,
+    is_completed: isCompleted,
+    is_favorite: isFavorite,
+    personal_rating: personalRating,
+    personal_review: personalReview
+  };
+
+  try {
+    const newlyAdded = await addUserGame(newUserGame);
+    res.status(200).json(newlyAdded[0]);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 //for new user creation
 async function hashPassword(plainTextPassword) {
   const saltRounds = 10; //the higher the more secure but more time-consuming
@@ -316,6 +343,13 @@ function getAllUserGames(userID) {
     .leftJoin("userconsole", "usergame.userconsole_id", "userconsole.id")
     .leftJoin("game", "usergame.game_id", "game.rawg_id")
     .orderBy("id", "asc");
+}
+
+function addUserGame(userGame) {
+  return knex
+  .returning("*")
+  .insert(userGame)
+  .into(USERGAME_TABLE);
 }
 
 const server = app.listen(PORT, () => {

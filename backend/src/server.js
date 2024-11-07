@@ -123,6 +123,17 @@ app.get("/console", async (req, res) => {
   }
 });
 
+app.get("/console/:id", async (req, res) => {
+  const consoleID = parseInt(req.params.id);
+
+  try {
+    const targetConsole = await getConsoleByID(consoleID);
+    res.status(200).json(targetConsole);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 app.get("/gamer/:id/userconsole", async (req, res) => {
   const userID = parseInt(req.params.id);
 
@@ -162,6 +173,17 @@ app.get("/game", async (req, res) => {
   try {
     const allGames = await getAllGamesOrderByName();
     res.status(200).json(allGames);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.get("/game/:id", async (req, res) => {
+  const gameID = parseInt(req.params.id);
+
+  try {
+    const targetGame = await getGameByID(gameID);
+    res.status(200).json(targetGame);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -242,6 +264,13 @@ function getAllConsolesOrderByYear() {
     .orderBy("release_year", "desc");
 }
 
+function getConsoleByID(consoleID) {
+  return knex
+  .select("*")
+  .from(CONSOLE_TABLE)
+  .where({id: consoleID});
+}
+
 function getAllUserConsoles(userID) {
   return knex
     .select("*")
@@ -270,6 +299,13 @@ function getAllGamesOrderByReleaseDate() {
     .select("*")
     .from(GAME_TABLE)
     .orderBy("released", "desc");
+}
+
+function getGameByID(gameID) {
+  return knex
+  .select("*")
+  .from(GAME_TABLE)
+  .where({id: gameID});
 }
 
 function getAllUserGames(userID) {

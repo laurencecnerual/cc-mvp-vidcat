@@ -8,7 +8,7 @@ type NewGameProps = {
 }
 
 type Game = {
-  id: number,
+  rawg_id: number,
   name: string,
   lookup_name: string,
   released: Date,
@@ -111,7 +111,55 @@ export default function NewGame({gamer, setAction}: NewGameProps) {
 
   return (
     <>
-      <div>{gamer?.username}'s New Game Page</div>
+      <form className="new-game" action="" onSubmit={(event) => {
+        event.preventDefault(); 
+        let form = document.querySelector("form"); 
+        handleAddGame
+        (
+          gamer?.id,
+          (form?.querySelector("input.console-name") as HTMLInputElement).value,
+          (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
+          (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
+        )
+      }}>
+        <h2>New Game</h2>
+        <div id="game-name">
+          <label htmlFor="game-name">Game</label>
+          <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>
+          <datalist id="game-list">
+            {gameList.map((game) => <option id={"" + game.rawg_id} value={game.name}>{game.name}</option>)}
+          </datalist>
+        </div>
+        <div id="console-name">
+          <label htmlFor="console-name">Console</label>
+          <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
+          <datalist id="console-list">
+            {consoleNameIDMapping.map((console) => <option id={"" + console.id} value={console.name}>{console.name}</option>)}
+          </datalist>
+        </div>
+        <div id="is-owned">
+          <label htmlFor="is-owned">I own this game</label>
+          <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
+        </div>
+        <div id="is-completed">
+          <label htmlFor="is-completed">I have beaten this game</label>
+          <input type="checkbox" className="is-completed" id="is-completed" name="is-completed"/>
+        </div>
+        <div id="is-favorite">
+          <label htmlFor="is-favorite">This game is one of my favorites</label>
+          <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
+        </div>
+        <div id="personal-rating">
+          <label htmlFor="personal-rating">Rating</label>
+          <input type="number" step="0.01" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="0.00 ~ 5.00"/>
+        </div>
+        <div id="personal-review">
+          <label htmlFor="personal-review">Review</label>
+          <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
+        </div>
+        <button className="login" type="submit">Add Game</button>
+        <div onClick={() => {setAction("PROFILE")}}><a href="#">Back to Profile</a></div>
+      </form>
     </>
   );
 }

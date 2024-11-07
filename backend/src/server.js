@@ -202,22 +202,26 @@ app.get("/gamer/:id/usergame", async (req, res) => {
 
 app.post("/gamer/:id/usergame", async (req, res) => {
   const userID = parseInt(req.params.id);
-  const {consoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
+  const {gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
 
-  if (!userID || !consoleID) {
-    res.status(400).send("Gamer ID, Console ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
+  console.log(gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview)
+
+  if (!userID || !gameID || !userConsoleID) {
+    res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
     return;
   }
 
   const newUserGame = {
-    gamer_id: userID,
-    console_id: consoleID,
+    game_id: gameID,
+    userconsole_id: userConsoleID,
     is_owned: isOwned,
     is_completed: isCompleted,
     is_favorite: isFavorite,
     personal_rating: personalRating,
     personal_review: personalReview
   };
+
+  console.log(JSON.stringify(newUserGame))
 
   try {
     const newlyAdded = await addUserGame(newUserGame);
@@ -303,7 +307,6 @@ function getAllUserConsoles(userID) {
     .select("*")
     .from(USERCONSOLE_TABLE)
     .where({ "userconsole.gamer_id": userID })
-    .leftJoin("console", "userconsole.console_id", "console.id")
     .orderBy("userconsole.id", "asc");
 }
 

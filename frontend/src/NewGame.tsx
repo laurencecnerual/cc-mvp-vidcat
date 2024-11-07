@@ -7,8 +7,34 @@ type NewGameProps = {
   setAction: Function
 }
 
-export default function NewGame({gamer, setAction}: NewGameProps) {
+type Game = {
+  id: number,
+  name: string,
+  lookup_name: string,
+  released: Date,
+  rating: number;
+  background_image_link: string
+}
 
+export default function NewGame({gamer, setAction}: NewGameProps) {
+  const [gameList, setGameList] = useState<Game[]>([]);
+
+  useEffect(() => {
+    handleFetchGames();
+  }, []);
+
+  async function handleFetchGames() {
+    const response = await fetch(apiUrl + "/game", {
+      credentials: "include"
+    });
+
+    if (response.status === 200) {
+      const gameArray = await response.json();
+      setGameList(gameArray);
+    } else {
+      alert("There was an error loading the games list");
+    }
+  }
 
   return (
     <>

@@ -135,18 +135,56 @@ export default function Profile({gamer}: ProfileProps) {
     setLoading(false);
   }
 
+  function generateConsoleCards() {
+    return userConsoles.map((userConsole) => {
+      let console = consoles.find((console) => userConsole.console_id === console.id);
+
+      return (
+        <div className="console-card card">
+          <div className="console-name">{console?.name}</div>
+          <div className="console-handheld">{console?.is_handheld ? "Handheld Console" : "Home Console"}</div>
+          <div className="console-maker">By {console?.maker}</div>
+          <div className="console-owned">{userConsole?.is_owned ? "Owned" : "Wanted"}</div>
+          <div className="console-favorite favorite">{userConsole?.is_favorite ? "One of My Favorites" : ""}</div>
+        </div>
+      )
+    })
+  }
+
+  function generateGameCards() {
+    return userGames.map((userGame) => {
+      let game = games.find((game) => userGame.game_id === game.rawg_id);
+
+      return (
+        <div className="game-card card">
+          <div className="game-name">{game?.name}</div>
+          <img className="game-picture" src={game?.background_image_link} alt={"Photo of the game " + game?.name} />
+          <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>
+          <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Non Yet Finished"}</div>
+          <div className="game-favorite favorite">{userGame?.is_favorite ? "One of My Favorites" : ""}</div>
+          <div className="game-official-rating">Official Rating: {game?.rating}</div>
+          <div className="game-personal-rating">{userGame?.personal_rating ? "My score: " + userGame?.personal_rating: ""}</div>
+          <div className="game-personal-review">{userGame?.personal_review ? "My review: " + userGame?.personal_review : ""}</div>
+        </div>
+      )
+    })
+  }
+
   return (
     <>
       <h1>{gamer?.username}'s Profile</h1>
       <div className="consoles-section">
         <h2>Consoles</h2>
-        {userConsoles.map((userConsole) => (<div>{JSON.stringify(userConsole)}</div>))}
-        {consoles.map((console) => (<div>{JSON.stringify(console)}</div>))}
+        <div className="consoles-list card-list">
+          {generateConsoleCards()}
+
+        </div>
       </div>
       <div className="games-section">
         <h2>Games</h2>
-        {userGames.map((userGame) => (<div>{JSON.stringify(userGame)}</div>))}
-        {games.map((game) => (<div>{JSON.stringify(game)}</div>))}
+        <div className="games-list card-list">
+          {generateGameCards()}
+        </div>
       </div>
     </>
   );

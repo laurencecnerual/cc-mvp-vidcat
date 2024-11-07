@@ -14,6 +14,15 @@ type UserConsole = {
   is_favorite: boolean
 }
 
+type Console = {
+  id: number,
+  name: string,
+  maker: string,
+  release_year: Date,
+  picture: BinaryData;
+  is_handheld: boolean
+}
+
 type UserGame = {
   id: number,
   userconsole_id: number,
@@ -25,10 +34,21 @@ type UserGame = {
   personal_review: string
 }
 
+type Game = {
+  rawg_id: number,
+  name: string,
+  lookup_name: string,
+  released: Date,
+  rating: number;
+  background_image_link: string
+}
+
 export default function Profile({gamer}: ProfileProps) {
   const [userConsoles, setUserConsoles] = useState<UserConsole[]>([]);
   const [userGames, setUserGames] = useState<UserGame[]>([]);
   const [loading, setLoading] = useState(true);
+  const [consoles, setConsoles] = useState<Console[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
     handleLoading();
@@ -37,6 +57,8 @@ export default function Profile({gamer}: ProfileProps) {
   async function handleLoading() {
     await handleFetchUserConsoles(gamer?.id);
     await handleFetchUserGames();
+    await handleFetchConsoles();
+    await handleFetchGames();
   }
 
   async function handleFetchUserConsoles(gamerID: number | undefined) {
@@ -69,8 +91,47 @@ export default function Profile({gamer}: ProfileProps) {
       }
     }
 
-    console.log("Final userGameArray", userGameArray)
     setUserGames(userGameArray);
+  }
+
+  async function handleFetchConsoles() {
+    let consoleArray: Console[] = [];
+
+    for (let userConsole of userConsoles) {
+      const response = await fetch(apiUrl + `/console/${userConsole?.console_id}`, {
+        credentials: "include"
+      });
+  
+      if (response.status === 200) {
+        const nextConsole = await response.json();
+        consoleArray.push(nextConsole);
+      } else {
+        alert("There was an error loading the console data");
+        return;
+      }
+    }
+
+    setConsoles(consoleArray);
+  }
+
+  async function handleFetchGames() {
+    let gameArray: Game[] = [];
+
+    for (let userGame of userGames) {
+      const response = await fetch(apiUrl + `/game/${userGame?.game_id}`, {
+        credentials: "include"
+      });
+  
+      if (response.status === 200) {
+        const nextGame = await response.json();
+        gameArray.push(nextGame);
+      } else {
+        alert("There was an error loading the game data");
+        return;
+      }
+    }
+
+    setGames(gameArray);
     setLoading(false);
   }
 
@@ -80,10 +141,12 @@ export default function Profile({gamer}: ProfileProps) {
       <div className="consoles-section">
         <h2>Consoles</h2>
         {userConsoles.map((userConsole) => (<div>{JSON.stringify(userConsole)}</div>))}
+        {consoles.map((console) => (<div>{JSON.stringify(console)}</div>))}
       </div>
       <div className="games-section">
         <h2>Games</h2>
         {userGames.map((userGame) => (<div>{JSON.stringify(userGame)}</div>))}
+        {games.map((game) => (<div>{JSON.stringify(game)}</div>))}
       </div>
     </>
   );

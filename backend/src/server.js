@@ -230,8 +230,6 @@ app.post("/gamer/:id/usergame", async (req, res) => {
     personal_review: personalReview
   };
 
-  console.log(JSON.stringify(newUserGame))
-
   try {
     const newlyAdded = await addUserGame(newUserGame);
     res.status(200).json(newlyAdded[0]);

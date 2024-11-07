@@ -215,8 +215,6 @@ app.post("/gamer/:id/usergame", async (req, res) => {
   const userID = parseInt(req.params.id);
   const {gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
 
-  console.log(gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview)
-
   if (!userID || !gameID || !userConsoleID) {
     res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
     return;

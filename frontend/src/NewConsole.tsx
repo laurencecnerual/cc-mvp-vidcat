@@ -1,15 +1,79 @@
+import { useEffect, useState } from "react";
 import { Gamer } from "./App";
+const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type NewConsoleProps = {
   gamer: Gamer | null,
+  setAction: Function
 }
 
-export default function NewConsole({gamer}: NewConsoleProps) {
+type Console = {
+  id: number,
+  name: string,
+  maker: string,
+  release_year: Date,
+  picture: BinaryData;
+  is_handheld: boolean
+}
 
+export default function NewConsole({gamer, setAction}: NewConsoleProps) {
+
+  const [consoleList, setConsoleList] = useState<Console[]>([]);
+
+  useEffect(() => {
+    handleFetchConsoles();
+  }, []);
+
+  async function handleFetchConsoles() {
+    const response = await fetch(apiUrl + "/console", {
+      credentials: "include"
+    });
+
+    if (response.status === 200) {
+      const consoleArray = await response.json();
+      setConsoleList(consoleArray);
+    } else {
+      alert("There was an error loading the consoles list");
+    }
+  }
+
+  async function handleAddConsole(gamerID: number | undefined, consoleName: string, isOwned: boolean, isFavorite: boolean) {
+    const consoleID = (consoleList.find((console) => console.name === consoleName))?.id
+    console.log(gamerID, consoleID, isOwned, isFavorite)
+  }
 
   return (
     <>
-      <div>{gamer?.username}'s New Console Page</div>
+      <form className="new-console" action="" onSubmit={(event) => {
+        event.preventDefault(); 
+        let form = document.querySelector("form"); 
+        handleAddConsole
+        (
+          gamer?.id,
+          (form?.querySelector("input.console-name") as HTMLInputElement).value,
+          (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
+          (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
+        )
+      }}>
+        <h2>New Console</h2>
+        <div id="console-name">
+          <label htmlFor="console-name">Name of Console</label>
+          <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
+          <datalist id="console-list">
+            {consoleList.map((console) => <option id={"" + console.id} value={console.name}>{console.name}</option>)}
+          </datalist>
+        </div>
+        <div id="is-owned">
+          <label htmlFor="is-owned">I own this console</label>
+          <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
+        </div>
+        <div id="is-favorite">
+          <label htmlFor="is-favorite">This console is one of my favorites</label>
+          <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
+        </div>
+        <button className="login" type="submit">Add Console</button>
+        <div onClick={() => {setAction("PROFILE")}}><a href="#">Back to Profile</a></div>
+      </form>
     </>
   );
 }

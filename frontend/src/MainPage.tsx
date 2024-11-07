@@ -15,7 +15,7 @@ export default function MainPage({setScreen, gamer}: MainPageProps) {
   return (
     <>
       <Header setScreen={setScreen} setAction={setAction}/>
-      <CoreContent gamer={gamer} action={action}/>
+      <CoreContent gamer={gamer} action={action} setAction={setAction}/>
       <Footer />
     </>
   );

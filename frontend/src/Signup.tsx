@@ -25,8 +25,7 @@ export default function Signup({setScreen}: SignupProps) {
 
   return (
     <>
-      <h2>New Account</h2>
-      <form action="" onSubmit={(event) => {
+      <form className="signup" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 
         handleSignup(
@@ -36,6 +35,7 @@ export default function Signup({setScreen}: SignupProps) {
           (form?.querySelector("input.lastname") as HTMLInputElement).value
         )
       }}>
+        <h2>New Account</h2>
         <div id="firstname">
           <label htmlFor="firstname">First Name</label>
           <input type="text" className="firstname" id="firstname" name="firstname" placeholder="Patrick" required/>
@@ -53,8 +53,8 @@ export default function Signup({setScreen}: SignupProps) {
           <input type="password" className="password" id="password" name="password" placeholder="m4k3175tr0ng!!" required/>
        </div>
        <button className="signup" type="submit">Sign Up</button>
+       <div onClick={() => {setScreen("LOGIN")}}><a href="#">Already have an account?</a></div>
       </form>
-      <div onClick={() => {setScreen("LOGIN")}}><a href="#">Back to Login</a></div>
     </>
   );
 }

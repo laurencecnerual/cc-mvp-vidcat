@@ -32,8 +32,7 @@ export default function Login({setScreen, setGamer}: LoginProps) {
 
   return (
     <>
-      <h2>Existing Account</h2>
-      <form action="" onSubmit={(event) => {
+      <form className="login" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 
         handleLogin(
@@ -41,6 +40,7 @@ export default function Login({setScreen, setGamer}: LoginProps) {
           (form?.querySelector("input.password") as HTMLInputElement).value
         )
       }}>
+        <h2>Existing Account</h2>
         <div id="username">
           <label htmlFor="username">Username</label>
           <input type="text" className="username" id="username" name="username" placeholder="username" required/>
@@ -50,8 +50,8 @@ export default function Login({setScreen, setGamer}: LoginProps) {
           <input type="password" className="password" id="password" name="password" placeholder="password" required/>
        </div>
         <button className="login" type="submit">Log In</button>
+        <div onClick={() => {setScreen("SIGNUP")}}><a href="#">Don't have an account yet?</a></div>
       </form>
-      <div onClick={() => {setScreen("SIGNUP")}}><a href="#">To Signup</a></div>
     </>
   );
 }

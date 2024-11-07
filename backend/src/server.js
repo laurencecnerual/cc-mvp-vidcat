@@ -346,7 +346,7 @@ function getGameByID(gameID) {
   return knex
   .select("*")
   .from(GAME_TABLE)
-  .where({id: gameID});
+  .where({rawg_id: gameID});
 }
 
 // function getAllUserGames(userID) {

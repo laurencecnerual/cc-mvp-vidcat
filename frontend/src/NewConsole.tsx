@@ -39,7 +39,23 @@ export default function NewConsole({gamer, setAction}: NewConsoleProps) {
 
   async function handleAddConsole(gamerID: number | undefined, consoleName: string, isOwned: boolean, isFavorite: boolean) {
     const consoleID = (consoleList.find((console) => console.name === consoleName))?.id
-    console.log(gamerID, consoleID, isOwned, isFavorite)
+
+    const response = await fetch(apiUrl + `/gamer/${gamerID}/userconsole`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({consoleID: consoleID, isOwned: isOwned, isFavorite: isFavorite})
+    });
+
+    if (response.status === 200) {
+      const payload = await response.json();
+      console.log("The following console has been added", payload);
+      setAction("PROFILE");
+    } else {
+      alert("There was an error adding your console");
+    }
   }
 
   return (

@@ -189,12 +189,23 @@ app.get("/game/:id", async (req, res) => {
   }
 });
 
-app.get("/gamer/:id/usergame", async (req, res) => {
-  const userID = parseInt(req.params.id);
+// app.get("/gamer/:id/usergame", async (req, res) => {
+//   const userID = parseInt(req.params.id);
+
+//   try {
+//     const allGamesForUser = await getAllUserGames(userID);
+//     res.status(200).json(allGamesForUser);
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
+
+app.get("/userconsole/:id/usergame", async (req, res) => {
+  const userConsoleID = parseInt(req.params.id);
 
   try {
-    const allGamesForUser = await getAllUserGames(userID);
-    res.status(200).json(allGamesForUser);
+    const allGamesForUserConsole = await getAllUserConsoleGames(userConsoleID);
+    res.status(200).json(allGamesForUserConsole);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -338,13 +349,20 @@ function getGameByID(gameID) {
   .where({id: gameID});
 }
 
-function getAllUserGames(userID) {
+// function getAllUserGames(userID) {
+//   return knex
+//     .select("*")
+//     .from(USERGAME_TABLE)
+//     .where({ "userconsole.gamer_id": userID })
+//     .leftJoin("userconsole", "usergame.userconsole_id", "userconsole.id")
+//     .orderBy("id", "asc");
+// }
+
+function getAllUserConsoleGames(userConsoleID) {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
-    .where({ "userconsole.gamer_id": userID })
-    .leftJoin("userconsole", "usergame.userconsole_id", "userconsole.id")
-    .leftJoin("game", "usergame.game_id", "game.rawg_id")
+    .where({ "userconsole_id": userConsoleID })
     .orderBy("id", "asc");
 }
 

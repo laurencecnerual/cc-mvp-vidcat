@@ -128,7 +128,7 @@ app.get("/console/:id", async (req, res) => {
 
   try {
     const targetConsole = await getConsoleByID(consoleID);
-    res.status(200).json(targetConsole);
+    res.status(200).json(targetConsole[0]);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -183,7 +183,7 @@ app.get("/game/:id", async (req, res) => {
 
   try {
     const targetGame = await getGameByID(gameID);
-    res.status(200).json(targetGame);
+    res.status(200).json(targetGame[0]);
   } catch (err) {
     res.status(500).send(err);
   }

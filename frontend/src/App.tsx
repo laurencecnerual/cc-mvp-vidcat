@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 import Login from "./Login.tsx"
 import Signup from "./Signup.tsx"
@@ -17,10 +17,6 @@ export type Gamer = {
 function App() {
   const [screen, setScreen] = useState("LOGIN")
   const [gamer, setGamer] = useState<Gamer | null>(null)
-
-  useEffect(() => {
-    //TBD
-  }, []);
 
   return (
     <>

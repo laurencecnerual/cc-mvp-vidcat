@@ -18,3 +18,15 @@ div.menu-options {
 div.disclaimer {
   text-align: center;
 }
+
+h2 {
+  text-align: center;
+}
+
+form.login, form.signup, form.new-console, form.new-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
+}

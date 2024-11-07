@@ -71,8 +71,8 @@ export default function NewConsole({gamer, setAction}: NewConsoleProps) {
           (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
         )
       }}>
-        <h2>New Console</h2>
         <div id="console-name">
+          <h2>New Console</h2>
           <label htmlFor="console-name">Name of Console</label>
           <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
           <datalist id="console-list">

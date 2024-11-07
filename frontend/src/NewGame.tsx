@@ -33,12 +33,17 @@ export default function NewGame({gamer, setAction}: NewGameProps) {
   const [gameList, setGameList] = useState<Game[]>([]);
   const [userConsoleList, setUserConsoleList] = useState<UserConsole[]>([]);
   const [consoleNameIDMapping, setConsoleNameIDMapping] = useState<ConsoleNameIDMapping[]>([]);
+  const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
-    handleFetchGames();
-    handleFetchUserConsoles(gamer?.id)
-    handleCreateConsoleDataMapping()
-  }, []);
+    handlePageLoad();
+  }, [isLoading]);
+
+  async function handlePageLoad() {
+    await handleFetchGames();
+    await handleFetchUserConsoles(gamer?.id);
+    await handleCreateConsoleDataMapping();
+  }
 
   async function handleFetchGames() {
     const response = await fetch(apiUrl + "/game", {
@@ -69,6 +74,7 @@ export default function NewGame({gamer, setAction}: NewGameProps) {
   async function handleCreateConsoleDataMapping() {
     const consoleDataMapping = await Promise.all(userConsoleList.map(async (userConsole) => await handleFetchConsoleName(userConsole.console_id) as ConsoleNameIDMapping));
     setConsoleNameIDMapping(consoleDataMapping);
+    setIsloading(false);
   }
 
   async function handleFetchConsoleName(consoleID: number | undefined) {
@@ -88,42 +94,51 @@ export default function NewGame({gamer, setAction}: NewGameProps) {
     }
   }
 
-  // async function handleAddGame(gamerID: number | undefined, consoleName: string, isOwned: boolean, isFavorite: boolean) {
-  //   const consoleID = (consoleList.find((console) => console.name === consoleName))?.id
+  async function handleAddGame(gamerID: number | undefined, gameName: string, consoleName: string, isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number, personalReview: string) {
+    const consoleID = (consoleNameIDMapping.find((console) => console.name === consoleName))?.id;
+    const userConsoleID = userConsoleList.find((userConsole) => userConsole.console_id === consoleID)?.id;
+    const gameID = gameList.find((game) => game.name === gameName)?.rawg_id;
 
-  //   const response = await fetch(apiUrl + `/gamer/${gamerID}/userconsole`, {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({consoleID: consoleID, isOwned: isOwned, isFavorite: isFavorite})
-  //   });
+    const response = await fetch(apiUrl + `/gamer/${gamerID}/usergame`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({gameID: gameID, userConsoleID: userConsoleID, isOwned: isOwned, isCompleted: isCompleted, isFavorite: isFavorite, personalRating: personalRating, personalReview: personalReview})
+    });
 
-  //   if (response.status === 200) {
-  //     const payload = await response.json();
-  //     console.log("The following console has been added", payload);
-  //     setAction("PROFILE");
-  //   } else {
-  //     alert("There was an error adding your console");
-  //   }
-  // }
+    if (response.status === 200) {
+      const payload = await response.json();
+      console.log("The following game has been added", payload);
+      setAction("PROFILE");
+    } else {
+      alert("There was an error adding your game");
+    }
+  }
 
   return (
     <>
-      <form className="new-game" action="" onSubmit={(event) => {
+      {
+      isLoading ? 
+      (<h2>Loading...</h2>)
+      : (<form className="new-game" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 
         handleAddGame
         (
           gamer?.id,
+          (form?.querySelector("input.game-name") as HTMLInputElement).value,
           (form?.querySelector("input.console-name") as HTMLInputElement).value,
           (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
-          (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
+          (form?.querySelector("input.is-completed") as HTMLInputElement)?.checked,
+          (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked,
+          Number((form?.querySelector("input.personal-rating") as HTMLInputElement)?.value),
+          (form?.querySelector("input.personal-review") as HTMLInputElement)?.value
         )
       }}>
-        <h2>New Game</h2>
         <div id="game-name">
+          <h2>New Game</h2>
           <label htmlFor="game-name">Game</label>
           <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>
           <datalist id="game-list">
@@ -159,7 +174,7 @@ export default function NewGame({gamer, setAction}: NewGameProps) {
         </div>
         <button className="login" type="submit">Add Game</button>
         <div onClick={() => {setAction("PROFILE")}}><a href="#">Back to Profile</a></div>
-      </form>
+      </form>)}
     </>
   );
 }

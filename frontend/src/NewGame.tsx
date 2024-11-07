@@ -24,13 +24,20 @@ type UserConsole = {
   is_favorite: boolean
 }
 
+type ConsoleNameIDMapping = {
+  id: number,
+  name: string
+}
+
 export default function NewGame({gamer, setAction}: NewGameProps) {
   const [gameList, setGameList] = useState<Game[]>([]);
   const [userConsoleList, setUserConsoleList] = useState<UserConsole[]>([]);
+  const [consoleNameIDMapping, setConsoleNameIDMapping] = useState<ConsoleNameIDMapping[]>([]);
 
   useEffect(() => {
     handleFetchGames();
     handleFetchUserConsoles(gamer?.id)
+    handleCreateConsoleDataMapping()
   }, []);
 
   async function handleFetchGames() {
@@ -54,9 +61,30 @@ export default function NewGame({gamer, setAction}: NewGameProps) {
     if (response.status === 200) {
       const userConsoleArray = await response.json();
       setUserConsoleList(userConsoleArray);
-      console.log(userConsoleArray)
     } else {
       alert("There was an error loading the user's consoles");
+    }
+  }
+
+  async function handleCreateConsoleDataMapping() {
+    const consoleDataMapping = await Promise.all(userConsoleList.map(async (userConsole) => await handleFetchConsoleName(userConsole.console_id) as ConsoleNameIDMapping));
+    setConsoleNameIDMapping(consoleDataMapping);
+  }
+
+  async function handleFetchConsoleName(consoleID: number | undefined) {
+    const response = await fetch(apiUrl + `/console/${consoleID}`, {
+      credentials: "include"
+    });
+
+    if (response.status === 200) {
+      const targetConsole = await response.json();
+      const consoleIDAndNamePair = {
+          id: targetConsole.id,
+          name: targetConsole.name
+      }
+      return consoleIDAndNamePair;
+    } else {
+      alert("There was an error loading console data");
     }
   }
 

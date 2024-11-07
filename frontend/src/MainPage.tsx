@@ -13,10 +13,10 @@ export default function MainPage({setScreen, gamer}: MainPageProps) {
   const [action, setAction] = useState("PROFILE");
 
   return (
-    <>
+    <div className="top-mid-bot">
       <Header setScreen={setScreen} setAction={setAction}/>
       <CoreContent gamer={gamer} action={action} setAction={setAction}/>
       <Footer />
-    </>
+    </div>
   );
 }

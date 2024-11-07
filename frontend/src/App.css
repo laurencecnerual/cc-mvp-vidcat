@@ -1,0 +1,20 @@
+div.top-mid-bot {
+  display: flex;
+  flex-direction: column;
+  height: 98vh;
+  justify-content: space-between;
+}
+
+div.banner {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.menu-options {
+  display: flex;
+  gap: 16px
+}
+
+div.disclaimer {
+  text-align: center;
+}

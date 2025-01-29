@@ -1,20 +1,14 @@
 const baseURL = "https://api.rawg.io/api/games";
 const RAWG_API_KEY_QUERY = "?key=" + process.env.RAWG_API_KEY;
-let currentPage = 1;
+const totalPages = 1000;
 
-function getNextPageQuery() {
-  const PAGE_QUERY = "&page=" + currentPage;
-  currentPage++;
-  return PAGE_QUERY;
-}
-
-async function getRAWGDataByPage() {
-  const fullURL = baseURL + RAWG_API_KEY_QUERY + getNextPageQuery(); 
+async function getRAWGDataByPage(pageNumber) {
+  const fullURL = baseURL + RAWG_API_KEY_QUERY + "&page=" + pageNumber; 
   const rawResponse = await fetch(fullURL);
   const responseObject = await rawResponse.json();
   const originalGameObjectArray = responseObject.results;
 
-  let newGameObjectArray  = [];
+  let newGameObjectArray = [];
 
   originalGameObjectArray.forEach((originalGameObject) => {
     let newGameObject = {
@@ -32,23 +26,18 @@ async function getRAWGDataByPage() {
   return newGameObjectArray;
 }
 
-async function getGameObjects() {
-  let gameObjectArray = [];
-
-  for (let i = 0; i < 50; i++) {
-    gameObjectArray = gameObjectArray.concat(await getRAWGDataByPage());
-  }
-
-  return gameObjectArray;
-}
-
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  const seedData = await getGameObjects();
-  // Deletes ALL existing entries
   await knex('game').del()
-  await knex('game').insert(seedData);
+
+  for (let i = 0; i < totalPages; i++) {
+    console.log("Retrieving page #" + Number(i+1));
+    let gameObjectArray = await getRAWGDataByPage(i+1);
+    await knex('game').insert(gameObjectArray);
+  }
+
+  console.log(`${totalPages} pages fetched and added successfully`);
 };

@@ -5,6 +5,8 @@
 exports.up = async function(knex) {
   await knex.schema.createTable("usergame", (table) => {
     table.increments("id").primary();
+    table.integer('gamer_id').notNullable();
+    table.foreign('gamer_id').references("id").inTable("gamer");
     table.integer('userconsole_id').notNullable();
     table.foreign('userconsole_id').references("id").inTable("userconsole");
     table.integer('game_id').notNullable();

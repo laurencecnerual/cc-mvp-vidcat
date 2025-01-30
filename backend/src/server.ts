@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: frontendURL,
-    credentials: true, // Allow credentials (cookies) to be sent
+    credentials: true
   })
 );
 app.options("*", cors());
@@ -56,14 +56,14 @@ app.post("/signup", async (req: Request, res: Response) => {
 
   const saltedHash = await hashPassword(password);
 
-  let newChatUser = {
+  let newGamer = {
     username: username,
     salted_hash: saltedHash,
     firstname: firstname,
     lastname: lastname
   };
 
-  const userCreated = await addUser(newChatUser);
+  const userCreated = await addUser(newGamer);
   delete userCreated.salted_hash;
 
   res.status(201).json(userCreated);
@@ -83,14 +83,14 @@ app.post("/login", async (req: Request, res: Response) => {
   }
 
   const saltedHash = user.salted_hash;
-  const authenicationResult = await verifyPassword(password, saltedHash); //Checks that password is OK
+  const authenicationResult = await verifyPassword(password, saltedHash);
 
   if (!authenicationResult) {
     return res.status(401).json({ authenticationSuccessful: authenicationResult });
   }
 
-  req.session.username = user.username; //Gives the user a session because password was OK
-  const lastLoginUpdateResult = await updateLastLogin(user.id, new Date()); //Updates last_login in the db and returns the updated user
+  req.session.username = user.username;
+  const lastLoginUpdateResult = await updateLastLogin(user.id, new Date());
   delete lastLoginUpdateResult.salted_hash;
 
   if (!lastLoginUpdateResult) {
@@ -238,21 +238,19 @@ app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
   }
 });
 
-//for new user creation
-async function hashPassword(plainTextPassword) {
-  const saltRounds = 10; //the higher the more secure but more time-consuming
+async function hashPassword(plainTextPassword: string) {
+  const saltRounds = 10;
   try {
-    const hash = await bcrypt.hash(plainTextPassword, saltRounds); //applies salt and hashes the password
+    const hash = await bcrypt.hash(plainTextPassword, saltRounds);
     return hash;
   } catch (err) {
     console.error("Hashing error:", err);
   }
 }
 
-//for existing user login
-async function verifyPassword(plainTextPassword, hashedPasswordFromDB) {
+async function verifyPassword(plainTextPassword: string, hashedPasswordFromDB: string) {
   try {
-    const match = await bcrypt.compare(plainTextPassword, hashedPasswordFromDB); //the salt can be implicitly extracted from the hashed password
+    const match = await bcrypt.compare(plainTextPassword, hashedPasswordFromDB);
     return match;
   } catch (err) {
     console.error("Verification error:", err);
@@ -265,7 +263,7 @@ const USERCONSOLE_TABLE = "userconsole";
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
 
-function getGamerByUsername(username) {
+function getGamerByUsername(username: string) {
   return knex
     .select("*")
     .from(GAMER_TABLE)
@@ -273,7 +271,7 @@ function getGamerByUsername(username) {
     .first();
 }
 
-function updateLastLogin(id, lastLogin) {
+function updateLastLogin(id: number, lastLogin: Date) {
   return knex(GAMER_TABLE)
     .returning("*")
     .first()
@@ -281,8 +279,7 @@ function updateLastLogin(id, lastLogin) {
     .update({ last_login: lastLogin });
 }
 
-//returns an array of objects, even if just one row being added
-function addUser(newUserObject) {
+function addUser(newUserObject: Gamer) {
   return knex
     .returning("*")
     .first()
@@ -304,14 +301,14 @@ function getAllConsolesOrderByName() {
 //     .orderBy("release_year", "desc");
 // }
 
-function getConsoleByID(consoleID) {
+function getConsoleByID(consoleID: number) {
   return knex
   .select("*")
   .from(CONSOLE_TABLE)
   .where({id: consoleID});
 }
 
-function getAllUserConsoles(userID) {
+function getAllUserConsoles(userID: number) {
   return knex
     .select("*")
     .from(USERCONSOLE_TABLE)
@@ -320,7 +317,7 @@ function getAllUserConsoles(userID) {
     .orderBy("userconsole.id", "asc");
 }
 
-function addUserConsole(userConsole) {
+function addUserConsole(userConsole: UserConsole) {
   return knex
   .returning("*")
   .first()
@@ -342,7 +339,7 @@ function getAllGamesOrderByName() {
 //     .orderBy("released", "desc");
 // }
 
-function getGameByID(gameID) {
+function getGameByID(gameID: number) {
   return knex
   .select("*")
   .from(GAME_TABLE)
@@ -350,7 +347,7 @@ function getGameByID(gameID) {
   .first();
 }
 
-function getAllUserGames(userID) {
+function getAllUserGames(userID: number) {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
@@ -360,7 +357,7 @@ function getAllUserGames(userID) {
 }
 
 //might not need this longer term if using the above
-function getAllUserConsoleGames(userConsoleID) {
+function getAllUserConsoleGames(userConsoleID: number) {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
@@ -368,7 +365,7 @@ function getAllUserConsoleGames(userConsoleID) {
     .orderBy("id", "asc");
 }
 
-function addUserGame(userGame) {
+function addUserGame(userGame: UserGame) {
   return knex
   .returning("*")
   .insert(userGame)

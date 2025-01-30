@@ -38,7 +38,7 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to VidCat backend!");
+  res.send("Welcome to the VidCat backend!");
 });
 
 app.post("/signup", async (req: Request, res: Response) => {
@@ -199,7 +199,7 @@ app.get("/gamer/:id/usergame", async (req: Request, res: Response) => {
 });
 
 
-// likely to be deprecated in v2.0
+// likely to be deprecate after updating frontend
 app.get("/userconsole/:id/usergame", async (req: Request, res: Response) => {
   const userConsoleID = parseInt(req.params.id);
 
@@ -263,7 +263,7 @@ const USERCONSOLE_TABLE = "userconsole";
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
 
-function getGamerByUsername(username: string) {
+function getGamerByUsername(username: string): Gamer {
   return knex
     .select("*")
     .from(GAMER_TABLE)
@@ -271,7 +271,7 @@ function getGamerByUsername(username: string) {
     .first();
 }
 
-function updateLastLogin(id: number, lastLogin: Date) {
+function updateLastLogin(id: number, lastLogin: Date): Gamer {
   return knex(GAMER_TABLE)
     .returning("*")
     .first()
@@ -279,7 +279,7 @@ function updateLastLogin(id: number, lastLogin: Date) {
     .update({ last_login: lastLogin });
 }
 
-function addUser(newUserObject: Gamer) {
+function addUser(newUserObject: Gamer): Gamer {
   return knex
     .returning("*")
     .first()
@@ -287,7 +287,7 @@ function addUser(newUserObject: Gamer) {
     .into(GAMER_TABLE);
 }
 
-function getAllConsolesOrderByName() {
+function getAllConsolesOrderByName(): Console[] {
   return knex
     .select("*")
     .from(CONSOLE_TABLE)
@@ -301,14 +301,15 @@ function getAllConsolesOrderByName() {
 //     .orderBy("release_year", "desc");
 // }
 
-function getConsoleByID(consoleID: number) {
+function getConsoleByID(consoleID: number): Console {
   return knex
   .select("*")
   .from(CONSOLE_TABLE)
   .where({id: consoleID});
 }
 
-function getAllUserConsoles(userID: number) {
+//Also includes associated Console data
+function getAllUserConsoles(userID: number): UserConsole[] {
   return knex
     .select("*")
     .from(USERCONSOLE_TABLE)
@@ -317,7 +318,7 @@ function getAllUserConsoles(userID: number) {
     .orderBy("userconsole.id", "asc");
 }
 
-function addUserConsole(userConsole: UserConsole) {
+function addUserConsole(userConsole: UserConsole): UserConsole {
   return knex
   .returning("*")
   .first()
@@ -325,7 +326,7 @@ function addUserConsole(userConsole: UserConsole) {
   .into(USERCONSOLE_TABLE);
 }
 
-function getAllGamesOrderByName() {
+function getAllGamesOrderByName(): Game[] {
   return knex
     .select("*")
     .from(GAME_TABLE)
@@ -339,7 +340,7 @@ function getAllGamesOrderByName() {
 //     .orderBy("released", "desc");
 // }
 
-function getGameByID(gameID: number) {
+function getGameByID(gameID: number): Game {
   return knex
   .select("*")
   .from(GAME_TABLE)
@@ -347,7 +348,8 @@ function getGameByID(gameID: number) {
   .first();
 }
 
-function getAllUserGames(userID: number) {
+//Also includes associated Game data
+function getAllUserGames(userID: number): UserGame[] {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
@@ -356,8 +358,8 @@ function getAllUserGames(userID: number) {
     .orderBy("id", "asc");
 }
 
-//might not need this longer term if using the above
-function getAllUserConsoleGames(userConsoleID: number) {
+// Remove along with get("/userconsole/:id/usergame") after updating frontend
+function getAllUserConsoleGames(userConsoleID: number): UserGame[] {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
@@ -365,7 +367,7 @@ function getAllUserConsoleGames(userConsoleID: number) {
     .orderBy("id", "asc");
 }
 
-function addUserGame(userGame: UserGame) {
+function addUserGame(userGame: UserGame): UserGame {
   return knex
   .returning("*")
   .insert(userGame)

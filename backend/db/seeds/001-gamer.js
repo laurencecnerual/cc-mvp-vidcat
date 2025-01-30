@@ -12,7 +12,7 @@ exports.seed = async function(knex) {
       username: 'eyeofkira',
       firstname: 'Laurence',
       lastname: 'Agina',
-      salted_hash: await bcrypt.hash("yolo", 10),
+      salted_hash: await bcrypt.hash("yoloswag", 10),
     },
   ]);
 };

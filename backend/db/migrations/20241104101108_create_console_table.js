@@ -7,8 +7,8 @@ exports.up = async function(knex) {
     table.increments("id").primary();
     table.string("name").notNullable().unique();
     table.string("maker").notNullable();
-    table.timestamp("release_year");
-    table.binary("picture");
+    table.integer("release_year");
+    table.string("picture");
     table.boolean('is_handheld');
   });
 };

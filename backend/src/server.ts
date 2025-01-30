@@ -1,5 +1,6 @@
 const knex = require("./knex");
 const express = require("express");
+import { Request, Response } from "express";
 const app = express();
 const cors = require("cors");
 const bcrypt = require("bcrypt");
@@ -17,7 +18,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: frontendURL,
-    credentials: true, // Allow credentials (cookies) to be sent
+    credentials: true
   })
 );
 app.options("*", cors());
@@ -36,75 +37,73 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.get("/", (req: Request, res: Response) => {
+  res.send("Welcome to the VidCat backend!");
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/signup", async (req: Request, res: Response) => {
   const { username, password, firstname, lastname } = req.body;
 
-  if (!username || !password || !firstname || !lastname) {
-    res.status(400).send("First Name, Last Name, Username, and Password are all required");
-    return;
+  if (!username || !password) {
+    return res.status(400).send("Both Username and Password are required");
   }
 
   const userFound = await getGamerByUsername(username);
 
-  if (!userFound) {
-    const saltedHash = await hashPassword(password);
-
-    let newChatUser = {
-      username: username,
-      salted_hash: saltedHash,
-      firstname: firstname,
-      lastname: lastname
-    };
-
-    const userCreated = await addUser(newChatUser);
-    delete userCreated[0].salted_hash;
-
-    res.status(201).json(userCreated[0]);
-  } else {
-    res.status(400).send("User Already Exists");
+  if (userFound) {
+    return res.status(400).send("User Already Exists");
   }
+
+  const saltedHash = await hashPassword(password);
+
+  let newGamer = {
+    username: username,
+    salted_hash: saltedHash,
+    firstname: firstname,
+    lastname: lastname
+  };
+
+  const userCreated = await addUser(newGamer);
+  delete userCreated.salted_hash;
+
+  res.status(201).json(userCreated);
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    res.status(400).send("Both Username and Password are required");
-    return;
+    return res.status(400).send("Both Username and Password are required");
   }
 
   const user = await getGamerByUsername(username);
 
-  if (user) {
-    const saltedHash = user.salted_hash;
-    const authenicationResult = await verifyPassword(password, saltedHash); //Checks that password is OK
-
-    if (authenicationResult) {
-      req.session.username = user.username; //Gives the user a session because password was OK
-      const lastLoginUpdateResult = await updateLastLogin(user.id, new Date()); //Updates last_login in the db and returns the updated user
-      delete lastLoginUpdateResult[0].salted_hash;
-
-      if (lastLoginUpdateResult[0]) {
-        res.status(200).json({
-          authenticationSuccessful: authenicationResult,
-          gamer: lastLoginUpdateResult[0],
-        });
-      } else {
-        res.status(500).send("Could Not Log In");
-      }
-    } else {
-      res.status(401).json({ authenticationSuccessful: authenicationResult });
-    }
-  } else {
-    res.status(404).send("User Not Found");
+  if (!user) {
+    return res.status(404).send("User Not Found");
   }
+
+  const saltedHash = user.salted_hash;
+  const authenicationResult = await verifyPassword(password, saltedHash);
+
+  if (!authenicationResult) {
+    return res.status(401).json({ authenticationSuccessful: authenicationResult });
+  }
+
+  req.session.username = user.username;
+  const lastLoginUpdateResult = await updateLastLogin(user.id, new Date());
+  delete lastLoginUpdateResult.salted_hash;
+
+  if (!lastLoginUpdateResult) {
+    return res.status(500).send("Could Not Log In");
+  }
+
+  res.status(200).json({
+    authenticationSuccessful: authenicationResult,
+    gamer: lastLoginUpdateResult,
+  });
 });
 
-app.post("/logout", (req, res) => {
+app.post("/logout", (req: Request, res: Response) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).send("Could Not Log Out");
@@ -114,7 +113,7 @@ app.post("/logout", (req, res) => {
   });
 });
 
-app.get("/console", async (req, res) => {
+app.get("/console", async (req: Request, res: Response) => {
   try {
     const allConsoles = await getAllConsolesOrderByName();
     res.status(200).json(allConsoles);
@@ -123,7 +122,7 @@ app.get("/console", async (req, res) => {
   }
 });
 
-app.get("/console/:id", async (req, res) => {
+app.get("/console/:id", async (req: Request, res: Response) => {
   const consoleID = parseInt(req.params.id);
 
   try {
@@ -134,7 +133,7 @@ app.get("/console/:id", async (req, res) => {
   }
 });
 
-app.get("/gamer/:id/userconsole", async (req, res) => {
+app.get("/gamer/:id/userconsole", async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
 
   try {
@@ -145,13 +144,12 @@ app.get("/gamer/:id/userconsole", async (req, res) => {
   }
 });
 
-app.post("/gamer/:id/userconsole", async (req, res) => {
+app.post("/gamer/:id/userconsole", async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
   const {consoleID, isOwned, isFavorite} = req.body;
 
   if (!userID || !consoleID) {
-    res.status(400).send("Gamer ID, Console ID, isOwned, and isFavorite are all required");
-    return;
+    return res.status(400).send("Gamer ID, Console ID, isOwned, and isFavorite are all required");
   }
 
   const newUserConsole = {
@@ -163,13 +161,13 @@ app.post("/gamer/:id/userconsole", async (req, res) => {
 
   try {
     const newlyAdded = await addUserConsole(newUserConsole);
-    res.status(200).json(newlyAdded[0]);
+    res.status(200).json(newlyAdded);
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-app.get("/game", async (req, res) => {
+app.get("/game", async (req: Request, res: Response) => {
   try {
     const allGames = await getAllGamesOrderByName();
     res.status(200).json(allGames);
@@ -178,29 +176,31 @@ app.get("/game", async (req, res) => {
   }
 });
 
-app.get("/game/:id", async (req, res) => {
+app.get("/game/:id", async (req: Request, res: Response) => {
   const gameID = parseInt(req.params.id);
 
   try {
     const targetGame = await getGameByID(gameID);
-    res.status(200).json(targetGame[0]);
+    res.status(200).json(targetGame);
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-// app.get("/gamer/:id/usergame", async (req, res) => {
-//   const userID = parseInt(req.params.id);
+app.get("/gamer/:id/usergame", async (req: Request, res: Response) => {
+  const userID = parseInt(req.params.id);
 
-//   try {
-//     const allGamesForUser = await getAllUserGames(userID);
-//     res.status(200).json(allGamesForUser);
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// });
+  try {
+    const allGamesForUser = await getAllUserGames(userID);
+    res.status(200).json(allGamesForUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
-app.get("/userconsole/:id/usergame", async (req, res) => {
+
+// likely to be deprecate after updating frontend
+app.get("/userconsole/:id/usergame", async (req: Request, res: Response) => {
   const userConsoleID = parseInt(req.params.id);
 
   try {
@@ -211,17 +211,17 @@ app.get("/userconsole/:id/usergame", async (req, res) => {
   }
 });
 
-app.post("/gamer/:id/usergame", async (req, res) => {
+app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
   const {gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
 
   if (!userID || !gameID || !userConsoleID) {
-    res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
-    return;
+    return res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
   }
 
   const newUserGame = {
     game_id: gameID,
+    gamer_id: userID,
     userconsole_id: userConsoleID,
     is_owned: isOwned,
     is_completed: isCompleted,
@@ -238,21 +238,19 @@ app.post("/gamer/:id/usergame", async (req, res) => {
   }
 });
 
-//for new user creation
-async function hashPassword(plainTextPassword) {
-  const saltRounds = 10; //the higher the more secure but more time-consuming
+async function hashPassword(plainTextPassword: string) {
+  const saltRounds = 10;
   try {
-    const hash = await bcrypt.hash(plainTextPassword, saltRounds); //applies salt and hashes the password
+    const hash = await bcrypt.hash(plainTextPassword, saltRounds);
     return hash;
   } catch (err) {
     console.error("Hashing error:", err);
   }
 }
 
-//for existing user login
-async function verifyPassword(plainTextPassword, hashedPasswordFromDB) {
+async function verifyPassword(plainTextPassword: string, hashedPasswordFromDB: string) {
   try {
-    const match = await bcrypt.compare(plainTextPassword, hashedPasswordFromDB); //the salt can be implicitly extracted from the hashed password
+    const match = await bcrypt.compare(plainTextPassword, hashedPasswordFromDB);
     return match;
   } catch (err) {
     console.error("Verification error:", err);
@@ -265,7 +263,7 @@ const USERCONSOLE_TABLE = "userconsole";
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
 
-function getGamerByUsername(username) {
+function getGamerByUsername(username: string): Gamer {
   return knex
     .select("*")
     .from(GAMER_TABLE)
@@ -273,88 +271,95 @@ function getGamerByUsername(username) {
     .first();
 }
 
-function updateLastLogin(id, lastLogin) {
+function updateLastLogin(id: number, lastLogin: Date): Gamer {
   return knex(GAMER_TABLE)
     .returning("*")
+    .first()
     .where({ id: id })
     .update({ last_login: lastLogin });
 }
 
-//returns an array of objects, even if just one row being added
-function addUser(newUserObject) {
+function addUser(newUserObject: Gamer): Gamer {
   return knex
     .returning("*")
+    .first()
     .insert(newUserObject)
     .into(GAMER_TABLE);
 }
 
-function getAllConsolesOrderByName() {
+function getAllConsolesOrderByName(): Console[] {
   return knex
     .select("*")
     .from(CONSOLE_TABLE)
     .orderBy("name", "asc");
 }
 
-function getAllConsolesOrderByYear() {
-  return knex
-    .select("*")
-    .from(CONSOLE_TABLE)
-    .orderBy("release_year", "desc");
-}
+// function getAllConsolesOrderByYear() {
+//   return knex
+//     .select("*")
+//     .from(CONSOLE_TABLE)
+//     .orderBy("release_year", "desc");
+// }
 
-function getConsoleByID(consoleID) {
+function getConsoleByID(consoleID: number): Console {
   return knex
   .select("*")
   .from(CONSOLE_TABLE)
   .where({id: consoleID});
 }
 
-function getAllUserConsoles(userID) {
+//Also includes associated Console data
+function getAllUserConsoles(userID: number): UserConsole[] {
   return knex
     .select("*")
     .from(USERCONSOLE_TABLE)
     .where({ "userconsole.gamer_id": userID })
+    .leftJoin("console", "userconsole.console_id", "console.id")
     .orderBy("userconsole.id", "asc");
 }
 
-function addUserConsole(userConsole) {
+function addUserConsole(userConsole: UserConsole): UserConsole {
   return knex
   .returning("*")
+  .first()
   .insert(userConsole)
   .into(USERCONSOLE_TABLE);
 }
 
-function getAllGamesOrderByName() {
+function getAllGamesOrderByName(): Game[] {
   return knex
     .select("*")
     .from(GAME_TABLE)
     .orderBy("name", "asc");
 }
 
-function getAllGamesOrderByReleaseDate() {
-  return knex
-    .select("*")
-    .from(GAME_TABLE)
-    .orderBy("released", "desc");
-}
+// function getAllGamesOrderByReleaseDate() {
+//   return knex
+//     .select("*")
+//     .from(GAME_TABLE)
+//     .orderBy("released", "desc");
+// }
 
-function getGameByID(gameID) {
+function getGameByID(gameID: number): Game {
   return knex
   .select("*")
   .from(GAME_TABLE)
-  .where({rawg_id: gameID});
+  .where({rawg_id: gameID})
+  .first();
 }
 
-// function getAllUserGames(userID) {
-//   return knex
-//     .select("*")
-//     .from(USERGAME_TABLE)
-//     .where({ "userconsole.gamer_id": userID })
-//     .leftJoin("userconsole", "usergame.userconsole_id", "userconsole.id")
-//     .orderBy("id", "asc");
-// }
+//Also includes associated Game data
+function getAllUserGames(userID: number): UserGame[] {
+  return knex
+    .select("*")
+    .from(USERGAME_TABLE)
+    .where({ "usergame.gamer_id": userID })
+    .leftJoin("game", "usergame.game_id", "game.rawg_id")
+    .orderBy("id", "asc");
+}
 
-function getAllUserConsoleGames(userConsoleID) {
+// Remove along with get("/userconsole/:id/usergame") after updating frontend
+function getAllUserConsoleGames(userConsoleID: number): UserGame[] {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
@@ -362,7 +367,7 @@ function getAllUserConsoleGames(userConsoleID) {
     .orderBy("id", "asc");
 }
 
-function addUserGame(userGame) {
+function addUserGame(userGame: UserGame): UserGame {
   return knex
   .returning("*")
   .insert(userGame)

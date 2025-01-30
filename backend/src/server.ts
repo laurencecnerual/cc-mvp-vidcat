@@ -1,5 +1,6 @@
 const knex = require("./knex");
 const express = require("express");
+import { Request, Response } from "express";
 const app = express();
 const cors = require("cors");
 const bcrypt = require("bcrypt");
@@ -36,11 +37,11 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/signup", async (req: Request, res: Response) => {
   const { username, password, firstname, lastname } = req.body;
 
   if (!username || !password || !firstname || !lastname) {
@@ -69,7 +70,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -104,7 +105,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
+app.post("/logout", (req: Request, res: Response) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).send("Could Not Log Out");
@@ -114,7 +115,7 @@ app.post("/logout", (req, res) => {
   });
 });
 
-app.get("/console", async (req, res) => {
+app.get("/console", async (req: Request, res: Response) => {
   try {
     const allConsoles = await getAllConsolesOrderByName();
     res.status(200).json(allConsoles);
@@ -123,7 +124,7 @@ app.get("/console", async (req, res) => {
   }
 });
 
-app.get("/console/:id", async (req, res) => {
+app.get("/console/:id", async (req: Request, res: Response) => {
   const consoleID = parseInt(req.params.id);
 
   try {
@@ -134,7 +135,7 @@ app.get("/console/:id", async (req, res) => {
   }
 });
 
-app.get("/gamer/:id/userconsole", async (req, res) => {
+app.get("/gamer/:id/userconsole", async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
 
   try {
@@ -145,7 +146,7 @@ app.get("/gamer/:id/userconsole", async (req, res) => {
   }
 });
 
-app.post("/gamer/:id/userconsole", async (req, res) => {
+app.post("/gamer/:id/userconsole", async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
   const {consoleID, isOwned, isFavorite} = req.body;
 
@@ -169,7 +170,7 @@ app.post("/gamer/:id/userconsole", async (req, res) => {
   }
 });
 
-app.get("/game", async (req, res) => {
+app.get("/game", async (req: Request, res: Response) => {
   try {
     const allGames = await getAllGamesOrderByName();
     res.status(200).json(allGames);
@@ -178,7 +179,7 @@ app.get("/game", async (req, res) => {
   }
 });
 
-app.get("/game/:id", async (req, res) => {
+app.get("/game/:id", async (req: Request, res: Response) => {
   const gameID = parseInt(req.params.id);
 
   try {
@@ -189,7 +190,7 @@ app.get("/game/:id", async (req, res) => {
   }
 });
 
-// app.get("/gamer/:id/usergame", async (req, res) => {
+// app.get("/gamer/:id/usergame", async (req: Request, res: Response) => {
 //   const userID = parseInt(req.params.id);
 
 //   try {
@@ -200,7 +201,7 @@ app.get("/game/:id", async (req, res) => {
 //   }
 // });
 
-app.get("/userconsole/:id/usergame", async (req, res) => {
+app.get("/userconsole/:id/usergame", async (req: Request, res: Response) => {
   const userConsoleID = parseInt(req.params.id);
 
   try {
@@ -211,7 +212,7 @@ app.get("/userconsole/:id/usergame", async (req, res) => {
   }
 });
 
-app.post("/gamer/:id/usergame", async (req, res) => {
+app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
   const {gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
 

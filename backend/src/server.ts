@@ -38,71 +38,69 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send("Welcome to VidCat backend!");
 });
 
 app.post("/signup", async (req: Request, res: Response) => {
   const { username, password, firstname, lastname } = req.body;
 
-  if (!username || !password || !firstname || !lastname) {
-    res.status(400).send("First Name, Last Name, Username, and Password are all required");
-    return;
+  if (!username || !password) {
+    return res.status(400).send("Both Username and Password are required");
   }
 
   const userFound = await getGamerByUsername(username);
 
-  if (!userFound) {
-    const saltedHash = await hashPassword(password);
-
-    let newChatUser = {
-      username: username,
-      salted_hash: saltedHash,
-      firstname: firstname,
-      lastname: lastname
-    };
-
-    const userCreated = await addUser(newChatUser);
-    delete userCreated[0].salted_hash;
-
-    res.status(201).json(userCreated[0]);
-  } else {
-    res.status(400).send("User Already Exists");
+  if (userFound) {
+    return res.status(400).send("User Already Exists");
   }
+
+  const saltedHash = await hashPassword(password);
+
+  let newChatUser = {
+    username: username,
+    salted_hash: saltedHash,
+    firstname: firstname,
+    lastname: lastname
+  };
+
+  const userCreated = await addUser(newChatUser);
+  delete userCreated.salted_hash;
+
+  res.status(201).json(userCreated);
 });
 
 app.post("/login", async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    res.status(400).send("Both Username and Password are required");
-    return;
+    return res.status(400).send("Both Username and Password are required");
   }
 
   const user = await getGamerByUsername(username);
 
-  if (user) {
-    const saltedHash = user.salted_hash;
-    const authenicationResult = await verifyPassword(password, saltedHash); //Checks that password is OK
-
-    if (authenicationResult) {
-      req.session.username = user.username; //Gives the user a session because password was OK
-      const lastLoginUpdateResult = await updateLastLogin(user.id, new Date()); //Updates last_login in the db and returns the updated user
-      delete lastLoginUpdateResult[0].salted_hash;
-
-      if (lastLoginUpdateResult[0]) {
-        res.status(200).json({
-          authenticationSuccessful: authenicationResult,
-          gamer: lastLoginUpdateResult[0],
-        });
-      } else {
-        res.status(500).send("Could Not Log In");
-      }
-    } else {
-      res.status(401).json({ authenticationSuccessful: authenicationResult });
-    }
-  } else {
-    res.status(404).send("User Not Found");
+  if (!user) {
+    return res.status(404).send("User Not Found");
   }
+
+  const saltedHash = user.salted_hash;
+  const authenicationResult = await verifyPassword(password, saltedHash); //Checks that password is OK
+
+  if (!authenicationResult) {
+    return res.status(401).json({ authenticationSuccessful: authenicationResult });
+  }
+
+  req.session.username = user.username; //Gives the user a session because password was OK
+  const lastLoginUpdateResult = await updateLastLogin(user.id, new Date()); //Updates last_login in the db and returns the updated user
+  delete lastLoginUpdateResult.salted_hash;
+
+  if (!lastLoginUpdateResult) {
+    return res.status(500).send("Could Not Log In");
+  }
+
+  res.status(200).json({
+    authenticationSuccessful: authenicationResult,
+    gamer: lastLoginUpdateResult,
+  });
 });
 
 app.post("/logout", (req: Request, res: Response) => {
@@ -151,8 +149,7 @@ app.post("/gamer/:id/userconsole", async (req: Request, res: Response) => {
   const {consoleID, isOwned, isFavorite} = req.body;
 
   if (!userID || !consoleID) {
-    res.status(400).send("Gamer ID, Console ID, isOwned, and isFavorite are all required");
-    return;
+    return res.status(400).send("Gamer ID, Console ID, isOwned, and isFavorite are all required");
   }
 
   const newUserConsole = {
@@ -164,7 +161,7 @@ app.post("/gamer/:id/userconsole", async (req: Request, res: Response) => {
 
   try {
     const newlyAdded = await addUserConsole(newUserConsole);
-    res.status(200).json(newlyAdded[0]);
+    res.status(200).json(newlyAdded);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -184,7 +181,7 @@ app.get("/game/:id", async (req: Request, res: Response) => {
 
   try {
     const targetGame = await getGameByID(gameID);
-    res.status(200).json(targetGame[0]);
+    res.status(200).json(targetGame);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -217,8 +214,7 @@ app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
   const {gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
 
   if (!userID || !gameID || !userConsoleID) {
-    res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
-    return;
+    return res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
   }
 
   const newUserGame = {
@@ -277,6 +273,7 @@ function getGamerByUsername(username) {
 function updateLastLogin(id, lastLogin) {
   return knex(GAMER_TABLE)
     .returning("*")
+    .first()
     .where({ id: id })
     .update({ last_login: lastLogin });
 }
@@ -285,6 +282,7 @@ function updateLastLogin(id, lastLogin) {
 function addUser(newUserObject) {
   return knex
     .returning("*")
+    .first()
     .insert(newUserObject)
     .into(GAMER_TABLE);
 }
@@ -321,6 +319,7 @@ function getAllUserConsoles(userID) {
 function addUserConsole(userConsole) {
   return knex
   .returning("*")
+  .first()
   .insert(userConsole)
   .into(USERCONSOLE_TABLE);
 }
@@ -343,7 +342,8 @@ function getGameByID(gameID) {
   return knex
   .select("*")
   .from(GAME_TABLE)
-  .where({rawg_id: gameID});
+  .where({rawg_id: gameID})
+  .first();
 }
 
 // function getAllUserGames(userID) {

@@ -187,17 +187,19 @@ app.get("/game/:id", async (req: Request, res: Response) => {
   }
 });
 
-// app.get("/gamer/:id/usergame", async (req: Request, res: Response) => {
-//   const userID = parseInt(req.params.id);
+app.get("/gamer/:id/usergame", async (req: Request, res: Response) => {
+  const userID = parseInt(req.params.id);
 
-//   try {
-//     const allGamesForUser = await getAllUserGames(userID);
-//     res.status(200).json(allGamesForUser);
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// });
+  try {
+    const allGamesForUser = await getAllUserGames(userID);
+    res.status(200).json(allGamesForUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
+
+// likely to be deprecated in v2.0
 app.get("/userconsole/:id/usergame", async (req: Request, res: Response) => {
   const userConsoleID = parseInt(req.params.id);
 
@@ -219,6 +221,7 @@ app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
 
   const newUserGame = {
     game_id: gameID,
+    gamer_id: userID,
     userconsole_id: userConsoleID,
     is_owned: isOwned,
     is_completed: isCompleted,
@@ -294,12 +297,12 @@ function getAllConsolesOrderByName() {
     .orderBy("name", "asc");
 }
 
-function getAllConsolesOrderByYear() {
-  return knex
-    .select("*")
-    .from(CONSOLE_TABLE)
-    .orderBy("release_year", "desc");
-}
+// function getAllConsolesOrderByYear() {
+//   return knex
+//     .select("*")
+//     .from(CONSOLE_TABLE)
+//     .orderBy("release_year", "desc");
+// }
 
 function getConsoleByID(consoleID) {
   return knex
@@ -313,6 +316,7 @@ function getAllUserConsoles(userID) {
     .select("*")
     .from(USERCONSOLE_TABLE)
     .where({ "userconsole.gamer_id": userID })
+    .leftJoin("console", "userconsole.console_id", "console.id")
     .orderBy("userconsole.id", "asc");
 }
 
@@ -331,12 +335,12 @@ function getAllGamesOrderByName() {
     .orderBy("name", "asc");
 }
 
-function getAllGamesOrderByReleaseDate() {
-  return knex
-    .select("*")
-    .from(GAME_TABLE)
-    .orderBy("released", "desc");
-}
+// function getAllGamesOrderByReleaseDate() {
+//   return knex
+//     .select("*")
+//     .from(GAME_TABLE)
+//     .orderBy("released", "desc");
+// }
 
 function getGameByID(gameID) {
   return knex
@@ -346,15 +350,16 @@ function getGameByID(gameID) {
   .first();
 }
 
-// function getAllUserGames(userID) {
-//   return knex
-//     .select("*")
-//     .from(USERGAME_TABLE)
-//     .where({ "userconsole.gamer_id": userID })
-//     .leftJoin("userconsole", "usergame.userconsole_id", "userconsole.id")
-//     .orderBy("id", "asc");
-// }
+function getAllUserGames(userID) {
+  return knex
+    .select("*")
+    .from(USERGAME_TABLE)
+    .where({ "usergame.gamer_id": userID })
+    .leftJoin("game", "usergame.game_id", "game.rawg_id")
+    .orderBy("id", "asc");
+}
 
+//might not need this longer term if using the above
 function getAllUserConsoleGames(userConsoleID) {
   return knex
     .select("*")

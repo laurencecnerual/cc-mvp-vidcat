@@ -1,27 +1,10 @@
 import { useEffect, useState } from "react";
-import { Gamer } from "./App";
+
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type NewGameProps = {
   gamer: Gamer | null,
   setAction: Function
-}
-
-type Game = {
-  rawg_id: number,
-  name: string,
-  lookup_name: string,
-  released: Date,
-  rating: number;
-  background_image_link: string
-}
-
-type UserConsole = {
-  id: number,
-  gamer_id: number,
-  console_id: number,
-  is_owned: boolean,
-  is_favorite: boolean
 }
 
 type ConsoleNameIDMapping = {

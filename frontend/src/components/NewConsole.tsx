@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
-import { Gamer } from "./App";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type NewConsoleProps = {
   gamer: Gamer | null,
   setAction: Function
-}
-
-type Console = {
-  id: number,
-  name: string,
-  maker: string,
-  release_year: Date,
-  picture: BinaryData;
-  is_handheld: boolean
 }
 
 export default function NewConsole({gamer, setAction}: NewConsoleProps) {

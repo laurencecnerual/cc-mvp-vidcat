@@ -1,18 +1,8 @@
 import { useState } from 'react'
 import './App.css'
-import Login from "./Login.tsx"
-import Signup from "./Signup.tsx"
-import MainPage from "./MainPage.tsx"
-
-export type Gamer = {
-  id: number,
-  username: string,
-  firstname: string,
-  lastname: string
-  profile_picture: BinaryData,
-  account_created: Date,
-  last_login: Date
-}
+import Login from "./components/Login.tsx"
+import Signup from "./components/Signup.tsx"
+import MainPage from "./components/MainPage.tsx"
 
 function App() {
   const [screen, setScreen] = useState("LOGIN")

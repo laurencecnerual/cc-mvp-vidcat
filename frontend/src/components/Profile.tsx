@@ -1,46 +1,8 @@
 import { useEffect, useState } from "react";
-import { Gamer } from "./App";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type ProfileProps = {
   gamer: Gamer | null,
-}
-
-type UserConsole = {
-  id: number,
-  gamer_id: number,
-  console_id: number,
-  is_owned: boolean,
-  is_favorite: boolean
-}
-
-type Console = {
-  id: number,
-  name: string,
-  maker: string,
-  release_year: Date,
-  picture: BinaryData;
-  is_handheld: boolean
-}
-
-type UserGame = {
-  id: number,
-  userconsole_id: number,
-  game_id: number,
-  is_owned: boolean,
-  is_completed: boolean,
-  is_favorite: boolean,
-  personal_rating: number,
-  personal_review: string
-}
-
-type Game = {
-  rawg_id: number,
-  name: string,
-  lookup_name: string,
-  released: Date,
-  rating: number;
-  background_image_link: string
 }
 
 export default function Profile({gamer}: ProfileProps) {

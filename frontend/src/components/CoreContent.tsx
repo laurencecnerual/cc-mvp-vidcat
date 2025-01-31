@@ -1,4 +1,3 @@
-import { Gamer } from "./App";
 import NewConsole from "./NewConsole";
 import NewGame from "./NewGame";
 import Profile from "./Profile";

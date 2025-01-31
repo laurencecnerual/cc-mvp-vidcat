@@ -7,16 +7,10 @@ type NewGameProps = {
   setAction: Function
 }
 
-type ConsoleNameIDMapping = {
-  id: number,
-  name: string
-}
-
 export default function NewGame({setAction}: NewGameProps) {
   const {gamer} = useGamer();
   const [gameList, setGameList] = useState<Game[]>([]);
-  const [userConsoleList, setUserConsoleList] = useState<UserConsole[]>([]);
-  const [consoleNameIDMapping, setConsoleNameIDMapping] = useState<ConsoleNameIDMapping[]>([]);
+  const [userConsoleList, setUserConsoleList] = useState<UserConsoleWithConsoleData[]>([]);
   const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
@@ -25,8 +19,7 @@ export default function NewGame({setAction}: NewGameProps) {
 
   async function handlePageLoad() {
     await handleFetchGames();
-    await handleFetchUserConsoles(gamer?.id);
-    await handleCreateConsoleDataMapping();
+    await handleFetchUserConsoles();
   }
 
   async function handleFetchGames() {
@@ -42,8 +35,8 @@ export default function NewGame({setAction}: NewGameProps) {
     }
   }
 
-  async function handleFetchUserConsoles(gamerID: number | undefined) {
-    const response = await fetch(apiUrl + `/gamer/${gamerID}/userconsole`, {
+  async function handleFetchUserConsoles() {
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}/userconsole`, {
       credentials: "include"
     });
 
@@ -53,34 +46,12 @@ export default function NewGame({setAction}: NewGameProps) {
     } else {
       alert("There was an error loading the user's consoles");
     }
-  }
 
-  async function handleCreateConsoleDataMapping() {
-    const consoleDataMapping = await Promise.all(userConsoleList.map(async (userConsole) => await handleFetchConsoleName(userConsole.console_id) as ConsoleNameIDMapping));
-    setConsoleNameIDMapping(consoleDataMapping);
     setIsloading(false);
   }
 
-  async function handleFetchConsoleName(consoleID: number | undefined) {
-    const response = await fetch(apiUrl + `/console/${consoleID}`, {
-      credentials: "include"
-    });
-
-    if (response.status === 200) {
-      const targetConsole = await response.json();
-      const consoleIDAndNamePair = {
-          id: targetConsole.id,
-          name: targetConsole.name
-      }
-      return consoleIDAndNamePair;
-    } else {
-      alert("There was an error loading console data");
-    }
-  }
-
   async function handleAddGame(gamerID: number | undefined, gameName: string, consoleName: string, isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number, personalReview: string) {
-    const consoleID = (consoleNameIDMapping.find((console) => console.name === consoleName))?.id;
-    const userConsoleID = userConsoleList.find((userConsole) => userConsole.console_id === consoleID)?.id;
+    const userConsoleID = userConsoleList.find((userConsole) => userConsole.name === consoleName)?.id;
     const gameID = gameList.find((game) => game.name === gameName)?.rawg_id;
 
     const response = await fetch(apiUrl + `/gamer/${gamerID}/usergame`, {
@@ -132,7 +103,7 @@ export default function NewGame({setAction}: NewGameProps) {
           <label htmlFor="console-name">Console</label>
           <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
           <datalist id="console-list">
-            {consoleNameIDMapping.map((console) => <option key={"" + console.id} id={"" + console.id} value={console.name}>{console.name}</option>)}
+            {userConsoleList.map((userConsole) => <option key={"" + userConsole.id} id={"" + userConsole.id} value={userConsole.name}>{userConsole.name}</option>)}
           </datalist>
         </div>
         <div id="is-owned" className="label-input-pair">

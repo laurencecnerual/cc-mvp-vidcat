@@ -1,13 +1,14 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
+import { useNavigate } from "react-router-dom";
 
 type HeaderProps = {
-  setScreen: Function,
   setAction: Function
 }
 
-export default function Header({setScreen, setAction}: HeaderProps) {
+export default function Header({setAction}: HeaderProps) {
   const {setGamer} = useGamer();
+  const navigate = useNavigate();
 
   async function handleLogout() {
     const response = await fetch(apiUrl + "/logout", {
@@ -19,9 +20,8 @@ export default function Header({setScreen, setAction}: HeaderProps) {
     });
 
     if (response.status === 200) {
-      //const payload = await response.json();
       setGamer(null);
-      setScreen("LOGIN");
+      navigate("login");
     } else {
       alert("There was an error logging out")
     }

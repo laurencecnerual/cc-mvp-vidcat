@@ -1,10 +1,9 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
+import { Link, useNavigate } from "react-router-dom";
 
-type SignupProps = {
-  setScreen: Function
-}
+export default function Signup() {
+  const navigate = useNavigate();
 
-export default function Signup({setScreen}: SignupProps) {
   async function handleSignup(username: string, password: string, firstname: string, lastname: string) {
     const response = await fetch(apiUrl + "/signup", {
       method: "POST",
@@ -16,7 +15,7 @@ export default function Signup({setScreen}: SignupProps) {
     });
 
     if (response.status === 201) {
-      setScreen("LOGIN");
+      navigate("login");
     } else {
       alert("There was an error signing up")
     }
@@ -52,7 +51,7 @@ export default function Signup({setScreen}: SignupProps) {
           <input type="password" className="password" id="password" name="password" placeholder="m4k3175tr0ng!!" required/>
        </div>
        <button className="signup" type="submit">Sign Up</button>
-       <div onClick={() => {setScreen("LOGIN")}}><a href="#">Already have an account?</a></div>
+       <Link to="/login">Already have an account?</Link>
       </form>
     </>
   );

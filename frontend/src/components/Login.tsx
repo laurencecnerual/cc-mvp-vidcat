@@ -1,12 +1,10 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
+import { Link, useNavigate } from "react-router-dom";
 
-type LoginProps = {
-  setScreen: Function
-}
-
-export default function Login({setScreen}: LoginProps) {
+export default function Login() {
   const {setGamer} = useGamer();
+  const navigate = useNavigate();
 
   async function handleLogin(username: string, password: string) {
     const response = await fetch(apiUrl + "/login", {
@@ -23,7 +21,7 @@ export default function Login({setScreen}: LoginProps) {
 
       if (payload.authenticationSuccessful) {
         setGamer(payload.gamer);
-        setScreen("MAIN");
+        navigate("/");
       } else {
         alert("There was an error authenticating");
       }
@@ -52,7 +50,7 @@ export default function Login({setScreen}: LoginProps) {
           <input type="password" className="password" id="password" name="password" placeholder="password" required/>
        </div>
         <button className="login" type="submit">Log In</button>
-        <div onClick={() => {setScreen("SIGNUP")}}><a href="#">Don't have an account yet?</a></div>
+        <Link to="/signup">Don't have an account yet?</Link>
       </form>
     </>
   );

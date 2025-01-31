@@ -3,16 +3,12 @@ import CoreContent from "./CoreContent";
 import Footer from "./Footer";
 import { useState } from "react";
 
-type MainPageProps = {
-  setScreen: Function,
-}
-
-export default function MainPage({setScreen}: MainPageProps) {
+export default function MainPage() {
   const [action, setAction] = useState("PROFILE");
 
   return (
     <div className="top-mid-bot">
-      <Header setScreen={setScreen} setAction={setAction}/>
+      <Header setAction={setAction}/>
       <CoreContent action={action} setAction={setAction}/>
       <Footer />
     </div>

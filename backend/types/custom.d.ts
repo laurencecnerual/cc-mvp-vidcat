@@ -16,20 +16,16 @@ declare global {
     profile_picture?: string,
     account_created?: Date,
     last_login?: Date
-  }
-}
+  };
 
-declare global {
   interface UserConsole {
     id?: number,
     gamer_id: number,
     console_id: number,
     is_owned?: boolean,
     is_favorite?: boolean
-  }
-}
+  };
 
-declare global {
   interface UserGame {
     id?: number,
     userconsole_id: number,
@@ -39,10 +35,8 @@ declare global {
     is_favorite?: boolean,
     personal_rating?: number,
     personal_review?: string
-  }
-}
+  };
 
-declare global {
   interface Console {
     id: number,
     name: string,
@@ -50,10 +44,8 @@ declare global {
     release_year: number,
     picture: string;
     is_handheld: boolean
-  }
-}
+  };
 
-declare global {
   interface Game {
     rawg_id: number,
     name: string,
@@ -62,4 +54,8 @@ declare global {
     rating: number;
     background_image_link: string
   }
+
+  type UserConsoleWithConsoleData = UserConsole & Console;
+
+  type UserGameWithGameData = UserGame & Game;
 }

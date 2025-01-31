@@ -328,8 +328,6 @@ function getConsoleByID(consoleID: number): Promise<Console> {
   .where({id: consoleID});
 }
 
-type UserConsoleWithConsoleData = UserConsole & Console;
-
 function getAllUserConsoles(userID: number): Promise<UserConsoleWithConsoleData[]> {
   return knex
     .select("*")
@@ -368,8 +366,6 @@ function getGameByID(gameID: number): Promise<Game> {
   .where({rawg_id: gameID})
   .first();
 }
-
-type UserGameWithGameData = UserGame & Game;
 
 function getAllUserGames(userID: number): Promise<UserGameWithGameData[]> {
   return knex

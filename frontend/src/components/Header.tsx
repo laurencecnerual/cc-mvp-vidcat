@@ -1,4 +1,5 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
+import { useGamer } from "../GamerContext.tsx";
 
 type HeaderProps = {
   setScreen: Function,
@@ -6,6 +7,7 @@ type HeaderProps = {
 }
 
 export default function Header({setScreen, setAction}: HeaderProps) {
+  const {setGamer} = useGamer();
 
   async function handleLogout() {
     const response = await fetch(apiUrl + "/logout", {
@@ -18,6 +20,7 @@ export default function Header({setScreen, setAction}: HeaderProps) {
 
     if (response.status === 200) {
       //const payload = await response.json();
+      setGamer(null);
       setScreen("LOGIN");
     } else {
       alert("There was an error logging out")

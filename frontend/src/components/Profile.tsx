@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 const apiUrl: string = import.meta.env.VITE_API_URL;
+import { useGamer } from "../GamerContext.tsx";
 
-type ProfileProps = {
-  gamer: Gamer | null,
-}
-
-export default function Profile({gamer}: ProfileProps) {
+export default function Profile() {
+  const {gamer} = useGamer();
   const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
   const [loading, setLoading] = useState(true);

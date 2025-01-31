@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { useGamer } from "../GamerContext.tsx";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type NewGameProps = {
-  gamer: Gamer | null,
   setAction: Function
 }
 
@@ -12,7 +12,8 @@ type ConsoleNameIDMapping = {
   name: string
 }
 
-export default function NewGame({gamer, setAction}: NewGameProps) {
+export default function NewGame({setAction}: NewGameProps) {
+  const {gamer} = useGamer();
   const [gameList, setGameList] = useState<Game[]>([]);
   const [userConsoleList, setUserConsoleList] = useState<UserConsole[]>([]);
   const [consoleNameIDMapping, setConsoleNameIDMapping] = useState<ConsoleNameIDMapping[]>([]);
@@ -92,8 +93,7 @@ export default function NewGame({gamer, setAction}: NewGameProps) {
     });
 
     if (response.status === 200) {
-      const payload = await response.json();
-      console.log("The following game has been added", payload);
+      alert("Game added successfully");
       setAction("PROFILE");
     } else {
       alert("There was an error adding your game");

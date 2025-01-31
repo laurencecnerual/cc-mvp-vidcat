@@ -1,11 +1,13 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
+import { useGamer } from "../GamerContext.tsx";
 
 type LoginProps = {
   setScreen: Function
-  setGamer: Function
 }
 
-export default function Login({setScreen, setGamer}: LoginProps) {
+export default function Login({setScreen}: LoginProps) {
+  const {setGamer} = useGamer();
+
   async function handleLogin(username: string, password: string) {
     const response = await fetch(apiUrl + "/login", {
       method: "POST",

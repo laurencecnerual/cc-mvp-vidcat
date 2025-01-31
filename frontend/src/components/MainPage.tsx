@@ -5,16 +5,15 @@ import { useState } from "react";
 
 type MainPageProps = {
   setScreen: Function,
-  gamer: Gamer | null
 }
 
-export default function MainPage({setScreen, gamer}: MainPageProps) {
+export default function MainPage({setScreen}: MainPageProps) {
   const [action, setAction] = useState("PROFILE");
 
   return (
     <div className="top-mid-bot">
       <Header setScreen={setScreen} setAction={setAction}/>
-      <CoreContent gamer={gamer} action={action} setAction={setAction}/>
+      <CoreContent action={action} setAction={setAction}/>
       <Footer />
     </div>
   );

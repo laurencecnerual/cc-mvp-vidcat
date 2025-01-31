@@ -16,7 +16,6 @@ export default function Signup({setScreen}: SignupProps) {
     });
 
     if (response.status === 201) {
-      //const payload = await response.json();
       setScreen("LOGIN");
     } else {
       alert("There was an error signing up")

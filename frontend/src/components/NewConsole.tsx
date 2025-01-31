@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 const apiUrl: string = import.meta.env.VITE_API_URL;
+import { useGamer } from "../GamerContext.tsx";
 
 type NewConsoleProps = {
-  gamer: Gamer | null,
   setAction: Function
 }
 
-export default function NewConsole({gamer, setAction}: NewConsoleProps) {
-
+export default function NewConsole({setAction}: NewConsoleProps) {
+  const {gamer} = useGamer();
   const [consoleList, setConsoleList] = useState<GameConsole[]>([]);
 
   useEffect(() => {
@@ -40,8 +40,7 @@ export default function NewConsole({gamer, setAction}: NewConsoleProps) {
     });
 
     if (response.status === 200) {
-      const payload = await response.json();
-      console.log("The following console has been added", payload);
+      alert("Console added successfully");
       setAction("PROFILE");
     } else {
       alert("There was an error adding your console");

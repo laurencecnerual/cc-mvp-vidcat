@@ -9,7 +9,7 @@ export default function Profile({gamer}: ProfileProps) {
   const [userConsoles, setUserConsoles] = useState<UserConsole[]>([]);
   const [userGames, setUserGames] = useState<UserGame[]>([]);
   const [loading, setLoading] = useState(true);
-  const [consoles, setConsoles] = useState<Console[]>([]);
+  const [consoles, setConsoles] = useState<GameConsole[]>([]);
   const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function Profile({gamer}: ProfileProps) {
   }
 
   async function handleFetchConsoles() {
-    let consoleArray: Console[] = [];
+    let consoleArray: GameConsole[] = [];
 
     for (let userConsole of userConsoles) {
       const response = await fetch(apiUrl + `/console/${userConsole?.console_id}`, {

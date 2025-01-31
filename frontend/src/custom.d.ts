@@ -29,7 +29,7 @@ declare global {
     personal_review?: string
   };
 
-  interface Console {
+  interface GameConsole {
     id: number,
     name: string,
     maker: string,

@@ -8,7 +8,7 @@ type NewConsoleProps = {
 
 export default function NewConsole({gamer, setAction}: NewConsoleProps) {
 
-  const [consoleList, setConsoleList] = useState<Console[]>([]);
+  const [consoleList, setConsoleList] = useState<GameConsole[]>([]);
 
   useEffect(() => {
     handleFetchConsoles();

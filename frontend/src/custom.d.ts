@@ -47,7 +47,7 @@ declare global {
     background_image_link: string
   }
 
-  type UserConsoleWithConsoleData = UserConsole & Console;
+  type UserConsoleWithConsoleData = UserConsole & GameConsole;
 
   type UserGameWithGameData = UserGame & Game;
 }

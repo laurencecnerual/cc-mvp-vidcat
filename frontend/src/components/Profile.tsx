@@ -6,25 +6,21 @@ type ProfileProps = {
 }
 
 export default function Profile({gamer}: ProfileProps) {
-  const [userConsoles, setUserConsoles] = useState<UserConsole[]>([]);
-  const [userGames, setUserGames] = useState<UserGame[]>([]);
+  const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
+  const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [consoles, setConsoles] = useState<GameConsole[]>([]);
-  const [games, setGames] = useState<Game[]>([]);
 
   useEffect(() => {
     handleLoading();
   }, [loading])
 
   async function handleLoading() {
-    await handleFetchUserConsoles(gamer?.id);
+    await handleFetchUserConsoles();
     await handleFetchUserGames();
-    await handleFetchConsoles();
-    await handleFetchGames();
   }
 
-  async function handleFetchUserConsoles(gamerID: number | undefined) {
-    const response = await fetch(apiUrl + `/gamer/${gamerID}/userconsole`, {
+  async function handleFetchUserConsoles() {
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}/userconsole`, {
       credentials: "include"
     });
 
@@ -37,75 +33,28 @@ export default function Profile({gamer}: ProfileProps) {
   }
 
   async function handleFetchUserGames() {
-    let userGameArray: UserGame[] = [];
 
-    for (let userConsole of userConsoles) {
-      const response = await fetch(apiUrl + `/userconsole/${userConsole?.id}/usergame`, {
-        credentials: "include"
-      });
-  
-      if (response.status === 200) {
-        const nextUserGameArray = await response.json();
-        userGameArray = userGameArray.concat(nextUserGameArray);
-      } else {
-        alert("There was an error loading the user's games");
-        return;
-      }
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}/usergame`, {
+      credentials: "include"
+    });
+
+    if (response.status === 200) {
+      const userGameArray = await response.json();
+      setUserGames(userGameArray);
+    } else {
+      alert("There was an error loading the user's games");
     }
 
-    setUserGames(userGameArray);
-  }
-
-  async function handleFetchConsoles() {
-    let consoleArray: GameConsole[] = [];
-
-    for (let userConsole of userConsoles) {
-      const response = await fetch(apiUrl + `/console/${userConsole?.console_id}`, {
-        credentials: "include"
-      });
-  
-      if (response.status === 200) {
-        const nextConsole = await response.json();
-        consoleArray.push(nextConsole);
-      } else {
-        alert("There was an error loading the console data");
-        return;
-      }
-    }
-
-    setConsoles(consoleArray);
-  }
-
-  async function handleFetchGames() {
-    let gameArray: Game[] = [];
-
-    for (let userGame of userGames) {
-      const response = await fetch(apiUrl + `/game/${userGame?.game_id}`, {
-        credentials: "include"
-      });
-  
-      if (response.status === 200) {
-        const nextGame = await response.json();
-        gameArray.push(nextGame);
-      } else {
-        alert("There was an error loading the game data");
-        return;
-      }
-    }
-
-    setGames(gameArray);
     setLoading(false);
   }
 
   function generateConsoleCards() {
     return userConsoles.map((userConsole) => {
-      let console = consoles.find((console) => userConsole.console_id === console.id);
-
       return (
         <div key={userConsole.id} className="console-card card">
-          <div className="console-name">{console?.name}</div>
-          <div className="console-handheld">{console?.is_handheld ? "Handheld Console" : "Home Console"}</div>
-          <div className="console-maker">By {console?.maker}</div>
+          <div className="console-name">{userConsole?.name}</div>
+          <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
+          <div className="console-maker">By {userConsole?.maker}</div>
           <div className="console-owned">{userConsole?.is_owned ? "Owned" : "Wanted"}</div>
           <div className="console-favorite favorite">{userConsole?.is_favorite ? "One of My Favorites" : ""}</div>
         </div>
@@ -115,16 +64,14 @@ export default function Profile({gamer}: ProfileProps) {
 
   function generateGameCards() {
     return userGames.map((userGame) => {
-      let game = games.find((game) => userGame.game_id === game.rawg_id);
-
       return (
         <div key={userGame.id} className="game-card card">
-          <div className="game-name">{game?.name}</div>
-          <img className="game-picture" src={game?.background_image_link} alt={"Photo of the game " + game?.name} />
+          <div className="game-name">{userGame?.name}</div>
+          <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
           <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>
-          <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Non Yet Finished"}</div>
+          <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Not Yet Finished"}</div>
           <div className="game-favorite favorite">{userGame?.is_favorite ? "One of My Favorites" : ""}</div>
-          <div className="game-official-rating">Official Rating: {game?.rating}</div>
+          <div className="game-official-rating">Official Rating: {userGame?.rating}</div>
           <div className="game-personal-rating">{userGame?.personal_rating ? "My score: " + userGame?.personal_rating: ""}</div>
           <div className="game-personal-review">{userGame?.personal_review ? "My review: " + userGame?.personal_review : ""}</div>
         </div>

@@ -238,6 +238,26 @@ app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
   }
 });
 
+app.get("/profile/:username", async (req: Request, res: Response) => {
+  const username = req.params.username;
+  const gamer = await getGamerByUsername(username);
+
+  if (!gamer) {
+    res.status(500).send("User Not Found");
+  }
+
+  try {
+    const allConsolesForUser = await getAllUserConsoles(gamer.id);
+    const allGamesForUser = await getAllUserGames(gamer.id);
+    res.status(200).json({
+      userconsoles: allConsolesForUser,
+      usergames: allGamesForUser
+    });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 async function hashPassword(plainTextPassword: string) {
   const saltRounds = 10;
   try {
@@ -263,7 +283,7 @@ const USERCONSOLE_TABLE = "userconsole";
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
 
-function getGamerByUsername(username: string): Gamer {
+function getGamerByUsername(username: string): Promise<Gamer> {
   return knex
     .select("*")
     .from(GAMER_TABLE)
@@ -271,7 +291,7 @@ function getGamerByUsername(username: string): Gamer {
     .first();
 }
 
-function updateLastLogin(id: number, lastLogin: Date): Gamer {
+function updateLastLogin(id: number, lastLogin: Date): Promise<Gamer> {
   return knex(GAMER_TABLE)
     .returning("*")
     .first()
@@ -279,7 +299,7 @@ function updateLastLogin(id: number, lastLogin: Date): Gamer {
     .update({ last_login: lastLogin });
 }
 
-function addUser(newUserObject: Gamer): Gamer {
+function addUser(newUserObject: Gamer): Promise<Gamer> {
   return knex
     .returning("*")
     .first()
@@ -287,7 +307,7 @@ function addUser(newUserObject: Gamer): Gamer {
     .into(GAMER_TABLE);
 }
 
-function getAllConsolesOrderByName(): Console[] {
+function getAllConsolesOrderByName(): Promise<Console[]> {
   return knex
     .select("*")
     .from(CONSOLE_TABLE)
@@ -301,15 +321,16 @@ function getAllConsolesOrderByName(): Console[] {
 //     .orderBy("release_year", "desc");
 // }
 
-function getConsoleByID(consoleID: number): Console {
+function getConsoleByID(consoleID: number): Promise<Console> {
   return knex
   .select("*")
   .from(CONSOLE_TABLE)
   .where({id: consoleID});
 }
 
-//Also includes associated Console data
-function getAllUserConsoles(userID: number): UserConsole[] {
+type UserConsoleWithConsoleData = UserConsole & Console;
+
+function getAllUserConsoles(userID: number): Promise<UserConsoleWithConsoleData[]> {
   return knex
     .select("*")
     .from(USERCONSOLE_TABLE)
@@ -318,7 +339,7 @@ function getAllUserConsoles(userID: number): UserConsole[] {
     .orderBy("userconsole.id", "asc");
 }
 
-function addUserConsole(userConsole: UserConsole): UserConsole {
+function addUserConsole(userConsole: UserConsole): Promise<UserConsole> {
   return knex
   .returning("*")
   .first()
@@ -326,7 +347,7 @@ function addUserConsole(userConsole: UserConsole): UserConsole {
   .into(USERCONSOLE_TABLE);
 }
 
-function getAllGamesOrderByName(): Game[] {
+function getAllGamesOrderByName(): Promise<Game[]> {
   return knex
     .select("*")
     .from(GAME_TABLE)
@@ -340,7 +361,7 @@ function getAllGamesOrderByName(): Game[] {
 //     .orderBy("released", "desc");
 // }
 
-function getGameByID(gameID: number): Game {
+function getGameByID(gameID: number): Promise<Game> {
   return knex
   .select("*")
   .from(GAME_TABLE)
@@ -348,8 +369,9 @@ function getGameByID(gameID: number): Game {
   .first();
 }
 
-//Also includes associated Game data
-function getAllUserGames(userID: number): UserGame[] {
+type UserGameWithGameData = UserGame & Game;
+
+function getAllUserGames(userID: number): Promise<UserGameWithGameData[]> {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
@@ -359,7 +381,7 @@ function getAllUserGames(userID: number): UserGame[] {
 }
 
 // Remove along with get("/userconsole/:id/usergame") after updating frontend
-function getAllUserConsoleGames(userConsoleID: number): UserGame[] {
+function getAllUserConsoleGames(userConsoleID: number): Promise<UserGame[]> {
   return knex
     .select("*")
     .from(USERGAME_TABLE)
@@ -367,7 +389,7 @@ function getAllUserConsoleGames(userConsoleID: number): UserGame[] {
     .orderBy("id", "asc");
 }
 
-function addUserGame(userGame: UserGame): UserGame {
+function addUserGame(userGame: UserGame): Promise<UserGame> {
   return knex
   .returning("*")
   .insert(userGame)

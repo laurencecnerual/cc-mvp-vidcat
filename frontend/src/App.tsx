@@ -17,11 +17,11 @@ function App() {
     <GamerContext.Provider value={{ gamer, setGamer }}>
       <Header />
       <Routes>
-        <Route path="/" element={gamer ? <Profile /> : <Navigate to="login" />} />
+        <Route path="/" element={gamer ? <Profile /> : <Navigate to="/login" />} />
         <Route path="login" element={!gamer ? <Login /> : <Navigate to="/" />} /> 
         <Route path="signup" element={!gamer ? <Signup /> : <Navigate to="/" />}  />
-        <Route path="add-console" element={gamer ? <NewConsole /> : <Navigate to="login" />} />
-        <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="login" />} />
+        <Route path="add-console" element={gamer ? <NewConsole /> : <Navigate to="/login" />} />
+        <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />
         <Route path="*" element={<h1>User Lookup or Not Found</h1>} />
       </Routes>
       <Footer />

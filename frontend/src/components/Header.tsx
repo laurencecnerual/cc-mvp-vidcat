@@ -17,7 +17,7 @@ export default function Header() {
 
     if (response.status === 200) {
       setGamer(null);
-      navigate("login");
+      navigate("/login");
     } else {
       alert("There was an error logging out")
     }

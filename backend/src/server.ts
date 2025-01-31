@@ -319,6 +319,7 @@ function getAllUserConsoles(userID: number): Promise<UserConsoleWithConsoleData[
     .from(USERCONSOLE_TABLE)
     .where({ "userconsole.gamer_id": userID })
     .leftJoin("console", "userconsole.console_id", "console.id")
+    .select("userconsole.id as id", "console.id as console_id")
     .orderBy("userconsole.id", "asc");
 }
 

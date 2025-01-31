@@ -30,7 +30,7 @@ export default function Header({setScreen, setAction}: HeaderProps) {
   return (
     <>
       <div className="banner">
-        <div className="logo">VidCat</div>
+        <div className="logo" onClick={() => setAction("PROFILE")}>VidCat</div>
         <div className="menu-options">
           <div className="user-profile" onClick={() => setAction("PROFILE")}><a href="#">My Profile</a></div>
           <div className="add-console" onClick={() => setAction("NEWCONSOLE")}><a href="#">Add Console</a></div>

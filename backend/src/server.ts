@@ -64,9 +64,9 @@ app.post("/signup", async (req: Request, res: Response) => {
   };
 
   const userCreated = await addUser(newGamer);
-  delete userCreated.salted_hash;
+  delete userCreated[0].salted_hash;
 
-  res.status(201).json(userCreated);
+  res.status(201).json(userCreated[0]);
 });
 
 app.post("/login", async (req: Request, res: Response) => {
@@ -91,7 +91,7 @@ app.post("/login", async (req: Request, res: Response) => {
 
   req.session.username = user.username;
   const lastLoginUpdateResult = await updateLastLogin(user.id, new Date());
-  delete lastLoginUpdateResult.salted_hash;
+  delete lastLoginUpdateResult[0].salted_hash;
 
   if (!lastLoginUpdateResult) {
     return res.status(500).send("Could Not Log In");
@@ -99,7 +99,7 @@ app.post("/login", async (req: Request, res: Response) => {
 
   res.status(200).json({
     authenticationSuccessful: authenicationResult,
-    gamer: lastLoginUpdateResult,
+    gamer: lastLoginUpdateResult[0],
   });
 });
 
@@ -161,7 +161,7 @@ app.post("/gamer/:id/userconsole", async (req: Request, res: Response) => {
 
   try {
     const newlyAdded = await addUserConsole(newUserConsole);
-    res.status(200).json(newlyAdded);
+    res.status(200).json(newlyAdded[0]);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -294,7 +294,6 @@ function getGamerByUsername(username: string): Promise<Gamer> {
 function updateLastLogin(id: number, lastLogin: Date): Promise<Gamer> {
   return knex(GAMER_TABLE)
     .returning("*")
-    .first()
     .where({ id: id })
     .update({ last_login: lastLogin });
 }
@@ -302,7 +301,6 @@ function updateLastLogin(id: number, lastLogin: Date): Promise<Gamer> {
 function addUser(newUserObject: Gamer): Promise<Gamer> {
   return knex
     .returning("*")
-    .first()
     .insert(newUserObject)
     .into(GAMER_TABLE);
 }
@@ -340,7 +338,6 @@ function getAllUserConsoles(userID: number): Promise<UserConsoleWithConsoleData[
 function addUserConsole(userConsole: UserConsole): Promise<UserConsole> {
   return knex
   .returning("*")
-  .first()
   .insert(userConsole)
   .into(USERCONSOLE_TABLE);
 }

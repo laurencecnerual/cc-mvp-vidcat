@@ -198,19 +198,6 @@ app.get("/gamer/:id/usergame", async (req: Request, res: Response) => {
   }
 });
 
-
-// likely to be deprecate after updating frontend
-app.get("/userconsole/:id/usergame", async (req: Request, res: Response) => {
-  const userConsoleID = parseInt(req.params.id);
-
-  try {
-    const allGamesForUserConsole = await getAllUserConsoleGames(userConsoleID);
-    res.status(200).json(allGamesForUserConsole);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
 app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
   const {gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
@@ -370,15 +357,6 @@ function getAllUserGames(userID: number): Promise<UserGameWithGameData[]> {
     .from(USERGAME_TABLE)
     .where({ "usergame.gamer_id": userID })
     .leftJoin("game", "usergame.game_id", "game.rawg_id")
-    .orderBy("id", "asc");
-}
-
-// Remove along with get("/userconsole/:id/usergame") after updating frontend
-function getAllUserConsoleGames(userConsoleID: number): Promise<UserGame[]> {
-  return knex
-    .select("*")
-    .from(USERGAME_TABLE)
-    .where({ "userconsole_id": userConsoleID })
     .orderBy("id", "asc");
 }
 

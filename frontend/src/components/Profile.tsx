@@ -102,7 +102,7 @@ export default function Profile({gamer}: ProfileProps) {
       let console = consoles.find((console) => userConsole.console_id === console.id);
 
       return (
-        <div className="console-card card">
+        <div key={userConsole.id} className="console-card card">
           <div className="console-name">{console?.name}</div>
           <div className="console-handheld">{console?.is_handheld ? "Handheld Console" : "Home Console"}</div>
           <div className="console-maker">By {console?.maker}</div>
@@ -118,7 +118,7 @@ export default function Profile({gamer}: ProfileProps) {
       let game = games.find((game) => userGame.game_id === game.rawg_id);
 
       return (
-        <div className="game-card card">
+        <div key={userGame.id} className="game-card card">
           <div className="game-name">{game?.name}</div>
           <img className="game-picture" src={game?.background_image_link} alt={"Photo of the game " + game?.name} />
           <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>

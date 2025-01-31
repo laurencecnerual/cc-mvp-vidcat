@@ -66,7 +66,7 @@ export default function NewConsole({gamer, setAction}: NewConsoleProps) {
           <label htmlFor="console-name" >Name of Console</label>
           <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
           <datalist id="console-list">
-            {consoleList.map((console) => <option id={"" + console.id} value={console.name}>{console.name}</option>)}
+            {consoleList.map((console) => <option key={"" + console.id} id={"" + console.id} value={console.name}>{console.name}</option>)}
           </datalist>
         </div>
         <div id="is-owned" className="label-input-pair">

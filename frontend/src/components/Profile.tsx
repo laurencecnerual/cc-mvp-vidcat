@@ -82,15 +82,15 @@ export default function Profile() {
       {loading ?
       <h2>Loading...</h2>
       : <div className="full-profile">
-          <h1>{gamer?.username}'s Profile</h1>
+          <h1>Welcome, {gamer?.username}!</h1>
           <div className="consoles-section">
-            <h2>Consoles</h2>
+            <h2>Your Consoles</h2>
             <div className="consoles-list card-list">
               {generateConsoleCards()}
             </div>
           </div>
           <div className="games-section">
-            <h2>Games</h2>
+            <h2>Your Games</h2>
             <div className="games-list card-list">
               {generateGameCards()}
             </div>

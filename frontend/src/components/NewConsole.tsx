@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
+import { useNavigate, Link } from "react-router-dom";
 
-type NewConsoleProps = {
-  setAction: Function
-}
-
-export default function NewConsole({setAction}: NewConsoleProps) {
+export default function NewConsole() {
   const {gamer} = useGamer();
   const [consoleList, setConsoleList] = useState<GameConsole[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleFetchConsoles();
@@ -41,7 +39,7 @@ export default function NewConsole({setAction}: NewConsoleProps) {
 
     if (response.status === 200) {
       alert("Console added successfully");
-      setAction("PROFILE");
+      navigate("/");
     } else {
       alert("There was an error adding your console");
     }
@@ -77,7 +75,7 @@ export default function NewConsole({setAction}: NewConsoleProps) {
           <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
         </div>
         <button className="login" type="submit">Add Console</button>
-        <div onClick={() => {setAction("PROFILE")}}><a href="#">Back to Profile</a></div>
+        <Link to="/">Back to Profile</Link>
       </form>
     </>
   );

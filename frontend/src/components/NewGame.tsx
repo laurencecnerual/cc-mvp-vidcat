@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
+import { useNavigate, Link } from "react-router-dom";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
-type NewGameProps = {
-  setAction: Function
-}
-
-export default function NewGame({setAction}: NewGameProps) {
+export default function NewGame() {
   const {gamer} = useGamer();
   const [gameList, setGameList] = useState<Game[]>([]);
   const [userConsoleList, setUserConsoleList] = useState<UserConsoleWithConsoleData[]>([]);
   const [isLoading, setIsloading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     handlePageLoad();
@@ -65,7 +63,7 @@ export default function NewGame({setAction}: NewGameProps) {
 
     if (response.status === 200) {
       alert("Game added successfully");
-      setAction("PROFILE");
+      navigate("/");
     } else {
       alert("There was an error adding your game");
     }
@@ -127,7 +125,7 @@ export default function NewGame({setAction}: NewGameProps) {
           <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
         </div>
         <button className="login" type="submit">Add Game</button>
-        <div onClick={() => {setAction("PROFILE")}}><a href="#">Back to Profile</a></div>
+        <Link to="/">Back to Profile</Link>
       </form>)}
     </>
   );

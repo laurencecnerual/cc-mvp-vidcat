@@ -13,6 +13,7 @@ export default function Profile() {
 
   useEffect(() => {
     handleLoading();
+    setRefresh(false);
   }, [loading, refresh])
 
   async function handleLoading() {

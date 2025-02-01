@@ -6,8 +6,8 @@ const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
 import { signup, login, logout } from './gamer/gamer.controller';
-import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole } from './userconsole/userconsole.controller'
-import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame } from './usergame/usergame.controller'
+import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole } from './userconsole/userconsole.controller'
+import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole } from './usergame/usergame.controller'
 import { getGamerByUsername } from "./gamer/gamer.model";
 import { getAllUserConsoles } from "./userconsole/userconsole.model";
 import { getAllUserGames } from "./usergame/usergame.model";
@@ -55,7 +55,7 @@ app.get("/console/:id", getSingleConsole);
 
 app.get("/gamer/:id/userconsole", getUserConsoles);
 app.post("/gamer/:id/userconsole", createUserConsole);
-//app.delete("/gamer/:id/userconsole", removeUserConsole);
+app.delete("/userconsole/:id", removeUserConsole);
 
 app.get("/game", getGames);
 app.get("/game/:id", getSingleGame);
@@ -63,6 +63,7 @@ app.get("/game/:id", getSingleGame);
 app.get("/gamer/:id/usergame", getUserGames);
 app.post("/gamer/:id/usergame", createUserGame);
 app.delete("/usergame/:id", removeUserGame);
+app.get("/userconsole/:id/usergame", getUserGamesForConsole);
 
 //For public user profile (i.e. all userconsoles and usergames for the given gamer's username)
 app.get("/profile/:username", async (req: Request, res: Response) => {

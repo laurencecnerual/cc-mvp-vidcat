@@ -1,4 +1,5 @@
-import { getAllConsolesOrderByName, getConsoleByID, getAllUserConsoles, addUserConsole } from './userconsole.model'; 
+import { getAllConsolesOrderByName, getConsoleByID, getAllUserConsoles, addUserConsole, deleteUserConsoleByID } from './userconsole.model'; 
+import { getAllUserConsoleGames, deleteUserGameByID } from '../usergame/usergame.model'; 
 import { Request, Response } from "express";
 
 export const getConsoles = async (req: Request, res: Response) => {
@@ -54,3 +55,30 @@ export const createUserConsole = async (req: Request, res: Response) => {
     res.status(500).send(err);
   }
 };
+
+export const removeUserConsole = async (req: Request, res: Response) => {
+  const userConsoleID = parseInt(req.params.id);
+
+  try { //check for and delete the associated games before deleting the console
+    const deletedUserGames = await getAllUserConsoleGames(userConsoleID);
+
+    for (let userGame of deletedUserGames) {
+      await deleteUserGameByID(userGame.id);
+    }
+
+    const deletedUserConsoles = await deleteUserConsoleByID(userConsoleID);
+
+    if (!deletedUserConsoles[0]) {
+      return res.status(400).send("The UserConsole Does Not Exist");
+    }
+
+    const payload = {
+      userconsole: deletedUserConsoles[0],
+      usergames: deletedUserGames
+    };
+
+    res.status(200).send(payload);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}

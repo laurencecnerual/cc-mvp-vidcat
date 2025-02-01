@@ -40,3 +40,11 @@ export const deleteUserGameByID = (userGameID: number): Promise<UserGame> => {
   .where({ id: userGameID })
   .del()
 }
+
+export const getAllUserConsoleGames = (userConsoleID: number): Promise<UserGame[]> => {
+  return knex
+    .select("*")
+    .from(USERGAME_TABLE)
+    .where({ "userconsole_id": userConsoleID })
+    .orderBy("id", "asc");
+};

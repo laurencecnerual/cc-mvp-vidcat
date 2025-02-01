@@ -33,3 +33,10 @@ export const addUserConsole = (userConsole: UserConsole): Promise<UserConsole> =
   .insert(userConsole)
   .into(USERCONSOLE_TABLE);
 };
+
+export const deleteUserConsoleByID = (userConsoleID: number): Promise<UserConsole> => {
+  return knex(USERCONSOLE_TABLE)
+  .returning("*")
+  .where({ id: userConsoleID })
+  .del()
+}

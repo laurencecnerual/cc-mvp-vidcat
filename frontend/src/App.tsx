@@ -7,6 +7,7 @@ import NewConsole from './components/NewConsole.tsx';
 import NewGame from './components/NewGame.tsx';
 import Header from './components/Header.tsx';
 import Footer from './components/Footer.tsx';
+import PublicProfile from './components/PublicProfile.tsx';
 import { GamerContext } from "./GamerContext.tsx"
 import {Routes, Route, Navigate} from "react-router-dom";
 
@@ -23,7 +24,7 @@ function App() {
           <Route path="signup" element={!gamer ? <Signup /> : <Navigate to="/" />}  />
           <Route path="add-console" element={gamer ? <NewConsole /> : <Navigate to="/login" />} />
           <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />
-          <Route path="*" element={<h1 className="public-profile">Public User Profile or User Not Found Message Goes Here</h1>} />
+          <Route path="*" element={<PublicProfile />} />
         </Routes>
         <Footer />
       </div>

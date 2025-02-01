@@ -1,6 +1,6 @@
 import { useGamer } from "../GamerContext.tsx";
 
-export default function Footer({}) {
+export default function Footer() {
   const {gamer} = useGamer();
 
   return (

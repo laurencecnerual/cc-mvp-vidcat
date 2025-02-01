@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import ConsoleCard from './ConsoleCard';
+import GameCard from './GameCard';
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
-export default function PublicProfile({}) {
+export default function PublicProfile() {
   const username = useLocation().pathname.slice(1);
   const [loading, setLoading] = useState(true);
   const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
@@ -38,9 +40,15 @@ export default function PublicProfile({}) {
         <div className="public-profile">
           <h1>{`${username}'s Public Profile`}</h1>
           <h2>Consoles</h2>
-          { userConsoles.length > 0 ? userConsoles.map(uc => <p key={uc.id}>{uc.name}</p>) : <p>No Consoles Registered</p> }
+          { userConsoles.length > 0 ? 
+            <div className="games-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 
+            : <p>No Consoles Registered</p> 
+          }
           <h2>Games</h2>
-          { userGames.length > 0 ? userGames.map(ug => <p key={ug.id}>{ug.name}</p>) : <p>No Games Registered</p> }
+          { userGames.length > 0 ? 
+            <div className="consoles-list card-list">{ userGames.map(ug => <GameCard key={ug.id} userGame={ug} />) }</div> 
+            : <p>No Games Registered</p> 
+          }
         </div>
         : <h1>Resource Not Found</h1>
       }

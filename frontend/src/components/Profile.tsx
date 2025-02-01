@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
+import GameCard from "./GameCard.tsx";
+import ConsoleCard from "./ConsoleCard.tsx";
 
 export default function Profile() {
   const {gamer} = useGamer();
@@ -47,55 +49,34 @@ export default function Profile() {
   }
 
   function generateConsoleCards() {
-    return userConsoles.map((userConsole) => {
-      return (
-        <div key={userConsole.id} className="console-card card">
-          <div className="console-name">{userConsole?.name}</div>
-          <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
-          <div className="console-maker">By {userConsole?.maker}</div>
-          <div className="console-owned">{userConsole?.is_owned ? "Owned" : "Wanted"}</div>
-          <div className="console-favorite favorite">{userConsole?.is_favorite ? "One of My Favorites" : ""}</div>
-        </div>
-      )
-    })
+    return userConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} />);
   }
 
   function generateGameCards() {
-    return userGames.map((userGame) => {
-      return (
-        <div key={userGame.id} className="game-card card">
-          <div className="game-name">{userGame?.name}</div>
-          <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
-          <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>
-          <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Not Yet Finished"}</div>
-          <div className="game-favorite favorite">{userGame?.is_favorite ? "One of My Favorites" : ""}</div>
-          <div className="game-official-rating">Official Rating: {userGame?.rating}</div>
-          <div className="game-personal-rating">{userGame?.personal_rating ? "My score: " + userGame?.personal_rating: ""}</div>
-          <div className="game-personal-review">{userGame?.personal_review ? "My review: " + userGame?.personal_review : ""}</div>
-        </div>
-      )
-    })
+    return userGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} />);
+  }
+
+  if (loading) {
+    <h2>Loading...</h2>
   }
 
   return (
     <>
-      {loading ?
-      <h2>Loading...</h2>
-      : <div className="full-profile">
-          <h1>Welcome, {gamer?.username}!</h1>
-          <div className="consoles-section">
-            <h2>Your Consoles</h2>
-            <div className="consoles-list card-list">
-              {generateConsoleCards()}
-            </div>
+      <div className="full-profile">
+        <h1>Welcome, {gamer?.username}!</h1>
+        <div className="consoles-section">
+          <h2>Your Consoles</h2>
+          <div className="consoles-list card-list">
+            { userConsoles.length > 0 ? generateConsoleCards() : <p>No Consoles Registered</p> }
           </div>
-          <div className="games-section">
-            <h2>Your Games</h2>
-            <div className="games-list card-list">
-              {generateGameCards()}
-            </div>
+        </div>
+        <div className="games-section">
+          <h2>Your Games</h2>
+          <div className="games-list card-list">
+            { userGames.length > 0 ? generateGameCards() : <p>No Games Registered</p> }
           </div>
-      </div>}
+        </div>
+      </div>
     </>
   );
 }

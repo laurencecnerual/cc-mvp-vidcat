@@ -1,4 +1,5 @@
 import { useGamer } from "../GamerContext.tsx";
+const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type GameCardProps = {
   userGame: UserGameWithGameData
@@ -7,9 +8,29 @@ type GameCardProps = {
 export default function GameCard ({userGame}: GameCardProps) {
   const {gamer} = useGamer();
 
+  async function handleDeleteGame() {
+    if (!window.confirm("Are you sure you would like to delete this game?")) {
+      return alert("Deletion aborted.");
+    }
+    
+    const response = await fetch(apiUrl + `/usergame/${userGame.id}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      alert("Game deleted successfully")
+    } else {
+      alert("There was an error deleting your game");
+    }
+  }
+
   return (
     <div className="game-card card">
-      { gamer && <button type="button" className="delete">X</button> } 
+      { gamer && <button type="button" className="delete" onClick={handleDeleteGame}>X</button> } 
       <div className="game-name">{userGame?.name}</div>
       <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
       <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>

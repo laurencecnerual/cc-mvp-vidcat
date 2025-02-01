@@ -1,4 +1,4 @@
-import { getAllGamesOrderByName, getGameByID, getAllUserGames, addUserGame } from './usergame.model'; 
+import { getAllGamesOrderByName, getGameByID, getAllUserGames, addUserGame, deleteUserGameByID } from './usergame.model'; 
 import { Request, Response } from "express";
 
 export const getGames = async (req: Request, res: Response) => {
@@ -58,3 +58,14 @@ export const createUserGame = async (req: Request, res: Response) => {
     res.status(500).send(err);
   }
 };
+
+export const removeUserGame = async (req: Request, res: Response) => {
+  const userGameID = parseInt(req.params.id);
+
+  try {
+    const deletedUserGame = await deleteUserGameByID(userGameID);
+    res.status(200).send(deletedUserGame);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}

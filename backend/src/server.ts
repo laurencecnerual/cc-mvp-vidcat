@@ -68,7 +68,7 @@ app.get("/profile/:username", async (req: Request, res: Response) => {
   const gamer = await getGamerByUsername(username);
 
   if (!gamer) {
-    res.status(500).send("User Not Found");
+    return res.status(404).send("User Not Found");
   }
 
   try {

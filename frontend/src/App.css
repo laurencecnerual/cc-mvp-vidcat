@@ -85,3 +85,8 @@ img.game-picture {
 div.favorite {
   color: darkgoldenrod
 }
+
+div.public-profile {
+  display: flex;
+  flex-direction: column;
+}

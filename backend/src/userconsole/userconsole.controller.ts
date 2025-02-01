@@ -1,6 +1,5 @@
-const userConsoleModel = require("./userconsole.model");
-import { Request, Response } from "express";
 import { getAllConsolesOrderByName, getConsoleByID, getAllUserConsoles, addUserConsole } from './userconsole.model'; 
+import { Request, Response } from "express";
 
 export const getConsoles = async (req: Request, res: Response) => {
   try {

@@ -1,3 +1,60 @@
-const userGameModel = require("./usergame.model");
+import { getAllGamesOrderByName, getGameByID, getAllUserGames, addUserGame } from './usergame.model'; 
 import { Request, Response } from "express";
 
+export const getGames = async (req: Request, res: Response) => {
+  try {
+    const allGames = await getAllGamesOrderByName();
+    res.status(200).json(allGames);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+export const getSingleGame = async (req: Request, res: Response) => {
+  const gameID = parseInt(req.params.id);
+
+  try {
+    const targetGame = await getGameByID(gameID);
+    res.status(200).json(targetGame);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+export const getUserGames = async (req: Request, res: Response) => {
+  const userID = parseInt(req.params.id);
+
+  try {
+    const allGamesForUser = await getAllUserGames(userID);
+    res.status(200).json(allGamesForUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+export const createUserGame = async (req: Request, res: Response) => {
+  const userID = parseInt(req.params.id);
+  const {gameID, userConsoleID, isOwned, isCompleted, isFavorite, personalRating, personalReview} = req.body;
+
+  if (!userID || !gameID || !userConsoleID) {
+    return res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
+  }
+
+  const newUserGame = {
+    game_id: gameID,
+    gamer_id: userID,
+    userconsole_id: userConsoleID,
+    is_owned: isOwned,
+    is_completed: isCompleted,
+    is_favorite: isFavorite,
+    personal_rating: personalRating,
+    personal_review: personalReview
+  };
+
+  try {
+    const newlyAdded = await addUserGame(newUserGame);
+    res.status(200).json(newlyAdded[0]);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};

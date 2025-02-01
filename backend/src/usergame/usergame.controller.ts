@@ -63,8 +63,13 @@ export const removeUserGame = async (req: Request, res: Response) => {
   const userGameID = parseInt(req.params.id);
 
   try {
-    const deletedUserGame = await deleteUserGameByID(userGameID);
-    res.status(200).send(deletedUserGame);
+    const deletedUserGames = await deleteUserGameByID(userGameID);
+
+    if (!deletedUserGames[0]) {
+      return res.status(400).send("The UserGame Does Not Exist");
+    }
+
+    res.status(200).send(deletedUserGames[0]);
   } catch (err) {
     res.status(500).send(err);
   }

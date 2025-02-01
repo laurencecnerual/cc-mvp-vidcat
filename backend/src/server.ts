@@ -6,7 +6,9 @@ const cors = require("cors");
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
-import { signup, login, logout } from './gamer/gamer.controller'; 
+import { signup, login, logout } from './gamer/gamer.controller';
+import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole } from './userconsole/userconsole.controller'
+import * as UserGameController from './usergame/usergame.controller'
 
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
@@ -46,59 +48,10 @@ app.post("/signup", signup);
 app.post("/login", login);
 app.post("/logout", logout);
 
-app.get("/console", async (req: Request, res: Response) => {
-  try {
-    const allConsoles = await getAllConsolesOrderByName();
-    res.status(200).json(allConsoles);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-app.get("/console/:id", async (req: Request, res: Response) => {
-  const consoleID = parseInt(req.params.id);
-
-  try {
-    const targetConsole = await getConsoleByID(consoleID);
-    res.status(200).json(targetConsole[0]);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-app.get("/gamer/:id/userconsole", async (req: Request, res: Response) => {
-  const userID = parseInt(req.params.id);
-
-  try {
-    const allConsolesForUser = await getAllUserConsoles(userID);
-    res.status(200).json(allConsolesForUser);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-app.post("/gamer/:id/userconsole", async (req: Request, res: Response) => {
-  const userID = parseInt(req.params.id);
-  const {consoleID, isOwned, isFavorite} = req.body;
-
-  if (!userID || !consoleID) {
-    return res.status(400).send("Gamer ID, Console ID, isOwned, and isFavorite are all required");
-  }
-
-  const newUserConsole = {
-    gamer_id: userID,
-    console_id: consoleID,
-    is_owned: isOwned,
-    is_favorite: isFavorite
-  };
-
-  try {
-    const newlyAdded = await addUserConsole(newUserConsole);
-    res.status(200).json(newlyAdded[0]);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
+app.get("/console", getConsoles);
+app.get("/console/:id", getSingleConsole);
+app.get("/gamer/:id/userconsole", getUserConsoles);
+app.post("/gamer/:id/userconsole", createUserConsole);
 
 app.get("/game", async (req: Request, res: Response) => {
   try {
@@ -178,41 +131,8 @@ app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
 //   }
 // });
 
-const CONSOLE_TABLE = "console";
-const USERCONSOLE_TABLE = "userconsole";
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
-
-function getAllConsolesOrderByName(): Promise<Console[]> {
-  return knex
-    .select("*")
-    .from(CONSOLE_TABLE)
-    .orderBy("name", "asc");
-}
-
-function getConsoleByID(consoleID: number): Promise<Console> {
-  return knex
-  .select("*")
-  .from(CONSOLE_TABLE)
-  .where({id: consoleID});
-}
-
-function getAllUserConsoles(userID: number): Promise<UserConsoleWithConsoleData[]> {
-  return knex
-    .select("*")
-    .from(USERCONSOLE_TABLE)
-    .where({ "userconsole.gamer_id": userID })
-    .leftJoin("console", "userconsole.console_id", "console.id")
-    .select("userconsole.id as id", "console.id as console_id")
-    .orderBy("userconsole.id", "asc");
-}
-
-function addUserConsole(userConsole: UserConsole): Promise<UserConsole> {
-  return knex
-  .returning("*")
-  .insert(userConsole)
-  .into(USERCONSOLE_TABLE);
-}
 
 function getAllGamesOrderByName(): Promise<Game[]> {
   return knex

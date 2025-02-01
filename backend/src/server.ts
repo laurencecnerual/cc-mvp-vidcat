@@ -1,4 +1,3 @@
-const knex = require("./knex");
 const express = require("express");
 import { Request, Response } from "express";
 const app = express();
@@ -9,6 +8,9 @@ const crypto = require("crypto");
 import { signup, login, logout } from './gamer/gamer.controller';
 import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole } from './userconsole/userconsole.controller'
 import { getGames, getSingleGame, getUserGames, createUserGame } from './usergame/usergame.controller'
+import { getGamerByUsername } from "./gamer/gamer.model";
+import { getAllUserConsoles } from "./userconsole/userconsole.model";
+import { getAllUserGames } from "./usergame/usergame.model";
 
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
@@ -50,33 +52,36 @@ app.post("/logout", logout);
 
 app.get("/console", getConsoles);
 app.get("/console/:id", getSingleConsole);
+
 app.get("/gamer/:id/userconsole", getUserConsoles);
 app.post("/gamer/:id/userconsole", createUserConsole);
 
 app.get("/game", getGames);
 app.get("/game/:id", getSingleGame);
+
 app.get("/gamer/:id/usergame", getUserGames);
 app.post("/gamer/:id/usergame", createUserGame);
 
-// app.get("/profile/:username", async (req: Request, res: Response) => {
-//   const username = req.params.username;
-//   const gamer = await getGamerByUsername(username);
+//For public user profile (i.e. all userconsoles and usergames for the given gamer's username)
+app.get("/profile/:username", async (req: Request, res: Response) => {
+  const username = req.params.username;
+  const gamer = await getGamerByUsername(username);
 
-//   if (!gamer) {
-//     res.status(500).send("User Not Found");
-//   }
+  if (!gamer) {
+    res.status(500).send("User Not Found");
+  }
 
-//   try {
-//     const allConsolesForUser = await getAllUserConsoles(gamer.id);
-//     const allGamesForUser = await getAllUserGames(gamer.id);
-//     res.status(200).json({
-//       userconsoles: allConsolesForUser,
-//       usergames: allGamesForUser
-//     });
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// });
+  try {
+    const allConsolesForUser = await getAllUserConsoles(gamer.id);
+    const allGamesForUser = await getAllUserGames(gamer.id);
+    res.status(200).json({
+      userconsoles: allConsolesForUser,
+      usergames: allGamesForUser
+    });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 const server = app.listen(PORT, () => {
   console.log(`Express server is up and running on ${PORT}`);

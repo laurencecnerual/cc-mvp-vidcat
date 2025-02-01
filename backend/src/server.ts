@@ -5,13 +5,9 @@ const cors = require("cors");
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
-import { signup, login, logout } from './gamer/gamer.controller';
+import { signup, login, logout, getGamerProfile } from './gamer/gamer.controller';
 import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole } from './userconsole/userconsole.controller'
 import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole } from './usergame/usergame.controller'
-import { getGamerByUsername } from "./gamer/gamer.model";
-import { getAllUserConsoles } from "./userconsole/userconsole.model";
-import { getAllUserGames } from "./usergame/usergame.model";
-
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
 const frontendURL = process.env.FRONT_END_URL || "http://localhost:5173";
@@ -49,6 +45,7 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/signup", signup);
 app.post("/login", login);
 app.post("/logout", logout);
+app.get("/profile/:username", getGamerProfile);
 
 app.get("/console", getConsoles);
 app.get("/console/:id", getSingleConsole);
@@ -64,27 +61,6 @@ app.get("/gamer/:id/usergame", getUserGames);
 app.post("/gamer/:id/usergame", createUserGame);
 app.delete("/usergame/:id", removeUserGame);
 app.get("/userconsole/:id/usergame", getUserGamesForConsole);
-
-//For public user profile (i.e. all userconsoles and usergames for the given gamer's username)
-app.get("/profile/:username", async (req: Request, res: Response) => {
-  const username = req.params.username;
-  const gamer = await getGamerByUsername(username);
-
-  if (!gamer) {
-    return res.status(404).send("User Not Found");
-  }
-
-  try {
-    const allConsolesForUser = await getAllUserConsoles(gamer.id);
-    const allGamesForUser = await getAllUserGames(gamer.id);
-    res.status(200).json({
-      userconsoles: allConsolesForUser,
-      usergames: allGamesForUser
-    });
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
 
 const server = app.listen(PORT, () => {
   console.log(`Express server is up and running on ${PORT}`);

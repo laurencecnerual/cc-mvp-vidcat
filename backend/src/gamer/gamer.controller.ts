@@ -1,4 +1,6 @@
-import { getGamerByUsername, addUser, updateLastLogin } from './gamer.model'; 
+import { getGamerByUsername, addUser, updateLastLogin } from './gamer.model';
+import { getAllUserConsoles } from "../userconsole/userconsole.model";
+import { getAllUserGames } from "../usergame/usergame.model";
 import { Request, Response } from "express";
 const bcrypt = require("bcrypt");
 
@@ -92,4 +94,25 @@ export const logout = (req: Request, res: Response) => {
     res.clearCookie("connect.sid");
     res.status(200).send("Log Out Successful");
   });
+};
+
+//For public user profile (i.e. all userconsoles and usergames for the given gamer's username)
+export const getGamerProfile = async (req: Request, res: Response) => {
+  const username = req.params.username;
+  const gamer = await getGamerByUsername(username);
+
+  if (!gamer) {
+    return res.status(404).send("User Not Found");
+  }
+
+  try {
+    const allConsolesForUser = await getAllUserConsoles(gamer.id);
+    const allGamesForUser = await getAllUserGames(gamer.id);
+    res.status(200).json({
+      userconsoles: allConsolesForUser,
+      usergames: allGamesForUser
+    });
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };

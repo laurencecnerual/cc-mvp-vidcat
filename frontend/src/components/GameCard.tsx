@@ -2,10 +2,11 @@ import { useGamer } from "../GamerContext.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type GameCardProps = {
-  userGame: UserGameWithGameData
+  userGame: UserGameWithGameData,
+  setRefresh?: (arg0: boolean) => void
 }
 
-export default function GameCard ({userGame}: GameCardProps) {
+export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   const {gamer} = useGamer();
 
   async function handleDeleteGame() {
@@ -22,7 +23,8 @@ export default function GameCard ({userGame}: GameCardProps) {
     });
 
     if (response.status === 200) {
-      alert("Game deleted successfully")
+      alert("Game deleted successfully");
+      setRefresh && setRefresh(true);
     } else {
       alert("There was an error deleting your game");
     }

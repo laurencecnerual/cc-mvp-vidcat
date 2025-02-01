@@ -9,10 +9,11 @@ export default function Profile() {
   const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     handleLoading();
-  }, [loading])
+  }, [loading, refresh])
 
   async function handleLoading() {
     await handleFetchUserConsoles();
@@ -49,11 +50,11 @@ export default function Profile() {
   }
 
   function generateConsoleCards() {
-    return userConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} />);
+    return userConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} setRefresh={setRefresh} />);
   }
 
   function generateGameCards() {
-    return userGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} />);
+    return userGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} setRefresh={setRefresh} />);
   }
 
   if (loading) {

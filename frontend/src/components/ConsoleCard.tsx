@@ -2,10 +2,11 @@ import { useGamer } from "../GamerContext.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type ConsoleCardProps = {
-  userConsole: UserConsoleWithConsoleData
+  userConsole: UserConsoleWithConsoleData,
+  setRefresh?: (arg0: boolean) => void
 }
 
-export default function ConsoleCard ({userConsole}: ConsoleCardProps) {
+export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps) {
   const {gamer} = useGamer();
 
   async function handleDeleteConsole() {
@@ -22,7 +23,8 @@ export default function ConsoleCard ({userConsole}: ConsoleCardProps) {
     });
 
     if (response.status === 200) {
-      alert("Console deleted successfully")
+      alert("Console deleted successfully");
+      setRefresh && setRefresh(true);
     } else {
       alert("There was an error deleting your console");
     }

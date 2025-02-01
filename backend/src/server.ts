@@ -3,10 +3,11 @@ const express = require("express");
 import { Request, Response } from "express";
 const app = express();
 const cors = require("cors");
-const bcrypt = require("bcrypt");
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
+import { signup, login, logout } from './gamer/gamer.controller'; 
+
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
 const frontendURL = process.env.FRONT_END_URL || "http://localhost:5173";
@@ -41,77 +42,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to the VidCat backend!");
 });
 
-app.post("/signup", async (req: Request, res: Response) => {
-  const { username, password, firstname, lastname } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).send("Both Username and Password are required");
-  }
-
-  const userFound = await getGamerByUsername(username);
-
-  if (userFound) {
-    return res.status(400).send("User Already Exists");
-  }
-
-  const saltedHash = await hashPassword(password);
-
-  let newGamer = {
-    username: username,
-    salted_hash: saltedHash,
-    firstname: firstname,
-    lastname: lastname
-  };
-
-  const userCreated = await addUser(newGamer);
-  delete userCreated[0].salted_hash;
-
-  res.status(201).json(userCreated[0]);
-});
-
-app.post("/login", async (req: Request, res: Response) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).send("Both Username and Password are required");
-  }
-
-  const user = await getGamerByUsername(username);
-
-  if (!user) {
-    return res.status(404).send("User Not Found");
-  }
-
-  const saltedHash = user.salted_hash;
-  const authenicationResult = await verifyPassword(password, saltedHash);
-
-  if (!authenicationResult) {
-    return res.status(401).json({ authenticationSuccessful: authenicationResult });
-  }
-
-  req.session.username = user.username;
-  const lastLoginUpdateResult = await updateLastLogin(user.id, new Date());
-  delete lastLoginUpdateResult[0].salted_hash;
-
-  if (!lastLoginUpdateResult) {
-    return res.status(500).send("Could Not Log In");
-  }
-
-  res.status(200).json({
-    authenticationSuccessful: authenicationResult,
-    gamer: lastLoginUpdateResult[0],
-  });
-});
-
-app.post("/logout", (req: Request, res: Response) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send("Could Not Log Out");
-    }
-    res.clearCookie("connect.sid");
-    res.status(200).send("Log Out Successful");
-  });
-});
+app.post("/signup", signup);
+app.post("/login", login);
+app.post("/logout", logout);
 
 app.get("/console", async (req: Request, res: Response) => {
   try {
@@ -225,72 +158,30 @@ app.post("/gamer/:id/usergame", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/profile/:username", async (req: Request, res: Response) => {
-  const username = req.params.username;
-  const gamer = await getGamerByUsername(username);
+// app.get("/profile/:username", async (req: Request, res: Response) => {
+//   const username = req.params.username;
+//   const gamer = await getGamerByUsername(username);
 
-  if (!gamer) {
-    res.status(500).send("User Not Found");
-  }
+//   if (!gamer) {
+//     res.status(500).send("User Not Found");
+//   }
 
-  try {
-    const allConsolesForUser = await getAllUserConsoles(gamer.id);
-    const allGamesForUser = await getAllUserGames(gamer.id);
-    res.status(200).json({
-      userconsoles: allConsolesForUser,
-      usergames: allGamesForUser
-    });
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
+//   try {
+//     const allConsolesForUser = await getAllUserConsoles(gamer.id);
+//     const allGamesForUser = await getAllUserGames(gamer.id);
+//     res.status(200).json({
+//       userconsoles: allConsolesForUser,
+//       usergames: allGamesForUser
+//     });
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
 
-async function hashPassword(plainTextPassword: string) {
-  const saltRounds = 10;
-  try {
-    const hash = await bcrypt.hash(plainTextPassword, saltRounds);
-    return hash;
-  } catch (err) {
-    console.error("Hashing error:", err);
-  }
-}
-
-async function verifyPassword(plainTextPassword: string, hashedPasswordFromDB: string) {
-  try {
-    const match = await bcrypt.compare(plainTextPassword, hashedPasswordFromDB);
-    return match;
-  } catch (err) {
-    console.error("Verification error:", err);
-  }
-}
-
-const GAMER_TABLE = "gamer";
 const CONSOLE_TABLE = "console";
 const USERCONSOLE_TABLE = "userconsole";
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
-
-function getGamerByUsername(username: string): Promise<Gamer> {
-  return knex
-    .select("*")
-    .from(GAMER_TABLE)
-    .where({ username: username })
-    .first();
-}
-
-function updateLastLogin(id: number, lastLogin: Date): Promise<Gamer> {
-  return knex(GAMER_TABLE)
-    .returning("*")
-    .where({ id: id })
-    .update({ last_login: lastLogin });
-}
-
-function addUser(newUserObject: Gamer): Promise<Gamer> {
-  return knex
-    .returning("*")
-    .insert(newUserObject)
-    .into(GAMER_TABLE);
-}
 
 function getAllConsolesOrderByName(): Promise<Console[]> {
   return knex
@@ -298,13 +189,6 @@ function getAllConsolesOrderByName(): Promise<Console[]> {
     .from(CONSOLE_TABLE)
     .orderBy("name", "asc");
 }
-
-// function getAllConsolesOrderByYear() {
-//   return knex
-//     .select("*")
-//     .from(CONSOLE_TABLE)
-//     .orderBy("release_year", "desc");
-// }
 
 function getConsoleByID(consoleID: number): Promise<Console> {
   return knex
@@ -336,13 +220,6 @@ function getAllGamesOrderByName(): Promise<Game[]> {
     .from(GAME_TABLE)
     .orderBy("name", "asc");
 }
-
-// function getAllGamesOrderByReleaseDate() {
-//   return knex
-//     .select("*")
-//     .from(GAME_TABLE)
-//     .orderBy("released", "desc");
-// }
 
 function getGameByID(gameID: number): Promise<Game> {
   return knex

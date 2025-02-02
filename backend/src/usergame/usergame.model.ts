@@ -8,7 +8,7 @@ export const getAllGamesOrderByName = (): Promise<Game[]> => {
     .select("*")
     .from(GAME_TABLE)
     .orderBy("name", "asc");
-}
+};
 
 export const getGameByID = (gameID: number): Promise<Game> => {
   return knex
@@ -16,7 +16,7 @@ export const getGameByID = (gameID: number): Promise<Game> => {
   .from(GAME_TABLE)
   .where({rawg_id: gameID})
   .first();
-}
+};
 
 export const getAllUserGames = (userID: number): Promise<UserGameWithGameData[]> => {
   return knex
@@ -25,6 +25,14 @@ export const getAllUserGames = (userID: number): Promise<UserGameWithGameData[]>
     .where({ "usergame.gamer_id": userID })
     .leftJoin("game", "usergame.game_id", "game.rawg_id")
     .orderBy("id", "asc");
+};
+
+export const getUserGameByID = (userGameID: number): Promise<UserGame> => {
+  return knex
+  .select("*")
+  .from(USERGAME_TABLE)
+  .where({id: userGameID})
+  .first();
 }
 
 export const addUserGame = (userGame: UserGame): Promise<UserGame> => {
@@ -32,14 +40,14 @@ export const addUserGame = (userGame: UserGame): Promise<UserGame> => {
   .returning("*")
   .insert(userGame)
   .into(USERGAME_TABLE);
-}
+};
 
 export const deleteUserGameByID = (userGameID: number): Promise<UserGame> => {
   return knex(USERGAME_TABLE)
   .returning("*")
   .where({ id: userGameID })
   .del()
-}
+};
 
 export const getAllUserConsoleGames = (userConsoleID: number): Promise<UserGame[]> => {
   return knex

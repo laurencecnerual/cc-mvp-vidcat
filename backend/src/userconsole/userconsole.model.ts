@@ -27,6 +27,13 @@ export const getAllUserConsoles = (userID: number): Promise<UserConsoleWithConso
     .orderBy("userconsole.id", "asc");
 };
 
+export const getUserConsoleByID = (userConsoleID: number): Promise<UserConsole> => {
+  return knex
+  .select("*")
+  .from(USERCONSOLE_TABLE)
+  .where({id: userConsoleID});
+};
+
 export const addUserConsole = (userConsole: UserConsole): Promise<UserConsole> => {
   return knex
   .returning("*")
@@ -39,4 +46,4 @@ export const deleteUserConsoleByID = (userConsoleID: number): Promise<UserConsol
   .returning("*")
   .where({ id: userConsoleID })
   .del()
-}
+};

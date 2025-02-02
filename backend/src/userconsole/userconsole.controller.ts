@@ -1,4 +1,4 @@
-import { getAllConsolesOrderByName, getConsoleByID, getAllUserConsoles, addUserConsole, deleteUserConsoleByID } from './userconsole.model'; 
+import { getAllConsolesOrderByName, getConsoleByID, getAllUserConsoles, addUserConsole, deleteUserConsoleByID, getUserConsoleByID } from './userconsole.model'; 
 import { getAllUserConsoleGames, deleteUserGameByID } from '../usergame/usergame.model'; 
 import { Request, Response } from "express";
 
@@ -28,6 +28,17 @@ export const getUserConsoles = async (req: Request, res: Response) => {
   try {
     const allConsolesForUser = await getAllUserConsoles(userID);
     res.status(200).json(allConsolesForUser);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+export const getSingleUserConsole = async (req: Request, res: Response) => {
+  const userConsoleID = parseInt(req.params.id);
+
+  try {
+    const targetUserConsole = await getUserConsoleByID(userConsoleID);
+    res.status(200).json(targetUserConsole[0]);
   } catch (err) {
     res.status(500).send(err);
   }

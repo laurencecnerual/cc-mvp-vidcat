@@ -3,6 +3,11 @@ body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+a {
+  text-decoration: none;
+  color: black
+}
+
 div.top-mid-bot {
   display: flex;
   flex-direction: column;
@@ -73,9 +78,14 @@ div.card {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  border: 1px solid blue;
+  border: 2px solid blue;
   padding: 8px;
   border-radius: 10px
+}
+
+div.own-card:hover {
+  border-color: lime;
+  cursor: pointer;
 }
 
 img.game-picture {

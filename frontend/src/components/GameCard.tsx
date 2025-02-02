@@ -31,7 +31,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   }
 
   return (
-    <div className="game-card card">
+    <div className={ gamer ? "own-card card" : "card" }>
       { gamer && <button type="button" className="delete" onClick={handleDeleteGame}>X</button> } 
       <div className="game-name">{userGame?.name}</div>
       <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />

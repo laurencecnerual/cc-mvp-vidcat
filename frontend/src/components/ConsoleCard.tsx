@@ -31,7 +31,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   }
 
   return (
-    <div className="console-card card">
+    <div className={ gamer ? "own-card card" : "card" }>
       { gamer && <button type="button" className="delete" onClick={handleDeleteConsole}>X</button> } 
       <div className="console-name">{userConsole?.name}</div>
       <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>

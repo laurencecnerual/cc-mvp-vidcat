@@ -41,19 +41,14 @@ div.disclaimer {
   text-align: center;
   background-color: yellow;
   padding: 8px 0;
-  margin-top: 8px;
 }
 
 h1, h2 {
   text-align: center;
 }
 
-.public-profile {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
+.public-profile, .full-profile {
+  overflow-y: auto;
 }
 
 form.login, form.signup, form.new-console, form.new-game {

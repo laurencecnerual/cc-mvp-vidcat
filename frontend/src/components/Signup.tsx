@@ -15,9 +15,10 @@ export default function Signup() {
     });
 
     if (response.status === 201) {
-      navigate("login");
+      alert("Account created successfully. Please log in");
+      navigate("/login");
     } else {
-      alert("There was an error signing up")
+      alert("There was an error signing up");
     }
   }
 
@@ -36,11 +37,11 @@ export default function Signup() {
         <h2>New Account</h2>
         <div id="firstname" className="label-input-pair">
           <label htmlFor="firstname">First Name</label>
-          <input type="text" className="firstname" id="firstname" name="firstname" placeholder="Patrick" required/>
+          <input type="text" className="firstname" id="firstname" name="firstname" placeholder="Patrick"/>
         </div>
         <div id="lastname" className="label-input-pair">
           <label htmlFor="lastname">Last Name</label>
-          <input type="text" className="lastname" id="lastname" name="lastname" placeholder="Star" required/>
+          <input type="text" className="lastname" id="lastname" name="lastname" placeholder="Star"/>
         </div>
         <div id="username" className="label-input-pair">
           <label htmlFor="username">Username</label>

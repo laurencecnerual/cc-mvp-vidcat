@@ -69,21 +69,18 @@ export const login = async (req: Request, res: Response) => {
   const authenicationResult = await verifyPassword(password, saltedHash);
 
   if (!authenicationResult) {
-    return res.status(401).json({ authenticationSuccessful: authenicationResult });
+    return res.status(401).send("Incorrect Password");
   }
 
   req.session.username = user.username;
-  const lastLoginUpdateResult = await updateLastLogin(user.id, new Date());
-  delete lastLoginUpdateResult[0].salted_hash;
+  const lastLoginUpdatedUsers = await updateLastLogin(user.id, new Date());
+  delete lastLoginUpdatedUsers[0].salted_hash;
 
-  if (!lastLoginUpdateResult) {
+  if (!lastLoginUpdatedUsers) {
     return res.status(500).send("Could Not Log In");
   }
 
-  res.status(200).json({
-    authenticationSuccessful: authenicationResult,
-    gamer: lastLoginUpdateResult[0],
-  });
+  res.status(200).json(lastLoginUpdatedUsers[0]);
 };
 
 export const logout = (req: Request, res: Response) => {

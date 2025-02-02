@@ -17,14 +17,11 @@ export default function Login() {
     });
 
     if (response.status === 200) {
-      const payload = await response.json();
-
-      if (payload.authenticationSuccessful) {
-        setGamer(payload.gamer);
-        navigate("/");
-      } else {
-        alert("There was an error authenticating");
-      }
+      const loggedInGamer = await response.json();
+      setGamer(loggedInGamer);
+      navigate("/");
+    } else if (response.status === 401 || response.status === 404) {
+      alert("Incorrect password or username");
     } else {
       alert("There was an error logging in");
     }

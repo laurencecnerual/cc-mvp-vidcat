@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 export default function NewConsole() {
   const {gamer} = useGamer();
   const [consoleList, setConsoleList] = useState<GameConsole[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state || {};
+  const existingUserConsole = state?.userConsole || null;
 
   useEffect(() => {
     handleFetchConsoles();

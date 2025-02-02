@@ -90,7 +90,16 @@ div.card {
 
 div.own-card:hover {
   border-color: lime;
+}
+
+button {
   cursor: pointer;
+}
+
+div.buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 img.game-picture {

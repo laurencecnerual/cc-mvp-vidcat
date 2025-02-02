@@ -1,4 +1,5 @@
 import { useGamer } from "../GamerContext.tsx";
+import { useNavigate } from "react-router-dom";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type ConsoleCardProps = {
@@ -8,6 +9,7 @@ type ConsoleCardProps = {
 
 export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps) {
   const {gamer} = useGamer();
+  const navigate = useNavigate();
 
   async function handleDeleteConsole() {
     if (!window.confirm("Are you sure you would like to delete this console?\nNote that doing this will also delete any associated games.")) {
@@ -30,9 +32,18 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
     }
   }
 
+  function handleEditConsole() {
+    navigate("/add-console", {
+      state: { userConsole: userConsole }
+    });
+  }
+
   return (
     <div className={ gamer ? "own-card card" : "card" }>
-      { gamer && <button type="button" className="delete" onClick={handleDeleteConsole}>X</button> } 
+      { gamer && <div className="buttons">
+        <button type="button" className="delete" onClick={handleDeleteConsole}>X</button>
+        <button type="button" className="edit" onClick={handleEditConsole}>✏</button>
+      </div> }
       <div className="console-name">{userConsole?.name}</div>
       <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
       <div className="console-maker">By {userConsole?.maker}</div>

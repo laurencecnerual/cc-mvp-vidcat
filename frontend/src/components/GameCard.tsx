@@ -1,4 +1,5 @@
 import { useGamer } from "../GamerContext.tsx";
+import { useNavigate } from "react-router-dom";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type GameCardProps = {
@@ -8,6 +9,7 @@ type GameCardProps = {
 
 export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   const {gamer} = useGamer();
+  const navigate = useNavigate();
 
   async function handleDeleteGame() {
     if (!window.confirm("Are you sure you would like to delete this game?")) {
@@ -30,9 +32,18 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
     }
   }
 
+  function handleEditGame() {
+    navigate("/add-game", {
+      state: { userGame: userGame }
+    });
+  }
+
   return (
     <div className={ gamer ? "own-card card" : "card" }>
-      { gamer && <button type="button" className="delete" onClick={handleDeleteGame}>X</button> } 
+      { gamer && <div className="buttons">
+        <button type="button" className="delete" onClick={handleDeleteGame}>X</button>
+        <button type="button" className="edit" onClick={handleEditGame}>✏</button>
+      </div> }
       <div className="game-name">{userGame?.name}</div>
       <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
       <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>

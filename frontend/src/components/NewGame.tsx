@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -10,6 +10,10 @@ export default function NewGame() {
   const [userConsoleList, setUserConsoleList] = useState<UserConsoleWithConsoleData[]>([]);
   const [isLoading, setIsloading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state || {};
+  const existingUserGame = state?.userGame || null;
+  
 
   useEffect(() => {
     handlePageLoad();

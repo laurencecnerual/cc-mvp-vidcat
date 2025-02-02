@@ -25,6 +25,7 @@ function App() {
           <Route path="add-console" element={gamer ? <NewConsole /> : <Navigate to="/login" />} />
           <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />
           <Route path="*" element={<PublicProfile />} />
+          <Route path="not-found" element={<h1>Resource Not Found</h1>} />
         </Routes>
         <Footer />
       </div>

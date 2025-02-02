@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Navigate } from 'react-router-dom';
 import ConsoleCard from './ConsoleCard';
 import GameCard from './GameCard';
 const apiUrl: string = import.meta.env.VITE_API_URL;
@@ -50,7 +50,7 @@ export default function PublicProfile() {
             : <p>No Games Registered</p> 
           }
         </div>
-        : <h1>Resource Not Found</h1>
+        : <Navigate to="/not-found" />
       }
     </>
   );

@@ -51,6 +51,12 @@ export const createUserGame = async (req: Request, res: Response) => {
     return res.status(400).send("Gamer ID, Game ID, UserConsole ID, isOwned, isCompleted, isFavorite, personalRating, and personalReview are all required");
   }
 
+  const userGames = await getAllUserGames(userID);
+
+  if (userGames.find((ug) => ug.game_id === gameID)) {
+    return res.status(400).send("UserGame Already Exists");
+  }
+
   const newUserGame = {
     game_id: gameID,
     gamer_id: userID,

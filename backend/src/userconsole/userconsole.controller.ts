@@ -52,6 +52,12 @@ export const createUserConsole = async (req: Request, res: Response) => {
     return res.status(400).send("Gamer ID, Console ID, isOwned, and isFavorite are all required");
   }
 
+  const userConsoles = await getAllUserConsoles(userID);
+
+  if (userConsoles.find((uc) => uc.console_id === consoleID)) {
+    return res.status(400).send("UserConsole Already Exists");
+  }
+
   const newUserConsole = {
     gamer_id: userID,
     console_id: consoleID,

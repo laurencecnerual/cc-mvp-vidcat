@@ -5,7 +5,12 @@ body {
 
 div.banner a {
   text-decoration: none;
-  color: black
+  color: black;
+}
+
+div.banner a.active-link {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 div.top-mid-bot {

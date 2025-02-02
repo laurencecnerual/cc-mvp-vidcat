@@ -29,9 +29,9 @@ export default function Header() {
       <div className="banner">
         <div className="logo"><Link to="/">VidCat</Link></div>
         <div className="menu-options">
-          <div className="user-profile"><NavLink to="/">My Profile</NavLink></div>
-          <div className="add-console"><NavLink to="/add-console">Add Console</NavLink></div>
-          <div className="add-game"><NavLink to="/add-game">Add Game</NavLink></div>
+          <div className="user-profile"><NavLink to="/" className={({ isActive }) => isActive ? "active-link" : ""}>My Profile</NavLink></div>
+          <div className="add-console"><NavLink to="/add-console" className={({ isActive }) => isActive ? "active-link" : ""}>Add Console</NavLink></div>
+          <div className="add-game"><NavLink to="/add-game" className={({ isActive }) => isActive ? "active-link" : ""}>Add Game</NavLink></div>
           <div className="logout" onClick={() => handleLogout()}><a href="#">Logout</a></div>
         </div>
       </div> 
@@ -39,8 +39,8 @@ export default function Header() {
       <div className="banner">
         <div className="logo"><Link to="/login">VidCat</Link></div>
         <div className="menu-options">
-          <div className="log-in"><Link to="/login">Log In</Link></div>
-          <div className="sign-up"><Link to="/signup">Sign Up</Link></div>
+          <div className="log-in"><NavLink to="/login" className={({ isActive }) => isActive ? "active-link" : ""}>Log In</NavLink></div>
+          <div className="sign-up"><NavLink to="/signup" className={({ isActive }) => isActive ? "active-link" : ""}>Sign Up</NavLink></div>
         </div>
       </div> 
       }

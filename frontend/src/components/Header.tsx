@@ -25,7 +25,8 @@ export default function Header() {
 
   return (
     <>
-      { gamer && <div className="banner">
+      { gamer ? 
+      <div className="banner">
         <div className="logo"><Link to="/">VidCat</Link></div>
         <div className="menu-options">
           <div className="user-profile"><NavLink to="/">My Profile</NavLink></div>
@@ -33,7 +34,16 @@ export default function Header() {
           <div className="add-game"><NavLink to="/add-game">Add Game</NavLink></div>
           <div className="logout" onClick={() => handleLogout()}><a href="#">Logout</a></div>
         </div>
-      </div> }
+      </div> 
+      :
+      <div className="banner">
+        <div className="logo"><Link to="/login">VidCat</Link></div>
+        <div className="menu-options">
+          <div className="log-in"><Link to="/login">Log In</Link></div>
+          <div className="sign-up"><Link to="/signup">Sign Up</Link></div>
+        </div>
+      </div> 
+      }
     </>
   );
 }

@@ -3,7 +3,7 @@ body {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-a {
+div.banner a {
   text-decoration: none;
   color: black
 }
@@ -95,4 +95,8 @@ img.game-picture {
 
 div.favorite {
   color: darkgoldenrod
+}
+
+h1.not-found {
+  flex-grow: 1;
 }

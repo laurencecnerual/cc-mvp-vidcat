@@ -40,6 +40,8 @@ export default function NewConsole() {
     if (response.status === 200) {
       alert("Console added successfully");
       navigate("/");
+    } else if (response.status === 400) {
+      alert("You've already added that console");
     } else {
       alert("There was an error adding your console");
     }

@@ -64,6 +64,8 @@ export default function NewGame() {
     if (response.status === 200) {
       alert("Game added successfully");
       navigate("/");
+    } else if (response.status === 400) {
+      alert("You have already added that game");
     } else {
       alert("There was an error adding your game");
     }

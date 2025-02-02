@@ -33,7 +33,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   }
 
   function handleEditConsole() {
-    navigate("/add-console", {
+    navigate("/edit-console", {
       state: { userConsole: userConsole }
     });
   }

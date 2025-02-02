@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
-export default function NewGame() {
+export default function EditGame() {
   const {gamer} = useGamer();
   const [gameList, setGameList] = useState<Game[]>([]);
   const [userConsoleList, setUserConsoleList] = useState<UserConsoleWithConsoleData[]>([]);
   const [isLoading, setIsloading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state || {};
+  const existingUserGame = state?.userGame || null;
   
 
   useEffect(() => {
@@ -92,7 +95,7 @@ export default function NewGame() {
           (form?.querySelector("input.personal-review") as HTMLInputElement)?.value
         )
       }}>
-        <h2>New Game</h2>
+        <h2>Edit Game</h2>
         <div id="game-name" className="label-input-pair">
           <label htmlFor="game-name">Game</label>
           <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>

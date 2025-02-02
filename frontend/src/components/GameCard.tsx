@@ -33,7 +33,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   }
 
   function handleEditGame() {
-    navigate("/add-game", {
+    navigate("/edit-game", {
       state: { userGame: userGame }
     });
   }

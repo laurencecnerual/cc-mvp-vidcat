@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { useGamer } from "../GamerContext.tsx";
-import { useNavigate, Link } from "react-router-dom";
-
 const apiUrl: string = import.meta.env.VITE_API_URL;
+import { useGamer } from "../GamerContext.tsx";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
-export default function NewConsole() {
+export default function EditConsole() {
   const {gamer} = useGamer();
   const [consoleList, setConsoleList] = useState<GameConsole[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state || {};
+  const existingUserConsole = state?.userConsole || null;
 
   useEffect(() => {
     handleFetchConsoles();
@@ -61,7 +63,7 @@ export default function NewConsole() {
           (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
         )
       }}>
-        <h2>New Console</h2>
+        <h2>Edit Console</h2>
         <div id="console-name" className="label-input-pair">
           <label htmlFor="console-name" >Name of Console</label>
           <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>

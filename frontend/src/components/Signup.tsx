@@ -44,11 +44,11 @@ export default function Signup() {
           <input type="text" className="lastname" id="lastname" name="lastname" placeholder="Star"/>
         </div>
         <div id="username" className="label-input-pair">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Username<span className="mandatory">*</span></label>
           <input type="text" className="username" id="username" name="username" placeholder="pstar777" required/>
         </div>
         <div id="password" className="label-input-pair">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password<span className="mandatory">*</span></label>
           <input type="password" className="password" id="password" name="password" placeholder="m4k3175tr0ng!!" required/>
        </div>
        <button className="signup" type="submit">Sign Up</button>

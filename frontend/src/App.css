@@ -109,3 +109,7 @@ div.favorite {
 h1.not-found {
   flex-grow: 1;
 }
+
+span.mandatory {
+  color: red;
+}

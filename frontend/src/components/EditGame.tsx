@@ -1,138 +1,68 @@
-import { useEffect, useState } from "react";
-import { useGamer } from "../GamerContext.tsx";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export default function EditGame() {
-  const {gamer} = useGamer();
-  const [gameList, setGameList] = useState<Game[]>([]);
-  const [userConsoleList, setUserConsoleList] = useState<UserConsoleWithConsoleData[]>([]);
-  const [isLoading, setIsloading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const state = location.state || {};
-  const existingUserGame = state?.userGame || null;
-  
+  const userGame = location.state.userGame;
 
-  useEffect(() => {
-    handlePageLoad();
-  }, [isLoading]);
-
-  async function handlePageLoad() {
-    await handleFetchGames();
-    await handleFetchUserConsoles();
-  }
-
-  async function handleFetchGames() {
-    const response = await fetch(apiUrl + "/game", {
-      credentials: "include"
-    });
-
-    if (response.status === 200) {
-      const gameArray = await response.json();
-      setGameList(gameArray);
-    } else {
-      alert("There was an error loading the games list");
-    }
-  }
-
-  async function handleFetchUserConsoles() {
-    const response = await fetch(apiUrl + `/gamer/${gamer?.id}/userconsole`, {
-      credentials: "include"
-    });
-
-    if (response.status === 200) {
-      const userConsoleArray = await response.json();
-      setUserConsoleList(userConsoleArray);
-    } else {
-      alert("There was an error loading the user's consoles");
-    }
-
-    setIsloading(false);
-  }
-
-  async function handleAddGame(gamerID: number | undefined, gameName: string, consoleName: string, isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number, personalReview: string) {
-    const userConsoleID = userConsoleList.find((userConsole) => userConsole.name === consoleName)?.id;
-    const gameID = gameList.find((game) => game.name === gameName)?.rawg_id;
-
-    const response = await fetch(apiUrl + `/gamer/${gamerID}/usergame`, {
-      method: "POST",
+  async function handleUpdateGame(isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number, personalReview: string) {
+    const response = await fetch(apiUrl + `/usergame/${userGame.id}`, {
+      method: "PATCH",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({gameID: gameID, userConsoleID: userConsoleID, isOwned: isOwned, isCompleted: isCompleted, isFavorite: isFavorite, personalRating: personalRating, personalReview: personalReview})
+      body: JSON.stringify({isOwned: isOwned, isCompleted: isCompleted, isFavorite: isFavorite, personalRating: personalRating, personalReview: personalReview})
     });
 
     if (response.status === 200) {
-      alert("Game added successfully");
+      alert("Game updated successfully");
       navigate("/");
-    } else if (response.status === 400) {
-      alert("You have already added that game");
     } else {
-      alert("There was an error adding your game");
+      alert("There was an error updating your game");
     }
   }
 
   return (
     <>
-      {
-      isLoading ? 
-      (<h2>Loading...</h2>)
-      : (<form className="new-game" action="" onSubmit={(event) => {
-        event.preventDefault(); 
-        let form = document.querySelector("form"); 
-        handleAddGame
-        (
-          gamer?.id,
-          (form?.querySelector("input.game-name") as HTMLInputElement).value,
-          (form?.querySelector("input.console-name") as HTMLInputElement).value,
-          (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
-          (form?.querySelector("input.is-completed") as HTMLInputElement)?.checked,
-          (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked,
-          Number((form?.querySelector("input.personal-rating") as HTMLInputElement)?.value),
-          (form?.querySelector("input.personal-review") as HTMLInputElement)?.value
-        )
-      }}>
-        <h2>Edit Game</h2>
-        <div id="game-name" className="label-input-pair">
-          <label htmlFor="game-name">Game</label>
-          <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>
-          <datalist id="game-list">
-            {gameList.map((game) => <option key={"" + game.rawg_id} id={"" + game.rawg_id} value={game.name}>{game.name}</option>)}
-          </datalist>
-        </div>
-        <div id="console-name" className="label-input-pair">
-          <label htmlFor="console-name">Console</label>
-          <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
-          <datalist id="console-list">
-            {userConsoleList.map((userConsole) => <option key={"" + userConsole.id} id={"" + userConsole.id} value={userConsole.name}>{userConsole.name}</option>)}
-          </datalist>
-        </div>
+      <form className="edit-game" action="" onSubmit={(event) => {
+      event.preventDefault(); 
+      let form = document.querySelector("form"); 
+      handleUpdateGame
+      (
+        (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
+        (form?.querySelector("input.is-completed") as HTMLInputElement)?.checked,
+        (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked,
+        Number((form?.querySelector("input.personal-rating") as HTMLInputElement)?.value),
+        (form?.querySelector("input.personal-review") as HTMLInputElement)?.value
+      )
+    }}>
+        <h2>{"Edit " + userGame.name}</h2>
         <div id="is-owned" className="label-input-pair">
           <label htmlFor="is-owned">I own this game</label>
-          <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
+          { userGame.is_owned ? <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/> : <input type="checkbox" className="is-owned" id="is-owned" name="is-owned"/> } 
         </div>
         <div id="is-completed" className="label-input-pair">
           <label htmlFor="is-completed">I have beaten this game</label>
-          <input type="checkbox" className="is-completed" id="is-completed" name="is-completed"/>
+          { userGame.is_completed ? <input type="checkbox" className="is-completed" id="is-completed" name="is-completed" defaultChecked/> : <input type="checkbox" className="is-completed" id="is-completed" name="is-completed"/> }
         </div>
         <div id="is-favorite" className="label-input-pair">
           <label htmlFor="is-favorite">This game is one of my favorites</label>
-          <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
+          { userGame.is_favorite ? <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite" defaultChecked/> : <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite" /> }
         </div>
         <div id="personal-rating" className="label-input-pair">
           <label htmlFor="personal-rating">Rating</label>
-          <input type="number" step="0.01" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="0.00 ~ 5.00"/>
+          <input type="number" step="0.01" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="0.00 ~ 5.00" defaultValue={userGame.personal_rating}/>
         </div>
         <div id="personal-review" className="label-input-pair">
           <label htmlFor="personal-review">Review</label>
-          <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
+          <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here" defaultValue={userGame.personal_review}/>
         </div>
-        <button className="login" type="submit">Add Game</button>
+        <button className="login" type="submit">Update Game</button>
         <Link to="/">Back to Profile</Link>
-      </form>)}
+      </form>
     </>
   );
 }

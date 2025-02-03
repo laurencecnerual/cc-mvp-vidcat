@@ -39,6 +39,7 @@ export default function EditGame() {
         (form?.querySelector("input.personal-review") as HTMLInputElement)?.value
       )
     }}>
+        <Link to="/" className="back-to-profile">Back to Profile</Link>
         <h2>{"Edit " + userGame.name}</h2>
         <div id="is-owned" className="label-input-pair">
           <label htmlFor="is-owned">I own this game</label>
@@ -61,7 +62,6 @@ export default function EditGame() {
           <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here" defaultValue={userGame.personal_review}/>
         </div>
         <button className="login" type="submit">Update Game</button>
-        <Link to="/">Back to Profile</Link>
       </form>
     </>
   );

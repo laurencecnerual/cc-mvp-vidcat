@@ -51,13 +51,21 @@ h1, h2 {
   overflow-y: auto;
 }
 
-form.login, form.signup, form.new-console, form.new-game, form.edit-console, form.edit-game {
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100vh;
   justify-content: center;
   gap: 12px
+}
+
+form.manage-account {
+  height: 33vh;
+}
+
+a.back-to-profile {
+  padding: 8px 0 0 16px;
 }
 
 div.label-input-pair {

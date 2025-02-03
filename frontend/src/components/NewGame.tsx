@@ -72,12 +72,14 @@ export default function NewGame() {
     }
   }
 
+  if (isLoading) {
+    return <h2>Loading...</h2>
+  }
+
   return (
     <>
-      {
-      isLoading ? 
-      (<h2>Loading...</h2>)
-      : (<form className="new-game" action="" onSubmit={(event) => {
+      <Link to="/" className="back-to-profile">Back to Profile</Link>
+      <form className="new-game" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 
         handleAddGame
@@ -128,8 +130,7 @@ export default function NewGame() {
           <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
         </div>
         <button className="add-game" type="submit">Add Game</button>
-        <Link to="/">Back to Profile</Link>
-      </form>)}
+      </form>
     </>
   );
 }

@@ -50,6 +50,7 @@ export default function NewConsole() {
 
   return (
     <>
+      <Link to="/" className="back-to-profile">Back to Profile</Link>
       <form className="new-console" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 
@@ -78,7 +79,6 @@ export default function NewConsole() {
           <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
         </div>
         <button className="add-console" type="submit">Add Console</button>
-        <Link to="/">Back to Profile</Link>
       </form>
     </>
   );

@@ -26,6 +26,7 @@ export default function EditConsole() {
 
   return (
     <>
+      <Link to="/" className="back-to-profile">Back to Profile</Link>
       <form className="edit-console" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 
@@ -45,7 +46,6 @@ export default function EditConsole() {
           { userConsole.is_favorite ? <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite" defaultChecked/> : <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/> }
         </div>
         <button className="update-console" type="submit">Update Console</button>
-        <Link to="/">Back to Profile</Link>
       </form>
     </>
   );

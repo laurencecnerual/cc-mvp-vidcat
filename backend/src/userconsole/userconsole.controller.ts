@@ -1,4 +1,4 @@
-import { getAllConsolesOrderByName, getConsoleByID, getAllUserConsoles, addUserConsole, deleteUserConsoleByID, getUserConsoleByID, updateById } from './userconsole.model'; 
+import { getAllConsolesOrderByName, getConsoleByID, getAllUserConsoles, addUserConsole, deleteUserConsoleByID, getUserConsoleByID, updateUserConsoleByID } from './userconsole.model'; 
 import { getAllUserConsoleGames, deleteUserGameByID } from '../usergame/usergame.model'; 
 import { Request, Response } from "express";
 
@@ -82,7 +82,7 @@ export const updateUserConsole = async (req: Request, res: Response) => {
     is_favorite: isFavorite, 
   };
 
-  const modifiedUserConsole = await updateById(userConsoleID, payload);
+  const modifiedUserConsole = await updateUserConsoleByID(userConsoleID, payload);
   res.status(200).send(modifiedUserConsole);
 
 };

@@ -1,4 +1,4 @@
-import { getAllGamesOrderByName, getGameByID, getAllUserGames, addUserGame, deleteUserGameByID, getAllUserConsoleGames, getUserGameByID } from './usergame.model'; 
+import { getAllGamesOrderByName, getGameByID, getAllUserGames, addUserGame, deleteUserGameByID, getAllUserConsoleGames, getUserGameByID, updateUserGameByID } from './usergame.model'; 
 import { Request, Response } from "express";
 
 export const getGames = async (req: Request, res: Response) => {
@@ -74,6 +74,23 @@ export const createUserGame = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).send(err);
   }
+};
+
+export const updateUserGame = async (req: Request, res: Response) => {
+  const userGameID = parseInt(req.params.id);
+  const { isOwned, isCompleted, isFavorite, personalRating, personalReview } = req.body;
+
+  const payload = {
+    is_owned: isOwned, 
+    is_completed: isCompleted,
+    is_favorite: isFavorite, 
+    personal_rating: personalRating,
+    personal_review: personalReview
+  };
+
+  const modifiedUserGame = await updateUserGameByID(userGameID, payload);
+  res.status(200).send(modifiedUserGame);
+
 };
 
 export const removeUserGame = async (req: Request, res: Response) => {

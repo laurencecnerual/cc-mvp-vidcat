@@ -41,7 +41,7 @@ export const addUserConsole = (userConsole: UserConsole): Promise<UserConsole> =
   .into(USERCONSOLE_TABLE);
 };
 
-export const updateById = (userConsoleID: number, payload: Partial<UserConsole>): Promise<UserConsole> => {
+export const updateUserConsoleByID = (userConsoleID: number, payload: Partial<UserConsole>): Promise<UserConsole> => {
   return knex(USERCONSOLE_TABLE)
   .returning("*")
   .where({ id: userConsoleID })

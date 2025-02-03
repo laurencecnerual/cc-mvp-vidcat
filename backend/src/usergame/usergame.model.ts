@@ -42,6 +42,13 @@ export const addUserGame = (userGame: UserGame): Promise<UserGame> => {
   .into(USERGAME_TABLE);
 };
 
+export const updateUserGameByID = (userGameID: number, payload: Partial<UserGame>): Promise<UserGame> => {
+  return knex(USERGAME_TABLE)
+  .returning("*")
+  .where({ id: userGameID })
+  .update(payload);
+};
+
 export const deleteUserGameByID = (userGameID: number): Promise<UserGame> => {
   return knex(USERGAME_TABLE)
   .returning("*")

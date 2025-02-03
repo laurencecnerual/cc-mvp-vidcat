@@ -7,7 +7,7 @@ const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
 import { signup, login, logout, getGamerProfile } from './gamer/gamer.controller';
 import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole, getSingleUserConsole, updateUserConsole } from './userconsole/userconsole.controller'
-import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole, getSingleUserGame } from './usergame/usergame.controller'
+import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole, getSingleUserGame, updateUserGame } from './usergame/usergame.controller'
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
 const frontendURL = process.env.FRONT_END_URL || "http://localhost:5173";
@@ -62,6 +62,7 @@ app.get("/game/:id", getSingleGame);
 app.get("/usergame/:id", getSingleUserGame);
 app.get("/gamer/:id/usergame", getUserGames);
 app.post("/gamer/:id/usergame", createUserGame);
+app.patch("/usergame/:id", updateUserGame);
 app.delete("/usergame/:id", removeUserGame);
 app.get("/userconsole/:id/usergame", getUserGamesForConsole);
 

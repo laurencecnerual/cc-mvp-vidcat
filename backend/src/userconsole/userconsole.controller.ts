@@ -82,9 +82,12 @@ export const updateUserConsole = async (req: Request, res: Response) => {
     is_favorite: isFavorite, 
   };
 
-  const modifiedUserConsole = await updateUserConsoleByID(userConsoleID, payload);
-  res.status(200).send(modifiedUserConsole);
-
+  try {
+    const modifiedUserConsole = await updateUserConsoleByID(userConsoleID, payload);
+    res.status(200).send(modifiedUserConsole);
+  } catch (err) {
+    res.status(500).send("Unable to Update UserConsole");
+  }
 };
 
 export const removeUserConsole = async (req: Request, res: Response) => {

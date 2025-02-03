@@ -88,9 +88,12 @@ export const updateUserGame = async (req: Request, res: Response) => {
     personal_review: personalReview
   };
 
-  const modifiedUserGame = await updateUserGameByID(userGameID, payload);
-  res.status(200).send(modifiedUserGame);
-
+  try {
+    const modifiedUserGame = await updateUserGameByID(userGameID, payload);
+    res.status(200).send(modifiedUserGame);
+  } catch (err) {
+    res.status(500).send("Unable to Update UserGame");
+  }
 };
 
 export const removeUserGame = async (req: Request, res: Response) => {

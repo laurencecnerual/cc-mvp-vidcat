@@ -4,7 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Signup() {
   const navigate = useNavigate();
 
-  async function handleSignup(username: string, password: string, firstname: string, lastname: string) {
+  async function handleSignup(username: string, password: string, confirmPassword: string, firstname: string, lastname: string) {
+
+    if (password !== confirmPassword) {
+      alert("Passwords must match");
+      return;
+    }
+
     const response = await fetch(apiUrl + "/signup", {
       method: "POST",
       credentials: "include",
@@ -30,6 +36,7 @@ export default function Signup() {
         handleSignup(
           (form?.querySelector("input.username") as HTMLInputElement).value, 
           (form?.querySelector("input.password") as HTMLInputElement).value, 
+          (form?.querySelector("input.confirm-password") as HTMLInputElement).value, 
           (form?.querySelector("input.firstname") as HTMLInputElement).value, 
           (form?.querySelector("input.lastname") as HTMLInputElement).value
         )
@@ -50,6 +57,10 @@ export default function Signup() {
         <div id="password" className="label-input-pair">
           <label htmlFor="password">Password<span className="mandatory">*</span></label>
           <input type="password" className="password" id="password" name="password" placeholder="m4k3175tr0ng!!" required/>
+       </div>
+       <div id="confirm-password" className="label-input-pair">
+          <label htmlFor="confirm-password">Confirm Password<span className="mandatory">*</span></label>
+          <input type="password" className="confirm-password" id="confirm-password" name="confirm-password" placeholder="m4k3175tr0ng!!" required/>
        </div>
        <button className="signup" type="submit">Sign Up</button>
        <Link to="/login">Already have an account?</Link>

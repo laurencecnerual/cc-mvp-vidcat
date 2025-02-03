@@ -38,7 +38,7 @@ export default function NewConsole() {
       body: JSON.stringify({consoleID: consoleID, isOwned: isOwned, isFavorite: isFavorite})
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       alert("Console added successfully");
       navigate("/");
     } else if (response.status === 400) {
@@ -77,7 +77,7 @@ export default function NewConsole() {
           <label htmlFor="is-favorite">This console is one of my favorites</label>
           <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
         </div>
-        <button className="login" type="submit">Add Console</button>
+        <button className="add-console" type="submit">Add Console</button>
         <Link to="/">Back to Profile</Link>
       </form>
     </>

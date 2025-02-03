@@ -62,7 +62,7 @@ export default function NewGame() {
       body: JSON.stringify({gameID: gameID, userConsoleID: userConsoleID, isOwned: isOwned, isCompleted: isCompleted, isFavorite: isFavorite, personalRating: personalRating, personalReview: personalReview})
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       alert("Game added successfully");
       navigate("/");
     } else if (response.status === 400) {
@@ -127,7 +127,7 @@ export default function NewGame() {
           <label htmlFor="personal-review">Review</label>
           <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
         </div>
-        <button className="login" type="submit">Add Game</button>
+        <button className="add-game" type="submit">Add Game</button>
         <Link to="/">Back to Profile</Link>
       </form>)}
     </>

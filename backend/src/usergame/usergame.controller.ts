@@ -70,7 +70,7 @@ export const createUserGame = async (req: Request, res: Response) => {
 
   try {
     const newlyAdded = await addUserGame(newUserGame);
-    res.status(200).json(newlyAdded[0]);
+    res.status(201).json(newlyAdded[0]);
   } catch (err) {
     res.status(500).send(err);
   }

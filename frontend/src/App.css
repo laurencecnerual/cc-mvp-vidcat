@@ -51,7 +51,7 @@ h1, h2 {
   overflow-y: auto;
 }
 
-form.login, form.signup, form.new-console, form.new-game {
+form.login, form.signup, form.new-console, form.new-game, form.edit-console, form.edit-game {
   display: flex;
   flex-direction: column;
   align-items: center;

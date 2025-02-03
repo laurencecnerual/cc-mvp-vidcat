@@ -6,7 +6,7 @@ const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
 import { signup, login, logout, getGamerProfile } from './gamer/gamer.controller';
-import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole, getSingleUserConsole } from './userconsole/userconsole.controller'
+import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole, getSingleUserConsole, updateUserConsole } from './userconsole/userconsole.controller'
 import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole, getSingleUserGame } from './usergame/usergame.controller'
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
@@ -53,6 +53,7 @@ app.get("/console/:id", getSingleConsole);
 app.get("/userconsole/:id", getSingleUserConsole);
 app.get("/gamer/:id/userconsole", getUserConsoles);
 app.post("/gamer/:id/userconsole", createUserConsole);
+app.patch("/userconsole/:id", updateUserConsole);
 app.delete("/userconsole/:id", removeUserConsole);
 
 app.get("/game", getGames);

@@ -97,7 +97,7 @@ div.buttons {
   justify-content: space-between;
 }
 
-img.game-picture {
+img.game-picture, img.console-picture {
   width: 300px;
   height: auto;
 }

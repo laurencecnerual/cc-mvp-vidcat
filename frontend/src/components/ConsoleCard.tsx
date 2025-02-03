@@ -45,6 +45,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
         <button type="button" className="edit" onClick={handleEditConsole}>✏</button>
       </div> }
       <div className="console-name">{userConsole?.name}</div>
+      <img className="console-picture" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} />
       <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
       <div className="console-maker">By {userConsole?.maker}</div>
       <div className="console-owned">{userConsole?.is_owned ? "Owned" : "Wanted"}</div>

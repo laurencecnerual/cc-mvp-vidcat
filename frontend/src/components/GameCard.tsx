@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
 const apiUrl: string = import.meta.env.VITE_API_URL;
@@ -10,6 +11,11 @@ type GameCardProps = {
 export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   const {gamer} = useGamer();
   const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
 
   async function handleDeleteGame() {
     if (!window.confirm("Are you sure you would like to delete this game?")) {
@@ -45,7 +51,11 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
         <button type="button" className="delete" onClick={handleDeleteGame}>X</button>
       </div> }
       <div className="game-name">{userGame?.name}</div>
-      <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
+      <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} onLoad={handleImageLoad}
+        style={{
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 1s ease-in-out',
+        }}/>
       <div className="game-released">Released on {userGame?.released.toString().split("T")[0]}</div>
       <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>
       <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Not Yet Finished"}</div>

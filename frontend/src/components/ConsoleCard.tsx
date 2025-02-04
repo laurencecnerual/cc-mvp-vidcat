@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
 const apiUrl: string = import.meta.env.VITE_API_URL;
@@ -10,6 +11,11 @@ type ConsoleCardProps = {
 export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps) {
   const {gamer} = useGamer();
   const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
 
   async function handleDeleteConsole() {
     if (!window.confirm("Are you sure you would like to delete this console?\nNote that doing this will also delete any associated games.")) {
@@ -45,7 +51,11 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
         <button type="button" className="delete" onClick={handleDeleteConsole}>X</button>
       </div> }
       <div className="console-name">{userConsole?.name}</div>
-      <img className="console-picture" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} />
+      <img className="console-picture" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} onLoad={handleImageLoad}
+        style={{
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 1s ease-in-out',
+        }}/>
       <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
       <div className="console-maker">By {userConsole?.maker}</div>
       <div className="console-release-year">Released in {userConsole?.release_year}</div>

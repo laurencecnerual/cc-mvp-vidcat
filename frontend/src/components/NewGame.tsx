@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate, Link } from "react-router-dom";
+import Loading from "./Loading.tsx";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -73,7 +74,7 @@ export default function NewGame() {
   }
 
   if (isLoading) {
-    return <h2>Loading...</h2>
+    return <Loading />
   }
 
   return (

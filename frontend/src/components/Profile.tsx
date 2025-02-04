@@ -3,6 +3,7 @@ const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
 import GameCard from "./GameCard.tsx";
 import ConsoleCard from "./ConsoleCard.tsx";
+import Loading from "./Loading.tsx";
 
 export default function Profile() {
   const {gamer} = useGamer();
@@ -59,7 +60,7 @@ export default function Profile() {
   }
 
   if (loading) {
-    <h2>Loading...</h2>
+    return <Loading />
   }
 
   return (

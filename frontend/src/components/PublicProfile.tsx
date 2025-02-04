@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import ConsoleCard from './ConsoleCard';
 import GameCard from './GameCard';
+import Loading from "./Loading.tsx";
+
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export default function PublicProfile() {
@@ -31,7 +33,7 @@ export default function PublicProfile() {
   }
 
   if (loading) {
-    return <h1>Loading...</h1>
+    return <Loading />
   }
 
   return (

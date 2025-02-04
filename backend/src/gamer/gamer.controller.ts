@@ -54,7 +54,6 @@ export const signup = async (req: Request, res: Response) => {
 export const updateGamer = async (req: Request, res: Response) => {
   const gamerID = parseInt(req.params.id);
   const { firstname, lastname, profilePicture, newUsername, password, newPassword } = req.body;
-  console.log(newPassword)
 
   const gamer = await getGamerByID(gamerID);
   let payload: Partial<Gamer> = {};

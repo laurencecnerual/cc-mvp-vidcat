@@ -79,7 +79,7 @@ export default function NewGame() {
   return (
     <>
       <Link to="/" className="back-to-profile">Back to Profile</Link>
-      <form className="new-game" action="" onSubmit={(event) => {
+      { userConsoleList.length > 0 ? <form className="new-game" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 
         handleAddGame
@@ -131,6 +131,7 @@ export default function NewGame() {
         </div>
         <button className="add-game" type="submit">Add Game</button>
       </form>
+      : <Link to="/add-console" className="no-consoles">Please add at least one console first</Link> }
     </>
   );
 }

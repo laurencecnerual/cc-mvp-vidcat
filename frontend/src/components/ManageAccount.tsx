@@ -4,7 +4,7 @@ import { useGamer } from "../GamerContext.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export default function ManageAccount() {
-  const {gamer} = useGamer();
+  const {gamer, setGamer} = useGamer();
   const navigate = useNavigate();
 
   async function handleAccountUpdate(firstname: string, lastname: string, profilePicture: string) {
@@ -18,6 +18,8 @@ export default function ManageAccount() {
     });
 
     if (response.status === 200) {
+      const updatedGamer = await response.json();
+      setGamer(updatedGamer);
       alert("Account info updated successfully");
       navigate("/");
     } else {
@@ -36,6 +38,8 @@ export default function ManageAccount() {
     });
 
     if (response.status === 200) {
+      const updatedGamer = await response.json();
+      setGamer(updatedGamer);
       alert("Username changed successfully");
       navigate("/");
     } else if (response.status === 401) {
@@ -63,6 +67,8 @@ export default function ManageAccount() {
     });
 
     if (response.status === 200) {
+      const updatedGamer = await response.json();
+      setGamer(updatedGamer);
       alert("Password changed successfully");
       navigate("/");
     } else if (response.status === 401) {

@@ -15,6 +15,11 @@ export const getSingleGame = async (req: Request, res: Response) => {
 
   try {
     const targetGame = await getGameByID(gameID);
+
+    if (!targetGame[0]) {
+      res.status(404).send("Game Not Found");
+    }
+
     res.status(200).json(targetGame);
   } catch (err) {
     res.status(500).send(err);
@@ -37,6 +42,11 @@ export const getSingleUserGame = async (req: Request, res: Response) => {
 
   try {
     const targetUserGame = await getUserGameByID(userGameID);
+
+    if (!targetUserGame[0]) {
+      res.status(404).send("UserGame Not Found");
+    }
+
     res.status(200).json(targetUserGame);
   } catch (err) {
     res.status(500).send(err);

@@ -16,6 +16,11 @@ export const getSingleConsole = async (req: Request, res: Response) => {
 
   try {
     const targetConsole = await getConsoleByID(consoleID);
+
+    if (!targetConsole[0]) {
+      res.status(404).send("Console Not Found");
+    }
+
     res.status(200).json(targetConsole[0]);
   } catch (err) {
     res.status(500).send(err);
@@ -38,6 +43,11 @@ export const getSingleUserConsole = async (req: Request, res: Response) => {
 
   try {
     const targetUserConsole = await getUserConsoleByID(userConsoleID);
+
+    if (!targetUserConsole[0]) {
+      res.status(404).send("UserConsole Not Found");
+    }
+
     res.status(200).json(targetUserConsole[0]);
   } catch (err) {
     res.status(500).send(err);

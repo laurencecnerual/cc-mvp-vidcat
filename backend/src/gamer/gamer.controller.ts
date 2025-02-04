@@ -1,4 +1,4 @@
-import { getGamerByUsername, addUser, updateLastLogin } from './gamer.model';
+import { getGamerByUsername, addUser, updateLastLogin, updateGamerByID, getGamerByID } from './gamer.model';
 import { getAllUserConsoles } from "../userconsole/userconsole.model";
 import { getAllUserGames } from "../usergame/usergame.model";
 import { Request, Response } from "express";
@@ -22,7 +22,6 @@ async function verifyPassword(plainTextPassword: string, hashedPasswordFromDB: s
     console.error("Verification error:", err);
   }
 }
-
 
 export const signup = async (req: Request, res: Response) => {
   const { username, password, firstname, lastname } = req.body;
@@ -51,6 +50,50 @@ export const signup = async (req: Request, res: Response) => {
 
   res.status(201).json(userCreated[0]);
 };
+
+export const updateGamer = async (req: Request, res: Response) => {
+  const gamerID = parseInt(req.params.id);
+  const { firstname, lastname, profilePicture, newUsername, password, newPassword } = req.body;
+  console.log(newPassword)
+
+  const gamer = await getGamerByID(gamerID);
+  let payload: Partial<Gamer> = {};
+
+  if (password) {
+    const passwordsMatch = await verifyPassword(password, gamer.salted_hash);
+
+    if (!passwordsMatch) {
+      return res.status(401).send("Incorrect Password");
+    }
+
+    if (newPassword) { // Handle password change
+      payload.salted_hash = await hashPassword(newPassword);
+    }
+    
+    if (newUsername) { // Handle username change
+
+      const newUserNameAlreadyInUse = await getGamerByUsername(newUsername);
+
+      if (newUserNameAlreadyInUse) {
+        return res.status(400).send("User Already Exists");
+      }
+
+      payload.username = newUsername;
+    } 
+  } 
+  
+  // Handle account info update
+  if (firstname) payload.firstname = firstname;
+  if (lastname) payload.lastname = lastname;
+  if (profilePicture) payload.profile_picture = profilePicture;
+
+  try {
+    const modifiedGamer = await updateGamerByID(gamerID, payload);
+    res.status(200).send(modifiedGamer);
+  } catch (err) {
+    res.status(500).send("Unable to Update User Account");
+  }
+}
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;

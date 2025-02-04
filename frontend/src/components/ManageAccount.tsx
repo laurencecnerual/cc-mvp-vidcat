@@ -1,19 +1,75 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGamer } from "../GamerContext.tsx";
+
+const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export default function ManageAccount() {
   const {gamer} = useGamer();
+  const navigate = useNavigate();
 
-  function handleAccountUpdate(firstname: string, lastname: string, profilePicture: string) {
-    console.log("handleAccountUpdate", firstname, lastname, profilePicture)
+  async function handleAccountUpdate(firstname: string, lastname: string, profilePicture: string) {
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({firstname: firstname, lastname: lastname, profilePicture: profilePicture})
+    });
+
+    if (response.status === 200) {
+      alert("Account info updated successfully");
+      navigate("/");
+    } else {
+      alert("There was an error updating your account info");
+    }
   }
 
-  function handleChangeUsername(newUsername: string, password: string) {
-    console.log("handleChangeUsername", newUsername, password)
+  async function handleChangeUsername(newUsername: string, password: string) {
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({newUsername: newUsername, password: password})
+    });
+
+    if (response.status === 200) {
+      alert("Username changed successfully");
+      navigate("/");
+    } else if (response.status === 401) {
+      alert("Incorrect password");
+    } else if (response.status === 400) {
+      alert("That username has already been taken");
+    } else {
+      alert("There was an error changing your username");
+    }
   }
 
-  function handleChangePassword(oldPassword: string, newPassword: string, confirmNewPassword: string) {
-    console.log("handleChangePassword", oldPassword, newPassword, confirmNewPassword)
+  async function handleChangePassword(oldPassword: string, newPassword: string, confirmNewPassword: string) {
+    if (newPassword !== confirmNewPassword) {
+      alert("Passwords must match");
+      return;
+    }
+
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({password: oldPassword, newPassword: newPassword})
+    });
+
+    if (response.status === 200) {
+      alert("Password changed successfully");
+      navigate("/");
+    } else if (response.status === 401) {
+      alert("Incorrect password");
+    } else {
+      alert("There was an error changing your password");
+    }
   }
 
   return (

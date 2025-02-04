@@ -81,6 +81,8 @@ export default function ManageAccount() {
   return (
     <>
       <Link to="/" className="back-to-profile">Back to Profile</Link>
+      <h1>{gamer?.username}'s Account</h1>
+      { gamer?.profile_picture && <img src={gamer?.profile_picture} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} /> }
       <form className="edit-account-info manage-account" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let accountInfoForm = document.querySelector("form.edit-account-info"); 

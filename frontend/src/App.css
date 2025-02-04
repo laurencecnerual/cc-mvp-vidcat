@@ -106,8 +106,21 @@ div.buttons {
 }
 
 img.game-picture, img.console-picture {
-  width: 300px;
+  max-width: 300px;
+  max-height: 400px;
+  width: auto;
   height: auto;
+}
+
+img.edit-view {
+  max-width: 90vw;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+}
+
+img.edit-view-console {
+  border: 1px solid black;
 }
 
 div.favorite {

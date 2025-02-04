@@ -29,6 +29,7 @@ export default function EditGame() {
 
   return (
     <>
+      <Link to="/" className="back-to-profile">Back to Profile</Link>
       <form className="edit-game" action="" onSubmit={(event) => {
       event.preventDefault(); 
       let form = document.querySelector("form"); 
@@ -41,8 +42,8 @@ export default function EditGame() {
         (form?.querySelector("input.personal-review") as HTMLInputElement)?.value
       )
     }}>
-        <Link to="/" className="back-to-profile">Back to Profile</Link>
         <h2>{"Edit " + userGame.name}</h2>
+        <img className="edit-view" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
         <div id="is-owned" className="label-input-pair">
           <label htmlFor="is-owned">I own this game</label>
           { userGame.is_owned ? <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/> : <input type="checkbox" className="is-owned" id="is-owned" name="is-owned"/> } 

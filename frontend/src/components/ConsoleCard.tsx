@@ -41,13 +41,14 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   return (
     <div className={ gamer ? "own-card card" : "card" }>
       { gamer && <div className="buttons">
-        <button type="button" className="delete" onClick={handleDeleteConsole}>X</button>
         <button type="button" className="edit" onClick={handleEditConsole}>✏</button>
+        <button type="button" className="delete" onClick={handleDeleteConsole}>X</button>
       </div> }
       <div className="console-name">{userConsole?.name}</div>
       <img className="console-picture" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} />
       <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
       <div className="console-maker">By {userConsole?.maker}</div>
+      <div className="console-release-year">Released in {userConsole?.release_year}</div>
       <div className="console-owned">{userConsole?.is_owned ? "Owned" : "Wanted"}</div>
       <div className="console-favorite favorite">{userConsole?.is_favorite ? "One of My Favorites" : ""}</div>
     </div>

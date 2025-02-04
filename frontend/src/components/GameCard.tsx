@@ -41,11 +41,12 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   return (
     <div className={ gamer ? "own-card card" : "card" }>
       { gamer && <div className="buttons">
-        <button type="button" className="delete" onClick={handleDeleteGame}>X</button>
         <button type="button" className="edit" onClick={handleEditGame}>✏</button>
+        <button type="button" className="delete" onClick={handleDeleteGame}>X</button>
       </div> }
       <div className="game-name">{userGame?.name}</div>
       <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
+      <div className="game-released">Released on {userGame?.released.toString().split("T")[0]}</div>
       <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>
       <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Not Yet Finished"}</div>
       <div className="game-favorite favorite">{userGame?.is_favorite ? "One of My Favorites" : ""}</div>

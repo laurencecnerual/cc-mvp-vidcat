@@ -89,6 +89,11 @@ export const updateGamer = async (req: Request, res: Response) => {
 
   try {
     const modifiedGamers = await updateGamerByID(gamerID, payload);
+
+    if (!modifiedGamers[0]) {
+      return res.status(400).send("The User Does Not Exist");
+    }
+
     delete modifiedGamers[0].salted_hash;
     res.status(200).send(modifiedGamers[0]);
   } catch (err) {

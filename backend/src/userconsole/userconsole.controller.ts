@@ -83,8 +83,13 @@ export const updateUserConsole = async (req: Request, res: Response) => {
   };
 
   try {
-    const modifiedUserConsole = await updateUserConsoleByID(userConsoleID, payload);
-    res.status(200).send(modifiedUserConsole);
+    const modifiedUserConsoles = await updateUserConsoleByID(userConsoleID, payload);
+
+    if (!modifiedUserConsoles[0]) {
+      return res.status(400).send("The UserConsole Does Not Exist");
+    }
+
+    res.status(200).send(modifiedUserConsoles[0]);
   } catch (err) {
     res.status(500).send("Unable to Update UserConsole");
   }

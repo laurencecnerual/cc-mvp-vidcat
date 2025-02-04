@@ -89,8 +89,13 @@ export const updateUserGame = async (req: Request, res: Response) => {
   };
 
   try {
-    const modifiedUserGame = await updateUserGameByID(userGameID, payload);
-    res.status(200).send(modifiedUserGame);
+    const modifiedUserGames = await updateUserGameByID(userGameID, payload);
+
+    if (!modifiedUserGames[0]) {
+      return res.status(400).send("The UserGame Does Not Exist");
+    }
+
+    res.status(200).send(modifiedUserGames[0]);
   } catch (err) {
     res.status(500).send("Unable to Update UserGame");
   }

@@ -88,8 +88,9 @@ export const updateGamer = async (req: Request, res: Response) => {
   if (profilePicture) payload.profile_picture = profilePicture;
 
   try {
-    const modifiedGamer = await updateGamerByID(gamerID, payload);
-    res.status(200).send(modifiedGamer);
+    const modifiedGamers = await updateGamerByID(gamerID, payload);
+    delete modifiedGamers[0].salted_hash;
+    res.status(200).send(modifiedGamers[0]);
   } catch (err) {
     res.status(500).send("Unable to Update User Account");
   }

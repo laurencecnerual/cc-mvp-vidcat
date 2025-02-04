@@ -44,7 +44,7 @@ export default function ManageAccount() {
       navigate("/");
     } else if (response.status === 401) {
       alert("Incorrect password");
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       alert("That username has already been taken");
     } else {
       alert("There was an error changing your username");

@@ -55,7 +55,7 @@ export const createUserConsole = async (req: Request, res: Response) => {
   const userConsoles = await getAllUserConsoles(userID);
 
   if (userConsoles.find((uc) => uc.console_id === consoleID)) {
-    return res.status(400).send("UserConsole Already Exists");
+    return res.status(403).send("UserConsole Already Exists");
   }
 
   const newUserConsole = {
@@ -86,7 +86,7 @@ export const updateUserConsole = async (req: Request, res: Response) => {
     const modifiedUserConsoles = await updateUserConsoleByID(userConsoleID, payload);
 
     if (!modifiedUserConsoles[0]) {
-      return res.status(400).send("The UserConsole Does Not Exist");
+      return res.status(404).send("The UserConsole Does Not Exist");
     }
 
     res.status(200).send(modifiedUserConsoles[0]);

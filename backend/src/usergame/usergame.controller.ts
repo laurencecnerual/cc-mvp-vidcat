@@ -54,7 +54,7 @@ export const createUserGame = async (req: Request, res: Response) => {
   const userGames = await getAllUserGames(userID);
 
   if (userGames.find((ug) => ug.game_id === gameID)) {
-    return res.status(400).send("UserGame Already Exists");
+    return res.status(403).send("UserGame Already Exists");
   }
 
   const newUserGame = {
@@ -92,7 +92,7 @@ export const updateUserGame = async (req: Request, res: Response) => {
     const modifiedUserGames = await updateUserGameByID(userGameID, payload);
 
     if (!modifiedUserGames[0]) {
-      return res.status(400).send("The UserGame Does Not Exist");
+      return res.status(404).send("The UserGame Does Not Exist");
     }
 
     res.status(200).send(modifiedUserGames[0]);

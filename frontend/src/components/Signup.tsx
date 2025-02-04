@@ -23,7 +23,7 @@ export default function Signup() {
     if (response.status === 201) {
       alert("Account created successfully. Please log in");
       navigate("/login");
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       alert("That username has been taken")
     } else {
       alert("There was an error signing up");

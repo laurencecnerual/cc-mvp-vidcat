@@ -33,7 +33,7 @@ export const signup = async (req: Request, res: Response) => {
   const userFound = await getGamerByUsername(username);
 
   if (userFound) {
-    return res.status(400).send("User Already Exists");
+    return res.status(403).send("User Already Exists");
   }
 
   const saltedHash = await hashPassword(password);
@@ -75,7 +75,7 @@ export const updateGamer = async (req: Request, res: Response) => {
       const newUserNameAlreadyInUse = await getGamerByUsername(newUsername);
 
       if (newUserNameAlreadyInUse) {
-        return res.status(400).send("User Already Exists");
+        return res.status(403).send("User Already Exists");
       }
 
       payload.username = newUsername;
@@ -91,7 +91,7 @@ export const updateGamer = async (req: Request, res: Response) => {
     const modifiedGamers = await updateGamerByID(gamerID, payload);
 
     if (!modifiedGamers[0]) {
-      return res.status(400).send("The User Does Not Exist");
+      return res.status(404).send("The User Does Not Exist");
     }
 
     delete modifiedGamers[0].salted_hash;

@@ -129,3 +129,7 @@ a.no-consoles {
   align-items: center;
   justify-content: center;
 }
+
+.nothing-registered {
+  text-align: center;
+}

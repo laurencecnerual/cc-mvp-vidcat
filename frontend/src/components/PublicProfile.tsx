@@ -44,12 +44,12 @@ export default function PublicProfile() {
           <h2>Consoles</h2>
           { userConsoles.length > 0 ? 
             <div className="games-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 
-            : <p>No Consoles Registered</p> 
+            : <p className="nothing-registered">No Consoles Registered</p> 
           }
           <h2>Games</h2>
           { userGames.length > 0 ? 
             <div className="consoles-list card-list">{ userGames.map(ug => <GameCard key={ug.id} userGame={ug} />) }</div> 
-            : <p>No Games Registered</p> 
+            : <p className="nothing-registered">No Games Registered</p> 
           }
         </div>
         : <Navigate to="/not-found" />

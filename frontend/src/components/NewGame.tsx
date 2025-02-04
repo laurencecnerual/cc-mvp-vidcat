@@ -100,14 +100,14 @@ export default function NewGame() {
       }}>
         <h2>New Game</h2>
         <div id="game-name" className="label-input-pair">
-          <label htmlFor="game-name">Game</label>
+          <label htmlFor="game-name">Game<span className="mandatory">*</span></label>
           <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>
           <datalist id="game-list">
             {gameList.map((game) => <option key={"" + game.rawg_id} id={"" + game.rawg_id} value={game.name}>{game.name}</option>)}
           </datalist>
         </div>
         <div id="console-name" className="label-input-pair">
-          <label htmlFor="console-name">Console</label>
+          <label htmlFor="console-name">Console<span className="mandatory">*</span></label>
           <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
           <datalist id="console-list">
             {userConsoleList.map((userConsole) => <option key={"" + userConsole.id} id={"" + userConsole.id} value={userConsole.name}>{userConsole.name}</option>)}

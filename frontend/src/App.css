@@ -114,6 +114,19 @@ div.own-card:hover {
 
 button {
   cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #B3E5FC;
+  font-weight: bold;
+}
+
+button:hover {
+  filter: brightness(110%);
+}
+
+button:active {
+  filter: brightness(90%);
 }
 
 div.buttons {
@@ -162,6 +175,7 @@ img.public-profile-picture {
 
 div.favorite {
   color: #FF6F61;
+  font-size: 1.2rem;
 }
 
 h1.not-found {

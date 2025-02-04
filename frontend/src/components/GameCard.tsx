@@ -50,7 +50,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
       <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Not Yet Finished"}</div>
       <div className="game-favorite favorite">{userGame?.is_favorite ? "One of My Favorites" : ""}</div>
       <div className="game-official-rating">Official Rating: {userGame?.rating}</div>
-      <div className="game-personal-rating">{userGame?.personal_rating ? "My score: " + userGame?.personal_rating: ""}</div>
+      <div className="game-personal-rating">{userGame?.personal_rating ? "My score: " + userGame?.personal_rating : ""}</div>
       <div className="game-personal-review">{userGame?.personal_review ? "My review: " + userGame?.personal_review : ""}</div>
     </div>
   )

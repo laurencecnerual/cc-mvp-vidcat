@@ -50,7 +50,8 @@ export default function NewGame() {
     setIsloading(false);
   }
 
-  async function handleAddGame(gamerID: number | undefined, gameName: string, consoleName: string, isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number, personalReview: string) {
+  async function handleAddGame(gamerID: number | undefined, gameName: string, consoleName: string, isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number | null, personalReview: string) {
+    if (personalRating === 0) personalRating = null;
     const userConsoleID = userConsoleList.find((userConsole) => userConsole.name === consoleName)?.id;
     const gameID = gameList.find((game) => game.name === gameName)?.rawg_id;
 
@@ -126,7 +127,7 @@ export default function NewGame() {
         </div>
         <div id="personal-rating" className="label-input-pair">
           <label htmlFor="personal-rating">Rating</label>
-          <input type="number" step="0.01" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="0.00 ~ 5.00"/>
+          <input type="number" step="0.00" min="1.00" max="5.00" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="1.00 ~ 5.00"/>
         </div>
         <div id="personal-review" className="label-input-pair">
           <label htmlFor="personal-review">Review</label>

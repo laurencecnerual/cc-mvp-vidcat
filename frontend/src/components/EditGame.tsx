@@ -7,7 +7,9 @@ export default function EditGame() {
   const location = useLocation();
   const userGame = location.state.userGame;
 
-  async function handleUpdateGame(isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number, personalReview: string) {
+  async function handleUpdateGame(isOwned: boolean, isCompleted: boolean, isFavorite: boolean, personalRating: number | null, personalReview: string) {
+    if (personalRating === 0) personalRating = null;
+
     const response = await fetch(apiUrl + `/usergame/${userGame.id}`, {
       method: "PATCH",
       credentials: "include",
@@ -55,7 +57,7 @@ export default function EditGame() {
         </div>
         <div id="personal-rating" className="label-input-pair">
           <label htmlFor="personal-rating">Rating</label>
-          <input type="number" step="0.01" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="0.00 ~ 5.00" defaultValue={userGame.personal_rating}/>
+          <input type="number" step="0.01" min="1.00" max="5.00" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="1.00 ~ 5.00" defaultValue={userGame.personal_rating}/>
         </div>
         <div id="personal-review" className="label-input-pair">
           <label htmlFor="personal-review">Review</label>

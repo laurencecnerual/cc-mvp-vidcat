@@ -11,6 +11,7 @@ export default function PublicProfile() {
   const [loading, setLoading] = useState(true);
   const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
+  const [profilePicture, setProfilePicture] = useState<string>();
   const [validatedUsername, setValidatedUsername] = useState<string>("");
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function PublicProfile() {
       const collectionObject = await response.json();
       setUserConsoles(collectionObject.userconsoles);
       setUserGames(collectionObject.usergames);
+      setProfilePicture(collectionObject.profilePicture)
       setValidatedUsername(username);
     } else if (response.status !== 404) {
       alert("There was an error loading the user's profile");
@@ -40,7 +42,8 @@ export default function PublicProfile() {
     <>
       { validatedUsername ?
         <div className="public-profile">
-          <h1>{`${username}'s Public Profile`}</h1>
+          <h1>{`${validatedUsername}'s Public Profile`}</h1>
+          { profilePicture && <img src={profilePicture} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} /> }
           <h2>Consoles</h2>
           { userConsoles.length > 0 ? 
             <div className="games-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 

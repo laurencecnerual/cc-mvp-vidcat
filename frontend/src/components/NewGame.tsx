@@ -115,15 +115,15 @@ export default function NewGame() {
           </datalist>
         </div>
         <div id="is-owned" className="label-input-pair">
-          <label htmlFor="is-owned">I own this game</label>
+          <label htmlFor="is-owned">I own it</label>
           <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
         </div>
         <div id="is-completed" className="label-input-pair">
-          <label htmlFor="is-completed">I have beaten this game</label>
+          <label htmlFor="is-completed">I beat it</label>
           <input type="checkbox" className="is-completed" id="is-completed" name="is-completed"/>
         </div>
         <div id="is-favorite" className="label-input-pair">
-          <label htmlFor="is-favorite">This game is one of my favorites</label>
+          <label htmlFor="is-favorite">It's a favorite of mine</label>
           <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
         </div>
         <div id="personal-rating" className="label-input-pair">
@@ -132,7 +132,7 @@ export default function NewGame() {
         </div>
         <div id="personal-review" className="label-input-pair">
           <label htmlFor="personal-review">Review</label>
-          <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
+          <textarea className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
         </div>
         <button className="add-game" type="submit">Add Game</button>
       </form>

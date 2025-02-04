@@ -46,15 +46,15 @@ export default function EditGame() {
         <h2>{"Edit " + userGame.name}</h2>
         <img className="edit-view" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} />
         <div id="is-owned" className="label-input-pair">
-          <label htmlFor="is-owned">I own this game</label>
+          <label htmlFor="is-owned">I own it</label>
           { userGame.is_owned ? <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/> : <input type="checkbox" className="is-owned" id="is-owned" name="is-owned"/> } 
         </div>
         <div id="is-completed" className="label-input-pair">
-          <label htmlFor="is-completed">I have beaten this game</label>
+          <label htmlFor="is-completed">I beat it</label>
           { userGame.is_completed ? <input type="checkbox" className="is-completed" id="is-completed" name="is-completed" defaultChecked/> : <input type="checkbox" className="is-completed" id="is-completed" name="is-completed"/> }
         </div>
         <div id="is-favorite" className="label-input-pair">
-          <label htmlFor="is-favorite">This game is one of my favorites</label>
+          <label htmlFor="is-favorite">It's a favorite of mine</label>
           { userGame.is_favorite ? <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite" defaultChecked/> : <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite" /> }
         </div>
         <div id="personal-rating" className="label-input-pair">
@@ -63,7 +63,7 @@ export default function EditGame() {
         </div>
         <div id="personal-review" className="label-input-pair">
           <label htmlFor="personal-review">Review</label>
-          <input type="text" className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here" defaultValue={userGame.personal_review}/>
+          <textarea className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here" defaultValue={userGame.personal_review}/>
         </div>
         <button className="login" type="submit">Update Game</button>
       </form>

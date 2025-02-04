@@ -74,11 +74,11 @@ export default function NewConsole() {
           </datalist>
         </div>
         <div id="is-owned" className="label-input-pair">
-          <label htmlFor="is-owned">I own this console</label>
+          <label htmlFor="is-owned">I own it</label>
           <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
         </div>
         <div id="is-favorite" className="label-input-pair">
-          <label htmlFor="is-favorite">This console is one of my favorites</label>
+          <label htmlFor="is-favorite">It's a favorite of mine</label>
           <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
         </div>
         <button className="add-console" type="submit">Add Console</button>

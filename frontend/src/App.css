@@ -70,7 +70,20 @@ a.back-to-profile {
 
 div.label-input-pair {
   display: flex;
-  gap: 6px;
+  max-width: 90vw;
+  justify-content: center;
+}
+
+div.label-input-pair label {
+  width: 300px;
+}
+
+div.label-input-pair input, div.label-input-pair textarea {
+  width: 400px;
+}
+
+textarea {
+  height: 50px;
 }
 
 div.card-list {
@@ -164,4 +177,11 @@ a.no-consoles {
 
 .nothing-registered {
   text-align: center;
+}
+
+h1.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

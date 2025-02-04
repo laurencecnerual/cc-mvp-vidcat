@@ -4,13 +4,13 @@ export const showToast = (type: string, message: string) => {
   const toastOptions = {
     position: "top-center",
     autoClose: 3000,
-    closeButton: true,
-    pauseOnHover: true,
+    closeButton: false,
+    pauseOnHover: false,
     hideProgressBar: false,
-    closeOnClick: false,
+    closeOnClick: true,
     style: {
       top: "60px",
-      width: "300px",
+      width: "350px",
       maxWidth: "90vw"
     }
   } as ToastOptions<unknown>;

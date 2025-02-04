@@ -40,11 +40,11 @@ export default function EditConsole() {
         <h2>{"Edit " + userConsole.name}</h2>
         <img className="edit-view edit-view-console" src={userConsole.picture} alt={"Photo of the console " + userConsole.name} />
         <div id="is-owned" className="label-input-pair">
-          <label htmlFor="is-owned">I own this console</label>
+          <label htmlFor="is-owned">I own it</label>
           { userConsole.is_owned ? <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/> : <input type="checkbox" className="is-owned" id="is-owned" name="is-owned"/> }
         </div>
         <div id="is-favorite" className="label-input-pair">
-          <label htmlFor="is-favorite">This console is one of my favorites</label>
+          <label htmlFor="is-favorite">It's a favorite of mine</label>
           { userConsole.is_favorite ? <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite" defaultChecked/> : <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/> }
         </div>
         <button className="update-console" type="submit">Update Console</button>

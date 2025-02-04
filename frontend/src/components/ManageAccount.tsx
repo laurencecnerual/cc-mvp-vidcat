@@ -146,7 +146,7 @@ export default function ManageAccount() {
             <input type="password" className="new-password" id="new-password" name="new-password" placeholder="m4k3175tr0ng2!!" required/>
         </div>
         <div id="confirm-password" className="label-input-pair">
-            <label htmlFor="confirm-password">Confirm New Password</label>
+            <label htmlFor="confirm-password">Confirm Password</label>
             <input type="password" className="confirm-password" id="confirm-password" name="confirm-password" placeholder="m4k3175tr0ng2!!" required/>
         </div>
         <button className="update-password" type="submit">Update Password</button>

@@ -42,7 +42,7 @@ export default function NewConsole() {
       alert("Console added successfully");
       navigate("/");
     } else if (response.status === 400) {
-      alert("Invalid console or game selection");
+      alert("Invalid console selection");
     } else if (response.status === 403) {
       alert("You've already added that console");
     } else {

@@ -3,6 +3,7 @@ import { useLocation, Navigate } from 'react-router-dom';
 import ConsoleCard from './ConsoleCard';
 import GameCard from './GameCard';
 import Loading from "./Loading.tsx";
+import { showToast } from '../ToastHelper.ts';
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -28,7 +29,7 @@ export default function PublicProfile() {
       setProfilePicture(collectionObject.profilePicture)
       setValidatedUsername(username);
     } else if (response.status !== 404) {
-      alert("There was an error loading the user's profile");
+      showToast("error", "There was an error loading the user's profile");
     }
 
     setLoading(false);

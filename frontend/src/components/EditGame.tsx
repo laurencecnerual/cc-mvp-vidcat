@@ -1,4 +1,5 @@
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { showToast } from "../ToastHelper";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -20,10 +21,10 @@ export default function EditGame() {
     });
 
     if (response.status === 200) {
-      alert("Game updated successfully");
+      showToast("success", "Game updated successfully");
       navigate("/");
     } else {
-      alert("There was an error updating your game");
+      showToast("error", "There was an error updating your game");
     }
   }
 

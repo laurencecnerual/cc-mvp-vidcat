@@ -1,5 +1,6 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { Link, useNavigate } from "react-router-dom";
+import { showToast } from "../ToastHelper";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ export default function Signup() {
   async function handleSignup(username: string, password: string, confirmPassword: string, firstname: string, lastname: string) {
 
     if (password !== confirmPassword) {
-      alert("Passwords must match");
+      showToast("warn", "Passwords must match");
       return;
     }
 
@@ -21,12 +22,12 @@ export default function Signup() {
     });
 
     if (response.status === 201) {
-      alert("Account created successfully. Please log in");
+      showToast("success", "Account created successfully. Please log in");
       navigate("/login");
     } else if (response.status === 403) {
-      alert("That username has been taken")
+      showToast("warn", "That username has been taken");
     } else {
-      alert("There was an error signing up");
+      showToast("error", "There was an error signing up");
     }
   }
 

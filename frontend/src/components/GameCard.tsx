@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
+import { showToast } from "../ToastHelper.ts";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type GameCardProps = {
@@ -19,7 +20,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
 
   async function handleDeleteGame() {
     if (!window.confirm("Are you sure you would like to delete this game?")) {
-      return alert("Deletion aborted.");
+      return showToast("info", "Deletion aborted");
     }
     
     const response = await fetch(apiUrl + `/usergame/${userGame.id}`, {
@@ -31,10 +32,10 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
     });
 
     if (response.status === 200) {
-      alert("Game deleted successfully");
+      showToast("success", "Game deleted successfully");
       setRefresh && setRefresh(true);
     } else {
-      alert("There was an error deleting your game");
+      showToast("error", "There was an error deleting your game");
     }
   }
 

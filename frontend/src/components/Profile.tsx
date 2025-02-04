@@ -4,6 +4,7 @@ import { useGamer } from "../GamerContext.tsx";
 import GameCard from "./GameCard.tsx";
 import ConsoleCard from "./ConsoleCard.tsx";
 import Loading from "./Loading.tsx";
+import { showToast } from "../ToastHelper.ts";
 
 export default function Profile() {
   const {gamer} = useGamer();
@@ -31,7 +32,7 @@ export default function Profile() {
       const userConsoleArray = await response.json();
       setUserConsoles(userConsoleArray);
     } else {
-      alert("There was an error loading the user's consoles");
+      showToast("error", "There was an error loading the user's consoles");
     }
   }
 
@@ -45,7 +46,7 @@ export default function Profile() {
       const userGameArray = await response.json();
       setUserGames(userGameArray);
     } else {
-      alert("There was an error loading the user's games");
+      showToast("error", "There was an error loading the user's games");
     }
 
     setLoading(false);

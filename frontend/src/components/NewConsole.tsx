@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate, Link } from "react-router-dom";
+import { showToast } from "../ToastHelper.ts";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -22,7 +23,7 @@ export default function NewConsole() {
       const consoleArray = await response.json();
       setConsoleList(consoleArray);
     } else {
-      alert("There was an error loading the consoles list");
+      showToast("error", "There was an error loading the consoles list");
     }
   }
 
@@ -39,14 +40,14 @@ export default function NewConsole() {
     });
 
     if (response.status === 201) {
-      alert("Console added successfully");
+      showToast("success", "Console added successfully");
       navigate("/");
     } else if (response.status === 400) {
-      alert("Invalid console selection");
+      showToast("warn", "Invalid console selection");
     } else if (response.status === 403) {
-      alert("You've already added that console");
+      showToast("warn", "You've already added that console");
     } else {
-      alert("There was an error adding your console");
+      showToast("error", "There was an error adding your console");
     }
   }
 

@@ -13,6 +13,8 @@ import Footer from './components/Footer.tsx';
 import PublicProfile from './components/PublicProfile.tsx';
 import { GamerContext } from "./GamerContext.tsx"
 import {Routes, Route, Navigate} from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [gamer, setGamer] = useState<Gamer | null>(null);
@@ -34,6 +36,7 @@ function App() {
           <Route path="not-found" element={<h1 className="not-found">Resource Not Found</h1>} />
         </Routes>
         <Footer />
+        <ToastContainer />
       </div>
     </GamerContext.Provider>
   )

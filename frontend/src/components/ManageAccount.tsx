@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useGamer } from "../GamerContext.tsx";
+import { showToast } from "../ToastHelper.ts";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -20,10 +21,10 @@ export default function ManageAccount() {
     if (response.status === 200) {
       const updatedGamer = await response.json();
       setGamer(updatedGamer);
-      alert("Account info updated successfully");
+      showToast("success", "Account info updated successfully");
       navigate("/");
     } else {
-      alert("There was an error updating your account info");
+      showToast("error", "There was an error updating your account info");
     }
   }
 
@@ -40,20 +41,20 @@ export default function ManageAccount() {
     if (response.status === 200) {
       const updatedGamer = await response.json();
       setGamer(updatedGamer);
-      alert("Username changed successfully");
+      showToast("success", "Username changed successfully");
       navigate("/");
     } else if (response.status === 401) {
-      alert("Incorrect password");
+      showToast("error", "Incorrect password");
     } else if (response.status === 403) {
-      alert("That username has already been taken");
+      showToast("warn", "That username has already been taken");
     } else {
-      alert("There was an error changing your username");
+      showToast("error", "There was an error changing your username");
     }
   }
 
   async function handleChangePassword(oldPassword: string, newPassword: string, confirmNewPassword: string) {
     if (newPassword !== confirmNewPassword) {
-      alert("Passwords must match");
+      showToast("warn", "Passwords must match");
       return;
     }
 
@@ -69,12 +70,12 @@ export default function ManageAccount() {
     if (response.status === 200) {
       const updatedGamer = await response.json();
       setGamer(updatedGamer);
-      alert("Password changed successfully");
+      showToast("success", "Password changed successfully");
       navigate("/");
     } else if (response.status === 401) {
-      alert("Incorrect password");
+      showToast("error", "Incorrect password");
     } else {
-      alert("There was an error changing your password");
+      showToast("error", "There was an error changing your password");
     }
   }
 

@@ -1,6 +1,7 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
 import { Link, useNavigate } from "react-router-dom";
+import { showToast } from "../ToastHelper.ts";
 
 export default function Login() {
   const {setGamer} = useGamer();
@@ -21,9 +22,9 @@ export default function Login() {
       setGamer(loggedInGamer);
       navigate("/");
     } else if (response.status === 401 || response.status === 404) {
-      alert("Incorrect password or username");
+      showToast("error", "Incorrect password or username");
     } else {
-      alert("There was an error logging in");
+      showToast("error", "There was an error logging in");
     }
   }
 

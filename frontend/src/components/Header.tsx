@@ -1,6 +1,7 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate, Link, NavLink } from "react-router-dom";
+import { showToast } from "../ToastHelper.ts";
 
 export default function Header() {
   const {gamer, setGamer} = useGamer();
@@ -19,7 +20,7 @@ export default function Header() {
       setGamer(null);
       navigate("/login");
     } else {
-      alert("There was an error logging out")
+      showToast("error", "There was an error logging out");
     }
   }
 

@@ -1,5 +1,6 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { showToast } from "../ToastHelper";
 
 export default function EditConsole() {
   const navigate = useNavigate();
@@ -17,10 +18,10 @@ export default function EditConsole() {
     });
 
     if (response.status === 200) {
-      alert("Console updated successfully");
+      showToast("success", "Console updated successfully");
       navigate("/");
     } else {
-      alert("There was an error updating your console");
+      showToast("error", "There was an error updating your console");
     }
   }
 

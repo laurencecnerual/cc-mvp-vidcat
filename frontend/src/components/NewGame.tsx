@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate, Link } from "react-router-dom";
 import Loading from "./Loading.tsx";
+import { showToast } from "../ToastHelper.ts";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -31,7 +32,7 @@ export default function NewGame() {
       const gameArray = await response.json();
       setGameList(gameArray);
     } else {
-      alert("There was an error loading the games list");
+      showToast("error", "There was an error loading the games list");
     }
   }
 
@@ -44,7 +45,7 @@ export default function NewGame() {
       const userConsoleArray = await response.json();
       setUserConsoleList(userConsoleArray);
     } else {
-      alert("There was an error loading the user's consoles");
+      showToast("error", "There was an error loading the user's consoles");
     }
 
     setIsloading(false);
@@ -65,14 +66,14 @@ export default function NewGame() {
     });
 
     if (response.status === 201) {
-      alert("Game added successfully");
+      showToast("success", "Game added successfully");
       navigate("/");
     } else if (response.status === 400) {
-      alert("Invalid console or game selection");
+      showToast("warn", "Invalid console or game selection");
     } else if (response.status === 403) {
-      alert("You have already added that game");
+      showToast("warn", "You have already added that game");
     } else {
-      alert("There was an error adding your game");
+      showToast("error", "There was an error adding your game");
     }
   }
 

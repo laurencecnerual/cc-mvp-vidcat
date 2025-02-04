@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
+import { showToast } from "../ToastHelper.ts";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type ConsoleCardProps = {
@@ -19,7 +20,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
 
   async function handleDeleteConsole() {
     if (!window.confirm("Are you sure you would like to delete this console?\nNote that doing this will also delete any associated games.")) {
-      return alert("Deletion aborted.");
+      return showToast("info", "Deletion aborted.");
     }
     
     const response = await fetch(apiUrl + `/userConsole/${userConsole.id}`, {
@@ -31,10 +32,10 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
     });
 
     if (response.status === 200) {
-      alert("Console deleted successfully");
+      showToast("success", "Console deleted successfully");
       setRefresh && setRefresh(true);
     } else {
-      alert("There was an error deleting your console");
+      showToast("error", "There was an error deleting your console");
     }
   }
 

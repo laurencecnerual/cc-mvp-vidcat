@@ -38,7 +38,7 @@ export default function EditConsole() {
         )
       }}>
         <h2>{"Edit " + userConsole.name}</h2>
-        <img className="edit-view edit-view-console" src={userConsole.picture} alt={"Photo of the console " + userConsole.name} />
+        <img className="edit-view console-picture" src={userConsole.picture} alt={"Photo of the console " + userConsole.name} />
         <div id="is-owned" className="label-input-pair">
           <label htmlFor="is-owned">I own it</label>
           { userConsole.is_owned ? <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/> : <input type="checkbox" className="is-owned" id="is-owned" name="is-owned"/> }

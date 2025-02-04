@@ -20,7 +20,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
 
   async function handleDeleteConsole() {
     if (!window.confirm("Are you sure you would like to delete this console?\nNote that doing this will also delete any associated games.")) {
-      return showToast("info", "Deletion aborted.");
+      return showToast("info", "Deletion aborted");
     }
     
     const response = await fetch(apiUrl + `/userConsole/${userConsole.id}`, {
@@ -61,7 +61,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
       <div className="console-maker">By {userConsole?.maker}</div>
       <div className="console-release-year">Released in {userConsole?.release_year}</div>
       <div className="console-owned">{userConsole?.is_owned ? "Owned" : "Wanted"}</div>
-      <div className="console-favorite favorite">{userConsole?.is_favorite ? "One of My Favorites" : ""}</div>
+      <div className="console-favorite favorite">{userConsole?.is_favorite ? "❤" : ""}</div>
     </div>
   )
 }

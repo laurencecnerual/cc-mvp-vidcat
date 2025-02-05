@@ -125,12 +125,16 @@ textarea {
   height: 80px;
 }
 
+div.game-personal-review {
+  text-align: center;
+}
+
 div.card-list {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 24px;
-  flex-wrap: wrap;
+  grid-auto-rows: 555px;
+  padding: 24px;
 }
 
 div.card {
@@ -139,13 +143,11 @@ div.card {
   align-items: center;
   gap: 8px;
   border: 5px solid rgba(255, 111, 97, 0);
-  padding: 8px;
+  padding: 12px;
   border-radius: 10px;
   background-color: rgb(129, 199, 132);
   color: #F5F5DC;
   box-shadow: 6px 6px rgba(0, 51, 102, 0.6);
-  width: 300px;
-  height: 550px;
   overflow-y: auto;
 }
 
@@ -170,6 +172,10 @@ button.delete {
   font-size: 1.2rem;
 }
 
+button.delete, button.edit {
+  color: #003366
+}
+
 button.form {
   margin-top: 8px;
 }
@@ -190,7 +196,7 @@ div.buttons {
 
 .game-picture, .console-picture {
   max-width: 300px;
-  max-height: 350px;
+  max-height: 250px;
   width: auto;
   height: auto;
 }
@@ -226,9 +232,19 @@ img.account-profile-picture, img.public-profile-picture {
   margin-right: auto;
 }
 
-div.favorite {
-  color: #FF6F61;
-  font-size: 1.2rem;
+div.emoji-section {
+  padding-top: 12px;
+  display: flex;
+  width: 50%;
+  justify-content: space-evenly;
+  justify-self: bottom;
+}
+
+div.emoji {
+  font-size: 1.6rem;
+  background-color: rgba(0,188,212,0.8);
+  border-radius: 20px;
+  padding: 2px;
 }
 
 h1.not-found {
@@ -277,5 +293,9 @@ h1.loading {
   
   div.label-input-pair input, div.label-input-pair textarea {
     width: 300px;
+  }
+
+  div.card-list {
+    padding: 20px;
   }
 }

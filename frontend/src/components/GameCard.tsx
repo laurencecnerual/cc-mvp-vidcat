@@ -58,12 +58,14 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
           transition: 'opacity 1s ease-in-out',
         }}/>
       <div className="game-released">Released on {userGame?.released.toString().split("T")[0]}</div>
-      <div className="game-owned">{userGame?.is_owned ? "Owned" : "Wanted"}</div>
-      <div className="game-handheld">{userGame?.is_completed ? "Beaten" : "Not Yet Finished"}</div>
-      <div className="game-official-rating">Official Rating: {userGame?.rating}</div>
-      <div className="game-personal-rating">{userGame?.personal_rating ? "My score: " + userGame?.personal_rating : ""}</div>
-      <div className="game-personal-review">{userGame?.personal_review ? "My review: " + userGame?.personal_review : ""}</div>
-      <div className="game-favorite favorite">{userGame?.is_favorite ? "❤" : ""}</div>
+      <div className="game-official-rating">{userGame?.rating  + " stars (officially)"}</div>
+      { userGame?.personal_rating && <div className="game-personal-rating">{userGame?.personal_rating + " stars (from me)"}</div> }
+      { userGame?.personal_review && <div className="game-personal-review">{"Thoughts: " + userGame?.personal_review}</div> }
+      <div className="emoji-section">
+        <div className="game-owned emoji">{userGame?.is_owned ? "💸" : "🙏"}</div>
+        <div className="game-completed emoji">{userGame?.is_completed ? "💯" : "⏳"}</div>
+        { userGame?.is_favorite && <div className="game-favorite favorite emoji">❤️</div> }
+      </div>
     </div>
   )
 }

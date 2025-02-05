@@ -41,11 +41,11 @@ export default function Login() {
         <h2>Existing Account</h2>
         <div id="username" className="label-input-pair">
           <label htmlFor="username">Username</label>
-          <input type="text" className="username" id="username" name="username" placeholder="username" required/>
+          <input type="text" className="username" id="username" name="username" required/>
         </div>
         <div id="password" className="label-input-pair">
           <label htmlFor="password">Password</label>
-          <input type="password" className="password" id="password" name="password" placeholder="password" required/>
+          <input type="password" className="password" id="password" name="password" required/>
        </div>
         <button className="login form" type="submit">Log In</button>
         <Link to="/signup" className="intro-nav">Don't have an account yet?</Link>

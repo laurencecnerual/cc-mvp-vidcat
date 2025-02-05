@@ -120,11 +120,11 @@ export const login = async (req: Request, res: Response) => {
     return res.status(401).send("Incorrect Password");
   }
 
-  req.session.username = user.username;
+  req.session.gamer_id = user.id;
   const lastLoginUpdatedUsers = await updateLastLogin(user.id, new Date());
   delete lastLoginUpdatedUsers[0].salted_hash;
 
-  if (!lastLoginUpdatedUsers) {
+  if (!lastLoginUpdatedUsers[0]) {
     return res.status(500).send("Could Not Log In");
   }
 

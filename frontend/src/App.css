@@ -141,7 +141,7 @@ div.card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
   border: 5px solid rgba(255, 111, 97, 0);
   padding: 12px;
   border-radius: 10px;
@@ -149,6 +149,21 @@ div.card {
   color: #F5F5DC;
   box-shadow: 6px 6px rgba(0, 51, 102, 0.6);
   overflow-y: auto;
+  height: 95%
+}
+
+div.card-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 div.own-card:hover {
@@ -156,7 +171,7 @@ div.own-card:hover {
 }
 
 div.console-name, div.game-name {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 button {
@@ -237,7 +252,6 @@ div.emoji-section {
   display: flex;
   width: 50%;
   justify-content: space-evenly;
-  justify-self: bottom;
 }
 
 div.emoji {

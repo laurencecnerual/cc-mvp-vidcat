@@ -47,20 +47,24 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
 
   return (
     <div className={ gamer ? "own-card card" : "card" }>
-      { gamer && <div className="buttons">
-        <button type="button" className="edit" onClick={handleEditGame}>✎</button>
-        <button type="button" className="delete" onClick={handleDeleteGame}>×</button>
-      </div> }
-      <div className="game-name">{userGame?.name}</div>
+      <div className="card-header">
+        { gamer && <div className="buttons">
+          <button type="button" className="edit" onClick={handleEditGame}>✎</button>
+          <button type="button" className="delete" onClick={handleDeleteGame}>×</button>
+        </div> }
+        <div className="game-name">{userGame?.name}</div>
+      </div>
       <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} onLoad={handleImageLoad}
-        style={{
-          opacity: isLoaded ? 1 : 0,
-          transition: 'opacity 1s ease-in-out',
-        }}/>
-      <div className="game-released">Released on {userGame?.released.toString().split("T")[0]}</div>
-      <div className="game-official-rating">{userGame?.rating  + " stars (officially)"}</div>
-      { userGame?.personal_rating && <div className="game-personal-rating">{userGame?.personal_rating + " stars (from me)"}</div> }
-      { userGame?.personal_review && <div className="game-personal-review">{"Thoughts: " + userGame?.personal_review}</div> }
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
+          }}/>
+      <div className="card-content">
+        <div className="game-released">Released on {userGame?.released.toString().split("T")[0]}</div>
+        <div className="game-official-rating">{userGame?.rating  + " stars (officially)"}</div>
+        { userGame?.personal_rating && <div className="game-personal-rating">{userGame?.personal_rating + " stars (from me)"}</div> }
+        { userGame?.personal_review && <div className="game-personal-review">{"Thoughts: " + userGame?.personal_review}</div> }
+      </div>
       <div className="emoji-section">
         <div className="game-owned emoji">{userGame?.is_owned ? "💸" : "🙏"}</div>
         <div className="game-completed emoji">{userGame?.is_completed ? "💯" : "⏳"}</div>

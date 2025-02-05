@@ -47,19 +47,23 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
 
   return (
     <div className={ gamer ? "own-card card" : "card" }>
-      { gamer && <div className="buttons">
-        <button type="button" className="edit" onClick={handleEditConsole}>✎</button>
-        <button type="button" className="delete" onClick={handleDeleteConsole}>×</button>
-      </div> }
-      <div className="console-name">{userConsole?.name}</div>
+      <div className="card-header">
+        { gamer && <div className="buttons">
+          <button type="button" className="edit" onClick={handleEditConsole}>✎</button>
+          <button type="button" className="delete" onClick={handleDeleteConsole}>×</button>
+        </div> }
+        <div className="console-name">{userConsole?.name}</div>
+      </div>
       <img className="console-picture" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} onLoad={handleImageLoad}
-        style={{
-          opacity: isLoaded ? 1 : 0,
-          transition: 'opacity 1s ease-in-out',
-        }}/>
-      <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
-      <div className="console-maker">By {userConsole?.maker}</div>
-      <div className="console-release-year">Released in {userConsole?.release_year}</div>
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
+          }}/>
+      <div className="card-content">
+        <div className="console-handheld">{userConsole?.is_handheld ? "Handheld Console" : "Home Console"}</div>
+        <div className="console-maker">By {userConsole?.maker}</div>
+        <div className="console-release-year">Released in {userConsole?.release_year}</div>
+      </div>
       <div className="emoji-section">
         <div className="console-owned emoji">{userConsole?.is_owned ? "💸" : "🙏"}</div>
         { userConsole?.is_favorite && <div className="console-favorite favorite emoji">❤️</div> } 

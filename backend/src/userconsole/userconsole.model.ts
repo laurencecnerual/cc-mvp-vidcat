@@ -14,7 +14,8 @@ export const getConsoleByID = (consoleID: number): Promise<Console> => {
   return knex
   .select("*")
   .from(CONSOLE_TABLE)
-  .where({id: consoleID});
+  .where({id: consoleID})
+  .first();
 };
 
 export const getAllUserConsoles = (userID: number): Promise<UserConsoleWithConsoleData[]> => {
@@ -31,7 +32,8 @@ export const getUserConsoleByID = (userConsoleID: number): Promise<UserConsole> 
   return knex
   .select("*")
   .from(USERCONSOLE_TABLE)
-  .where({id: userConsoleID});
+  .where({id: userConsoleID})
+  .first();
 };
 
 export const addUserConsole = (userConsole: UserConsole): Promise<UserConsole> => {

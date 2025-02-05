@@ -20,6 +20,7 @@ declare global {
 
   interface UserGame {
     id?: number,
+    gamer_id: number,
     userconsole_id: number,
     game_id: number,
     is_owned?: boolean,

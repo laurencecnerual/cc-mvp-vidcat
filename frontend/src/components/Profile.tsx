@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
 import GameCard from "./GameCard.tsx";
@@ -70,15 +71,15 @@ export default function Profile() {
         <h1>Welcome, {gamer?.username}!</h1>
         <div className="consoles-section">
           <h2>Your Consoles</h2>
-          <div className="consoles-list card-list">
-            { userConsoles.length > 0 ? generateConsoleCards() : <p>No Consoles Registered</p> }
-          </div>
+          { userConsoles.length > 0 ? <div className="consoles-list card-list">
+            { generateConsoleCards() }
+          </div> : <p className="nothing-registered">No Consoles Registered - <Link to="/add-console">Add some</Link></p> }
         </div>
         <div className="games-section">
           <h2>Your Games</h2>
-          <div className="games-list card-list">
-            { userGames.length > 0 ? generateGameCards() : <p>No Games Registered</p> }
-          </div>
+          { userGames.length > 0 ? <div className="games-list card-list">
+            { generateGameCards() }
+          </div> : <p className="nothing-registered">No Games Registered - <Link to="/add-game">Add some</Link></p> }
         </div>
       </div>
     </>

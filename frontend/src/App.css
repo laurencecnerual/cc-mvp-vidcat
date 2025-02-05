@@ -72,6 +72,10 @@ h2 {
   overflow-y: auto;
 }
 
+.public-profile, .full-profile {
+  height: 100%
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -231,7 +235,7 @@ img.console-picture {
 img.account-profile-picture {
   max-width: 200px;
   max-height: 200px;
-  padding: 16px 0;
+  margin-bottom: 16px;
 }
 
 img.public-profile-picture {
@@ -245,6 +249,7 @@ img.account-profile-picture, img.public-profile-picture {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 10px;
 }
 
 div.emoji-section {
@@ -278,7 +283,14 @@ a.no-consoles {
 }
 
 .nothing-registered {
+  margin: 0;
   text-align: center;
+  padding-bottom: 25vh;
+  font-size: 1.2rem;
+}
+
+.nothing-registered a {
+  padding-top: 40px;
 }
 
 h1.loading {

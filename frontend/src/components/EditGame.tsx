@@ -40,7 +40,7 @@ export default function EditGame() {
         (form?.querySelector("input.is-completed") as HTMLInputElement)?.checked,
         (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked,
         Number((form?.querySelector("input.personal-rating") as HTMLInputElement)?.value),
-        (form?.querySelector("input.personal-review") as HTMLInputElement)?.value
+        (form?.querySelector("textarea.personal-review") as HTMLInputElement)?.value
       )
     }}>
         <h2>{"Edit " + userGame.name}</h2>
@@ -65,7 +65,7 @@ export default function EditGame() {
           <label htmlFor="personal-review">Review</label>
           <textarea className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here" defaultValue={userGame.personal_review}/>
         </div>
-        <button className="login" type="submit">Update Game</button>
+        <button className="update-game form" type="submit">Update Game</button>
       </form>
     </>
   );

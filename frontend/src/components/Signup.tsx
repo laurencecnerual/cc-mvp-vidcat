@@ -65,8 +65,8 @@ export default function Signup() {
           <label htmlFor="confirm-password">Confirm Password<span className="mandatory">*</span></label>
           <input type="password" className="confirm-password" id="confirm-password" name="confirm-password" placeholder="m4k3175tr0ng!!" required/>
        </div>
-       <button className="signup" type="submit">Sign Up</button>
-       <Link to="/login">Already have an account?</Link>
+       <button className="signup form" type="submit">Sign Up</button>
+       <Link to="/login" className="intro-nav">Already have an account?</Link>
       </form>
     </>
   );

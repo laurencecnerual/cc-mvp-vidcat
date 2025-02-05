@@ -47,7 +47,7 @@ export default function EditConsole() {
           <label htmlFor="is-favorite">It's a favorite of mine</label>
           { userConsole.is_favorite ? <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite" defaultChecked/> : <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/> }
         </div>
-        <button className="update-console" type="submit">Update Console</button>
+        <button className="update-console form" type="submit">Update Console</button>
       </form>
     </>
   );

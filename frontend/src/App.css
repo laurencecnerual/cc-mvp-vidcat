@@ -5,6 +5,14 @@ body {
   color: #003366;
 }
 
+a {
+  color: #003366
+}
+
+a.intro-nav {
+  padding-top: 8px;
+}
+
 div.banner a {
   text-decoration: none;
   color: #F5F5DC;
@@ -85,8 +93,26 @@ div.label-input-pair input, div.label-input-pair textarea {
   width: 500px;
 }
 
+input, textarea {
+  outline-color: #FF6F61;
+  border: 1px solid #003366;
+  border-radius: 5px;
+  padding: 4px 6px;
+  color: #003366;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1rem;
+}
+
+input {
+  height: 20px;
+}
+
+input[type="checkbox"] {
+  filter: hue-rotate(-28deg) brightness(1.2);
+}
+
 textarea {
-  height: 50px;
+  height: 80px;
 }
 
 div.card-list {
@@ -123,12 +149,16 @@ button {
   font-weight: bold;
 }
 
+button.form {
+  margin-top: 8px;
+}
+
 button:hover {
-  filter: brightness(110%);
+  filter: brightness(105%);
 }
 
 button:active {
-  filter: brightness(90%);
+  filter: brightness(95%);
 }
 
 div.buttons {

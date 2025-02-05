@@ -106,7 +106,7 @@ export default function ManageAccount() {
           <label htmlFor="profile-picture">Profile Picture URL</label>
           <input type="text" className="profile-picture" id="profile-picture" name="profile-picture" placeholder="./images/my_pic.jpg" defaultValue={gamer?.profile_picture}/>
         </div>
-        <button className="update-account" type="submit">Update Account</button>
+        <button className="update-account form" type="submit">Update Account</button>
       </form>
       <form className="change-username manage-account" action="" onSubmit={(event) => {
         event.preventDefault(); 
@@ -125,7 +125,7 @@ export default function ManageAccount() {
           <label htmlFor="password">Password</label>
           <input type="password" className="password" id="password" name="password" placeholder="m4k3175tr0ng!!" required/>
         </div>
-        <button className="update-username" type="submit">Update Username</button>
+        <button className="update-username form" type="submit">Update Username</button>
       </form>
       <form className="change-password manage-account" action="" onSubmit={(event) => {
         event.preventDefault(); 
@@ -149,7 +149,7 @@ export default function ManageAccount() {
             <label htmlFor="confirm-password">Confirm Password</label>
             <input type="password" className="confirm-password" id="confirm-password" name="confirm-password" placeholder="m4k3175tr0ng2!!" required/>
         </div>
-        <button className="update-password" type="submit">Update Password</button>
+        <button className="update-password form" type="submit">Update Password</button>
       </form>
     </>
   )

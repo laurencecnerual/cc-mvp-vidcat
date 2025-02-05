@@ -81,7 +81,7 @@ export default function NewConsole() {
           <label htmlFor="is-favorite">It's a favorite of mine</label>
           <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
         </div>
-        <button className="add-console" type="submit">Add Console</button>
+        <button className="add-console form" type="submit">Add Console</button>
       </form>
     </>
   );

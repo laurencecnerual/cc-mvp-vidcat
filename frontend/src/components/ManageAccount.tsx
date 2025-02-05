@@ -80,7 +80,7 @@ export default function ManageAccount() {
   }
 
   return (
-    <>
+    <div className="manage-account-page">
       <Link to="/" className="back-to-profile">Back to Profile</Link>
       <h1>{gamer?.username}'s Account</h1>
       { gamer?.profile_picture && <img src={gamer?.profile_picture} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} /> }
@@ -151,6 +151,6 @@ export default function ManageAccount() {
         </div>
         <button className="update-password form" type="submit">Update Password</button>
       </form>
-    </>
+    </div>
   )
 }

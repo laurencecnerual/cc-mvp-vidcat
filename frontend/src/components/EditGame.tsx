@@ -29,7 +29,7 @@ export default function EditGame() {
   }
 
   return (
-    <>
+    <div className="edit-game-page">
       <Link to="/" className="back-to-profile">Back to Profile</Link>
       <form className="edit-game" action="" onSubmit={(event) => {
       event.preventDefault(); 
@@ -67,6 +67,6 @@ export default function EditGame() {
         </div>
         <button className="update-game form" type="submit">Update Game</button>
       </form>
-    </>
+    </div>
   );
 }

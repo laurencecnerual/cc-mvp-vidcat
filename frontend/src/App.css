@@ -58,7 +58,7 @@ h1, h2 {
   text-align: center;
 }
 
-.public-profile, .full-profile {
+.public-profile, .full-profile, .edit-game-page, .manage-account-page {
   overflow-y: auto;
 }
 
@@ -66,13 +66,13 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   justify-content: center;
   gap: 12px
 }
 
 form.manage-account {
-  height: 33vh;
+  height: 30vh;
 }
 
 a.back-to-profile {
@@ -189,15 +189,14 @@ img.console-picture {
 img.account-profile-picture {
   max-width: 200px;
   max-height: 200px;
-  width: auto;
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 img.public-profile-picture {
   max-width: 300px;
   max-height: 300px;
+}
+
+img.account-profile-picture, img.public-profile-picture {
   width: auto;
   height: auto;
   display: block;

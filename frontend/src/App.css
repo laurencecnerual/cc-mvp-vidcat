@@ -78,11 +78,11 @@ div.label-input-pair {
 }
 
 div.label-input-pair label {
-  width: 300px;
+  width: 200px;
 }
 
 div.label-input-pair input, div.label-input-pair textarea {
-  width: 400px;
+  width: 500px;
 }
 
 textarea {
@@ -216,5 +216,15 @@ h1.loading {
     gap: 6px;
     align-items: center;
     max-width: 70vw;
+  }
+
+  div.label-input-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  div.label-input-pair input, div.label-input-pair textarea {
+    width: 300px;
   }
 }

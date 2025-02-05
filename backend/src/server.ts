@@ -1,5 +1,5 @@
 const express = require("express");
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 const app = express();
 const cors = require("cors");
 const session = require("express-session");
@@ -32,40 +32,54 @@ app.use(
     store: new MemoryStore({
       checkPeriod: 86400000,
     }),
-    cookie: { path: "/", httpOnly: true, secure: false, maxAge: null }, // Currently using all of the default values explicitly
+    cookie: { 
+      path: "/", 
+      httpOnly: true, 
+      secure: false, 
+      sameSite: "Lax",
+      maxAge: 1000 * 60 * 60 * 24 },
   })
 );
 
 app.use(express.urlencoded({ extended: true }));
+
+function checkIsAuthenticated(req: Request, res: Response, next: NextFunction) {
+  console.log(req.session.username)
+  if (req.session.username) {
+    next();
+  } else {
+    res.status(401).send("User Not Logged In");
+  }
+}
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to the VidCat backend!");
 });
 
 app.post("/signup", signup);
-app.patch("/gamer/:id", updateGamer)
+app.patch("/gamer/:id", checkIsAuthenticated, updateGamer)
 app.post("/login", login);
 app.post("/logout", logout);
 app.get("/profile/:username", getGamerProfile);
 
-app.get("/console", getConsoles);
-app.get("/console/:id", getSingleConsole);
+app.get("/console", checkIsAuthenticated, getConsoles);
+app.get("/console/:id", checkIsAuthenticated, getSingleConsole);
 
-app.get("/userconsole/:id", getSingleUserConsole);
-app.get("/gamer/:id/userconsole", getUserConsoles);
-app.post("/gamer/:id/userconsole", createUserConsole);
-app.patch("/userconsole/:id", updateUserConsole);
-app.delete("/userconsole/:id", removeUserConsole);
+app.get("/userconsole/:id", checkIsAuthenticated, getSingleUserConsole);
+app.get("/gamer/:id/userconsole", checkIsAuthenticated, getUserConsoles);
+app.post("/gamer/:id/userconsole", checkIsAuthenticated, createUserConsole);
+app.patch("/userconsole/:id", checkIsAuthenticated, updateUserConsole);
+app.delete("/userconsole/:id", checkIsAuthenticated, removeUserConsole);
 
-app.get("/game", getGames);
-app.get("/game/:id", getSingleGame);
+app.get("/game", checkIsAuthenticated, getGames);
+app.get("/game/:id", checkIsAuthenticated, getSingleGame);
 
-app.get("/usergame/:id", getSingleUserGame);
-app.get("/gamer/:id/usergame", getUserGames);
-app.post("/gamer/:id/usergame", createUserGame);
-app.patch("/usergame/:id", updateUserGame);
-app.delete("/usergame/:id", removeUserGame);
-app.get("/userconsole/:id/usergame", getUserGamesForConsole);
+app.get("/usergame/:id", checkIsAuthenticated, getSingleUserGame);
+app.get("/gamer/:id/usergame", checkIsAuthenticated, getUserGames);
+app.post("/gamer/:id/usergame", checkIsAuthenticated, createUserGame);
+app.patch("/usergame/:id", checkIsAuthenticated, updateUserGame);
+app.delete("/usergame/:id", checkIsAuthenticated, removeUserGame);
+app.get("/userconsole/:id/usergame", checkIsAuthenticated, getUserGamesForConsole);
 
 const server = app.listen(PORT, () => {
   console.log(`Express server is up and running on ${PORT}`);

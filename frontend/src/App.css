@@ -25,18 +25,19 @@ div.top-mid-bot {
 div.banner {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: #00BCD4;
-  padding: 16px 8px;
+  padding: 16px 16px;
 }
 
 div.logo {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   cursor: pointer;
 }
 
 div.menu-options {
   display: flex;
-  gap: 16px
+  gap: 36px;
 }
 
 div.disclaimer {
@@ -106,6 +107,7 @@ div.card {
   border-radius: 10px;
   background-color: rgb(129, 199, 132);
   color: #F5F5DC;
+  box-shadow: 6px 6px rgba(0, 51, 102, 0.6);
 }
 
 div.own-card:hover {
@@ -203,4 +205,16 @@ h1.loading {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  div.banner {
+    padding: 16px 12px;
+  }
+
+  div.menu-options {
+    gap: 6px;
+    align-items: center;
+    max-width: 70vw;
+  }
 }

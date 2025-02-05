@@ -30,7 +30,6 @@ export default function Header() {
       <div className="banner">
         <div className="logo"><Link to="/">VidCat</Link></div>
         <div className="menu-options">
-          <div className="user-profile"><NavLink to="/" className={({ isActive }) => isActive ? "active-link" : ""}>My Profile</NavLink></div>
           <div className="add-console"><NavLink to="/add-console" className={({ isActive }) => isActive ? "active-link" : ""}>Add Console</NavLink></div>
           <div className="add-game"><NavLink to="/add-game" className={({ isActive }) => isActive ? "active-link" : ""}>Add Game</NavLink></div>
           <div className="manage-account"><NavLink to="/manage-account" className={({ isActive }) => isActive ? "active-link" : ""}>Manage Account</NavLink></div>

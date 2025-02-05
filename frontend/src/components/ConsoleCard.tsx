@@ -48,8 +48,8 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   return (
     <div className={ gamer ? "own-card card" : "card" }>
       { gamer && <div className="buttons">
-        <button type="button" className="edit" onClick={handleEditConsole}>✏</button>
-        <button type="button" className="delete" onClick={handleDeleteConsole}>X</button>
+        <button type="button" className="edit" onClick={handleEditConsole}>✎</button>
+        <button type="button" className="delete" onClick={handleDeleteConsole}>×</button>
       </div> }
       <div className="console-name">{userConsole?.name}</div>
       <img className="console-picture" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} onLoad={handleImageLoad}

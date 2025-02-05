@@ -48,8 +48,8 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   return (
     <div className={ gamer ? "own-card card" : "card" }>
       { gamer && <div className="buttons">
-        <button type="button" className="edit" onClick={handleEditGame}>✏</button>
-        <button type="button" className="delete" onClick={handleDeleteGame}>X</button>
+        <button type="button" className="edit" onClick={handleEditGame}>✎</button>
+        <button type="button" className="delete" onClick={handleDeleteGame}>×</button>
       </div> }
       <div className="game-name">{userGame?.name}</div>
       <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} onLoad={handleImageLoad}

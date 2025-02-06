@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import './App.css'
 import Login from "./components/Login.tsx"
 import Signup from "./components/Signup.tsx"
@@ -17,10 +17,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [gamer, setGamer] = useState<Gamer | null>(null);
+  const { gamer } = useContext(GamerContext);
 
   return (
-    <GamerContext.Provider value={{ gamer, setGamer }}>
       <div className="top-mid-bot">
         <Header />
         <Routes>
@@ -38,7 +37,6 @@ function App() {
         <Footer />
         <ToastContainer />
       </div>
-    </GamerContext.Provider>
   )
 }
 

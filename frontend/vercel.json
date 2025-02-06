@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/app/:path*",
+      "destination": "https://vidcat-backend.onrender.com/:path*"
+    },
+    {
       "source": "/:path*",
       "destination": "/"
     }

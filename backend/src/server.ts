@@ -39,7 +39,7 @@ app.use(
       secure: process.env.NODE_ENV_TYPE === "production", 
       sameSite: process.env.NODE_ENV_TYPE === "production" ? "None" : "Lax",
       maxAge: 1000 * 60 * 60 * 24,
-      domain: "vidcat.onrender.com"
+      domain: process.env.NODE_ENV_TYPE === "production" ? "vidcat-backend.onrender.com" : undefined
     },
   })
 );

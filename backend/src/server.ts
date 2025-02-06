@@ -38,7 +38,9 @@ app.use(
       httpOnly: true, 
       secure: process.env.NODE_ENV_TYPE === "production", 
       sameSite: process.env.NODE_ENV_TYPE === "production" ? "None" : "Lax",
-      maxAge: 1000 * 60 * 60 * 24 },
+      maxAge: 1000 * 60 * 60 * 24 ,
+      domain: process.env.NODE_ENV_TYPE === "production" ? 'onrender.com' : undefined
+    },
   })
 );
 

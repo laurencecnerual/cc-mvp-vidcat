@@ -85,6 +85,11 @@ form {
   gap: 12px
 }
 
+form.login, form.signup {
+  height: 65vh;
+  margin-bottom: 80px;
+}
+
 form.manage-account {
   height: 30vh;
 }
@@ -300,6 +305,17 @@ h1.loading {
   height: 100%;
 }
 
+div.intro {
+  display: flex;
+  flex-direction: column;
+}
+
+p.intro-text {
+  text-align: center;
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
 @media only screen and (max-width: 600px) {
   div.banner {
     padding: 16px 12px;
@@ -323,5 +339,10 @@ h1.loading {
 
   div.card-list {
     padding: 20px;
+  }
+
+  p.intro-text {
+    padding: 0 12px;
+    font-size: 1.2rem;
   }
 }

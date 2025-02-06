@@ -1,6 +1,7 @@
 const apiUrl: string = import.meta.env.VITE_API_URL;
 import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper";
+import Introduction from "./Introduction.tsx";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function Signup() {
 
   return (
     <>
+      <Introduction />
       <form className="signup" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 

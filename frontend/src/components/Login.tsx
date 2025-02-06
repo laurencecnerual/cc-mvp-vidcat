@@ -2,6 +2,7 @@ const apiUrl: string = import.meta.env.VITE_API_URL;
 import { useGamer } from "../GamerContext.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper.ts";
+import Introduction from "./Introduction.tsx";
 
 export default function Login() {
   const {setGamer} = useGamer();
@@ -30,6 +31,7 @@ export default function Login() {
 
   return (
     <>
+      <Introduction />
       <form className="login" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let form = document.querySelector("form"); 

@@ -11,7 +11,7 @@ import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, 
 import { checkIsAuthenticated, checkIsAuthorizedByParams, getGamerIDFromUserConsole, getGamerIDFromUserGame, checkIsAuthorizedByReqBody } from "./authMiddleware";
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
-const frontendURL = process.env.FRONT_END_URL || "http://localhost:5173";
+const frontendURL = process.env.FRONT_END_URL;
 
 const PORT = process.env.PORT || 8080;
 
@@ -39,7 +39,7 @@ app.use(
       secure: process.env.NODE_ENV_TYPE === "production", 
       sameSite: process.env.NODE_ENV_TYPE === "production" ? "None" : "Lax",
       maxAge: 1000 * 60 * 60 * 24,
-      domain: process.env.NODE_ENV_TYPE === "production" ? "vidcat-backend.onrender.com" : undefined
+      domain: process.env.NODE_ENV_TYPE === "production" ? frontendURL : undefined
     },
   })
 );

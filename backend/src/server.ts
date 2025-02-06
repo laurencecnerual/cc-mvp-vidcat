@@ -36,8 +36,8 @@ app.use(
     cookie: { 
       path: "/", 
       httpOnly: true, 
-      secure: false, 
-      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 1000 * 60 * 60 * 24 },
   })
 );

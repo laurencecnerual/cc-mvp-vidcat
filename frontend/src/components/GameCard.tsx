@@ -46,9 +46,9 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   }
 
   return (
-    <div className={ gamer ? "own-card card" : "card" }>
+    <div className={ gamer?.id === userGame.gamer_id ? "own-card card" : "card" }>
       <div className="card-header">
-        { gamer && <div className="buttons">
+        { gamer?.id === userGame.gamer_id && <div className="buttons">
           <button type="button" className="edit" onClick={handleEditGame}>✎</button>
           <button type="button" className="delete" onClick={handleDeleteGame}>×</button>
         </div> }

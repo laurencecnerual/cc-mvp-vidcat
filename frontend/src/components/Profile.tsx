@@ -33,7 +33,7 @@ export default function Profile() {
       const userConsoleArray = await response.json();
       setUserConsoles(userConsoleArray);
     } else {
-      showToast("error", "There was an error loading the user's consoles");
+      showToast("error", "There was an error loading your consoles");
     }
   }
 
@@ -47,7 +47,7 @@ export default function Profile() {
       const userGameArray = await response.json();
       setUserGames(userGameArray);
     } else {
-      showToast("error", "There was an error loading the user's games");
+      showToast("error", "There was an error loading your games");
     }
 
     setLoading(false);

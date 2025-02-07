@@ -45,7 +45,7 @@ export default function NewGame() {
       const userConsoleArray = await response.json();
       setUserConsoleList(userConsoleArray);
     } else {
-      showToast("error", "There was an error loading the user's consoles");
+      showToast("error", "There was an error loading your consoles");
     }
 
     setIsloading(false);

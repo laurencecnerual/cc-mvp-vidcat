@@ -17,6 +17,8 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
+app.set('trust proxy', true);
+
 app.use(
   cors({
     origin: frontendURL,

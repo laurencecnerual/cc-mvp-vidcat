@@ -128,7 +128,7 @@ export default function NewGame() {
         </div>
         <div id="personal-rating" className="label-input-pair">
           <label htmlFor="personal-rating">Rating</label>
-          <input type="number" step="0.00" min="1.00" max="5.00" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="1.00 ~ 5.00"/>
+          <input type="number" step="0.01" min="1.00" max="5.00" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="1.00 ~ 5.00"/>
         </div>
         <div id="personal-review" className="label-input-pair">
           <label htmlFor="personal-review">Review</label>

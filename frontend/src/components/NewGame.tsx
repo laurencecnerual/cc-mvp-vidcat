@@ -19,7 +19,14 @@ export default function NewGame() {
   }, [isLoading]);
 
   async function handlePageLoad() {
-    await handleFetchGames();
+    const cachedGameList = localStorage.getItem('gameList');
+
+    if (cachedGameList) {
+      setGameList(JSON.parse(cachedGameList));
+    } else {
+      await handleFetchGames();
+    }
+
     await handleFetchUserConsoles();
   }
 
@@ -30,6 +37,7 @@ export default function NewGame() {
 
     if (response.status === 200) {
       const gameArray = await response.json();
+      localStorage.setItem('gameList', JSON.stringify(gameArray));
       setGameList(gameArray);
     } else {
       showToast("error", "There was an error loading the games list");

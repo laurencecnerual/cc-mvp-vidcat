@@ -26,6 +26,7 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
       localStorage.setItem('gamer', JSON.stringify(gamer));
     } else {
       localStorage.removeItem('gamer');
+      localStorage.removeItem('gameList');
     }
   }, [gamer]);
 

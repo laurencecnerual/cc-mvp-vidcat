@@ -327,6 +327,10 @@ p.intro-text {
     max-width: 70vw;
   }
 
+  div.logged-out-banner .menu-options {
+    gap: 24px;
+  }
+
   div.label-input-pair {
     display: flex;
     flex-direction: column;

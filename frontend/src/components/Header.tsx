@@ -37,7 +37,7 @@ export default function Header() {
         </div>
       </div> 
       :
-      <div className="banner">
+      <div className="banner logged-out-banner">
         <div className="logo"><Link to="/login">VidCat</Link></div>
         <div className="menu-options">
           <div className="log-in"><NavLink to="/login" className={({ isActive }) => isActive ? "active-link" : ""}>Log In</NavLink></div>

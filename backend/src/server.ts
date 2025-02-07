@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
-app.set('trust proxy', true);
+if (process.env.NODE_ENV_TYPE === "production") app.set('trust proxy', 1);
 
 app.use(
   cors({
@@ -39,9 +39,9 @@ app.use(
       path: "/", 
       httpOnly: true, 
       secure: process.env.NODE_ENV_TYPE === "production", 
-      sameSite: process.env.NODE_ENV_TYPE === "production" ? "None" : "Lax",
+      sameSite: "Lax",
       maxAge: 1000 * 60 * 60 * 24,
-      domain: process.env.NODE_ENV_TYPE === "production" ? frontendURL : undefined
+      domain: undefined
     },
   })
 );

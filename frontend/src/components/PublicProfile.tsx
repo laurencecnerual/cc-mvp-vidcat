@@ -45,12 +45,12 @@ export default function PublicProfile() {
         <div className="public-profile">
           <h1>{`${validatedUsername}'s Public Profile`}</h1>
           { profilePicture && <img src={profilePicture} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} /> }
-          <h2>Consoles</h2>
+          <h2 className="non-top-header">Consoles</h2>
           { userConsoles.length > 0 ? 
             <div className="games-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 
             : <p className="nothing-registered">No Consoles Registered</p> 
           }
-          <h2>Games</h2>
+          <h2 className="non-top-header">Games</h2>
           { userGames.length > 0 ? 
             <div className="consoles-list card-list">{ userGames.map(ug => <GameCard key={ug.id} userGame={ug} />) }</div> 
             : <p className="nothing-registered">No Games Registered</p> 

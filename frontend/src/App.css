@@ -312,6 +312,10 @@ p.intro-text {
   font-size: 1.4rem;
 }
 
+.non-top-header {
+  margin-top: 30px;
+}
+
 @media only screen and (max-width: 600px) {
   div.banner {
     padding: 16px 12px;

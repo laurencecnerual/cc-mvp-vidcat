@@ -70,13 +70,13 @@ export default function Profile() {
       <div className="full-profile">
         <h1>Welcome, {gamer?.username}!</h1>
         <div className="consoles-section">
-          <h2>Your Consoles</h2>
+          <h2 className="non-top-header">Your Consoles</h2>
           { userConsoles.length > 0 ? <div className="consoles-list card-list">
             { generateConsoleCards() }
           </div> : <p className="nothing-registered">No Consoles Registered - <Link to="/add-console">Add some</Link></p> }
         </div>
         <div className="games-section">
-          <h2>Your Games</h2>
+          <h2 className="non-top-header">Your Games</h2>
           { userGames.length > 0 ? <div className="games-list card-list">
             { generateGameCards() }
           </div> : <p className="nothing-registered">No Games Registered - <Link to="/add-game">Add some</Link></p> }

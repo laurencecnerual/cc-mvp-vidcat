@@ -192,12 +192,8 @@ button {
   font-weight: bold;
 }
 
-button.delete {
-  font-size: 1.2rem;
-}
-
 button.delete, button.edit {
-  color: #003366
+  color: #003366;
 }
 
 button.form {

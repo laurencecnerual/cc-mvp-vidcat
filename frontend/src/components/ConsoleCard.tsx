@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper.ts";
+import Icon from '@mdi/react';
+import { mdiPencilOutline, mdiTrashCanOutline   } from '@mdi/js';
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type ConsoleCardProps = {
@@ -49,8 +51,8 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
     <div className={ gamer?.id === userConsole.gamer_id ? "own-card card" : "card" }>
       <div className="card-header">
         { gamer?.id === userConsole.gamer_id && <div className="buttons">
-          <button type="button" className="edit" onClick={handleEditConsole}>✎</button>
-          <button type="button" className="delete" onClick={handleDeleteConsole}>×</button>
+          <button type="button" className="edit" onClick={handleEditConsole}><Icon path={mdiPencilOutline} size={0.8} /></button>
+          <button type="button" className="delete" onClick={handleDeleteConsole}><Icon path={mdiTrashCanOutline} size={0.8} /></button>
         </div> }
         <div className="console-name">{userConsole?.name}</div>
       </div>

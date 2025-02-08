@@ -42,10 +42,10 @@ declare global {
   interface Game {
     rawg_id: number,
     name: string,
-    lookup_name: string,
-    released: Date,
-    rating: number;
-    background_image_link: string
+    lookup_name?: string,
+    released?: Date,
+    rating?: number;
+    background_image_link?: string
   }
 
   type UserConsoleWithConsoleData = UserConsole & GameConsole;

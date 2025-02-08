@@ -5,7 +5,7 @@ const USERGAME_TABLE = "usergame";
 
 export const getAllGamesOrderByName = (): Promise<Game[]> => {
   return knex
-    .select("*")
+    .select("rawg_id","name")
     .from(GAME_TABLE)
     .orderBy("name", "asc");
 };

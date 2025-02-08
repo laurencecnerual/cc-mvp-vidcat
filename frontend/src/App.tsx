@@ -11,6 +11,7 @@ import EditGame from './components/EditGame.tsx';
 import Header from './components/Header.tsx';
 import Footer from './components/Footer.tsx';
 import PublicProfile from './components/PublicProfile.tsx';
+import NotFound from './components/NotFound.tsx';
 import { GamerContext } from "./GamerContext.tsx"
 import {Routes, Route, Navigate} from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
@@ -32,7 +33,7 @@ function App() {
           <Route path="edit-console" element={gamer ? <EditConsole /> : <Navigate to="/login" />} />
           <Route path="edit-game" element={gamer ? <EditGame /> : <Navigate to="/login" />} />
           <Route path="*" element={<PublicProfile />} />
-          <Route path="not-found" element={<h1 className="not-found">Resource Not Found</h1>} />
+          <Route path="not-found" element={<NotFound />} />
         </Routes>
         <Footer />
         <ToastContainer />

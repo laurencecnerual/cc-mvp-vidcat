@@ -298,11 +298,13 @@ a.no-consoles {
   padding-top: 40px;
 }
 
-h1.loading {
+div.loading {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
+  gap: 16px;
 }
 
 div.intro {

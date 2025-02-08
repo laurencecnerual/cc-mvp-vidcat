@@ -8,7 +8,7 @@ const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export default function NewGame() {
   const {gamer} = useGamer();
-  const [gameList, setGameList] = useState<Game[]>([]);
+  const [gameList, setGameList] = useState<Partial<Game>[]>([]);
   const [userConsoleList, setUserConsoleList] = useState<UserConsoleWithConsoleData[]>([]);
   const [isLoading, setIsloading] = useState(true);
   const navigate = useNavigate();

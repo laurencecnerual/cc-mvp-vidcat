@@ -3,7 +3,7 @@ const knex = require("../knex");
 const GAME_TABLE = "game";
 const USERGAME_TABLE = "usergame";
 
-export const getAllGamesOrderByName = (): Promise<Game[]> => {
+export const getAllGamesOrderByName = (): Promise<Partial<Game>[]> => {
   return knex
     .select("rawg_id","name")
     .from(GAME_TABLE)

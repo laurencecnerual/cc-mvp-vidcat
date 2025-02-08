@@ -158,7 +158,8 @@ div.card {
   color: #F5F5DC;
   box-shadow: 6px 6px rgba(0, 51, 102, 0.6);
   overflow-y: auto;
-  height: 95%
+  height: 95%;
+  overflow-x: hidden;
 }
 
 div.card-header {

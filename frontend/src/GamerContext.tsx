@@ -33,12 +33,29 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
     }
   }
 
+  // checks if still logged into the backend and if not, forces a full logout
+  async function handleCheckLoggedIn() {
+    const response = await fetch(apiUrl + "/session", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if (response.status === 401) {
+      handleLogout();
+    } 
+  }
+
   useEffect(() => {
     const savedGamer = localStorage.getItem('gamer');
     
     if (savedGamer) {
       setGamer(JSON.parse(savedGamer));
     }
+
+    handleCheckLoggedIn();
   }, []);
 
   useEffect(() => {

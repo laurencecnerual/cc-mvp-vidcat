@@ -91,7 +91,8 @@ form.login, form.signup {
 }
 
 form.manage-account {
-  height: 30vh;
+  height: auto;
+  margin-bottom:  40px;
 }
 
 a.back-to-profile {
@@ -237,7 +238,7 @@ img.console-picture {
 img.account-profile-picture {
   max-width: 200px;
   max-height: 200px;
-  margin-bottom: 16px;
+  margin-bottom: 40px;
 }
 
 img.public-profile-picture {

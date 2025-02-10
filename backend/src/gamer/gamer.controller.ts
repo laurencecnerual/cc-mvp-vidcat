@@ -131,6 +131,10 @@ export const login = async (req: Request, res: Response) => {
   res.status(200).json(lastLoginUpdatedUsers[0]);
 };
 
+export const sendUserID = (req: Request, res: Response) => {
+  res.status(200).json({ gamerID: req.session.gamer_id });
+}
+
 export const logout = (req: Request, res: Response) => {
   req.session.destroy((err) => {
     if (err) {

@@ -31,6 +31,8 @@ Live on Render at https://vidcat-backend.onrender.com/
 
 - POST `/login`: Used to log in with an existing user account. Expects `username` and `password` in the JSON request body. Responds with the corresponding user object
 
+- GET `/session`: Used to confirm if logged in. If logged in, responds with the logged in user's `gamerID`
+
 - POST `/logout`: Used to log out of a user account. Does not expect anything in the request body
 
 - PATCH `/gamer/:id`: Used to update the target user with the payload sent in the body. Responds with the updated user object

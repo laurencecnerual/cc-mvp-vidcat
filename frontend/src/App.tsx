@@ -18,13 +18,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const { gamer } = useContext(GamerContext);
+  const { gamer, isLoggedIn } = useContext(GamerContext);
 
   return (
       <div className="top-mid-bot">
         <Header />
         <Routes>
-          <Route path="/" element={gamer ? <Profile /> : <Navigate to="/login" />} />
+          <Route path="/" element={(isLoggedIn && gamer) ? <Profile /> : <Navigate to="/login" />} />
           <Route path="login" element={!gamer ? <Login /> : <Navigate to="/" />} /> 
           <Route path="signup" element={!gamer ? <Signup /> : <Navigate to="/" />}  />
           <Route path="manage-account" element={gamer ? <ManageAccount /> : <Navigate to="/login" />} />

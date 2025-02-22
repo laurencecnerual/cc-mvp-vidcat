@@ -6,16 +6,21 @@ export const GamerContext = createContext<{
   gamer: Gamer | null;
   setGamer: React.Dispatch<React.SetStateAction<Gamer | null>>;
   handleLogout: () => void;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   gamer: null,
   setGamer: () => {},
-  handleLogout: () => {}
+  handleLogout: () => {},
+  isLoggedIn: false,
+  setIsLoggedIn: () => {}
 });
 
 export const useGamer = () => useContext(GamerContext);
 
 export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const [gamer, setGamer] = useState<Gamer | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   async function handleLogout() {
     const response = await fetch(apiUrl + "/logout", {
@@ -28,6 +33,7 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
 
     if (response.status === 200) {
       setGamer(null);
+      setIsLoggedIn(false);
     } else {
       showToast("error", "There was an error logging out");
     }
@@ -45,7 +51,9 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
 
     if (response.status === 401) {
       handleLogout();
-    } 
+    } else if (response.status === 200) {
+      setIsLoggedIn(true);
+    }
   }
 
   useEffect(() => {
@@ -68,7 +76,7 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
   }, [gamer]);
 
   return (
-    <GamerContext.Provider value={{ gamer, setGamer, handleLogout }}>
+    <GamerContext.Provider value={{ gamer, setGamer, handleLogout, isLoggedIn, setIsLoggedIn }}>
       {children}
     </GamerContext.Provider>
   );

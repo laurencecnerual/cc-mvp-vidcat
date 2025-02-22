@@ -5,7 +5,7 @@ import { showToast } from "../ToastHelper.ts";
 import Introduction from "./Introduction.tsx";
 
 export default function Login() {
-  const {setGamer} = useGamer();
+  const {setGamer, setIsLoggedIn} = useGamer();
   const navigate = useNavigate();
 
   async function handleLogin(username: string, password: string) {
@@ -21,6 +21,7 @@ export default function Login() {
     if (response.status === 200) {
       const loggedInGamer = await response.json();
       setGamer(loggedInGamer);
+      setIsLoggedIn(true);
       navigate("/");
     } else if (response.status === 401 || response.status === 404) {
       showToast("error", "Incorrect password or username");

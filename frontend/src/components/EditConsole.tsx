@@ -26,7 +26,7 @@ export default function EditConsole() {
   }
 
   return (
-    <>
+    <div className="edit-game-page">
       <Link to="/" className="back-to-profile">Back to Profile</Link>
       <form className="edit-console" action="" onSubmit={(event) => {
         event.preventDefault(); 
@@ -49,6 +49,6 @@ export default function EditConsole() {
         </div>
         <button className="update-console form" type="submit">Update Console</button>
       </form>
-    </>
+    </div>
   );
 }

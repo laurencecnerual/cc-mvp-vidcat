@@ -26,8 +26,8 @@ async function verifyPassword(plainTextPassword: string, hashedPasswordFromDB: s
 export const signup = async (req: Request, res: Response) => {
   const { username, password, firstname, lastname } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).send("Both Username and Password are required");
+  if (!username || !password || !username.match(/^[a-z0-9]+$/i)) {
+    return res.status(400).send("Both Username and Password are required and Username must be alphanumeric");
   }
 
   const userFound = await getGamerByUsername(username);

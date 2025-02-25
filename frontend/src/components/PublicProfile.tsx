@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useLocation, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useParams } from 'react-router';
 import ConsoleCard from './ConsoleCard';
 import GameCard from './GameCard';
 import Loading from "./Loading.tsx";
@@ -8,7 +9,7 @@ import { showToast } from '../ToastHelper.ts';
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export default function PublicProfile() {
-  const username = useLocation().pathname.slice(1);
+  const username = useParams().username || "";
   const [loading, setLoading] = useState(true);
   const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);

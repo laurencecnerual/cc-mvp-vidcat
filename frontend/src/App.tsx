@@ -32,7 +32,8 @@ function App() {
           <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />
           <Route path="edit-console" element={gamer ? <EditConsole /> : <Navigate to="/login" />} />
           <Route path="edit-game" element={gamer ? <EditGame /> : <Navigate to="/login" />} />
-          <Route path="*" element={<PublicProfile />} />
+          <Route path="/users/:username" element={<PublicProfile />} />
+          <Route path="*" element={<Navigate to="/not-found" />} />
           <Route path="not-found" element={<NotFound />} />
         </Routes>
         <Footer />

@@ -6,7 +6,7 @@ export const getGamerByUsername = (username: string): Promise<Gamer> => {
   return knex
     .select("*")
     .from(GAMER_TABLE)
-    .where({ username: username })
+    .where(knex.raw('lower("username")'), username.toLowerCase())
     .first();
 };
 

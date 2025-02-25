@@ -104,7 +104,7 @@ export default function ManageAccount() {
         </div>
         <div id="profile-picture" className="label-input-pair">
           <label htmlFor="profile-picture">Profile Picture URL</label>
-          <input type="text" className="profile-picture" id="profile-picture" name="profile-picture" placeholder="./images/my_pic.jpg" defaultValue={gamer?.profile_picture}/>
+          <input type="text" className="profile-picture" id="profile-picture" name="profile-picture" placeholder="www.example.com/my_pic.jpg" defaultValue={gamer?.profile_picture}/>
         </div>
         <button className="update-account form" type="submit">Update Account</button>
       </form>
@@ -119,7 +119,7 @@ export default function ManageAccount() {
         <h2>Change Username</h2>
         <div id="username" className="label-input-pair">
           <label htmlFor="username">New Username</label>
-          <input type="text" className="username" id="username" name="username" placeholder="theNewPstar777" required/>
+          <input type="text" className="username" id="username" name="username" placeholder="theNewPstar777" required pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed."/>
         </div>
         <div id="password" className="label-input-pair">
           <label htmlFor="password">Password</label>

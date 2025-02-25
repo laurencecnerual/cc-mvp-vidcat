@@ -57,7 +57,7 @@ export default function Signup() {
         </div>
         <div id="username" className="label-input-pair">
           <label htmlFor="username">Username<span className="mandatory">*</span></label>
-          <input type="text" className="username" id="username" name="username" placeholder="pstar777" required/>
+          <input type="text" className="username" id="username" name="username" placeholder="pstar777" required  pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed."/>
         </div>
         <div id="password" className="label-input-pair">
           <label htmlFor="password">Password<span className="mandatory">*</span></label>

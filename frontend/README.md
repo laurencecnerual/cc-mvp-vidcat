@@ -24,4 +24,4 @@ Live on Render at https://vidcat.onrender.com/
 - View your collection
   - Enjoy the nostalgia of seeing pictures of your consoles and games
   - See interesting stats such release dates and official ratings
-  - Share your collection with friends via your public profile link (https://vidcat.onrender.com/your-username-goes-here)
+  - Share your collection with friends via your public profile link: [https://vidcat.onrender.com/users/PutYourUsernameHere](https://vidcat.onrender.com/users/laurencecnerual)

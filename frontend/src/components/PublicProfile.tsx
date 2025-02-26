@@ -15,6 +15,11 @@ export default function PublicProfile() {
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
   const [profilePicture, setProfilePicture] = useState<string>();
   const [validatedUsername, setValidatedUsername] = useState<string>("");
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
 
   useEffect(() => {
     handleFetchProfile();
@@ -45,7 +50,11 @@ export default function PublicProfile() {
       { validatedUsername ?
         <div className="public-profile">
           <h1>{`${validatedUsername}'s Public Profile`}</h1>
-          { profilePicture && <img src={profilePicture} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} /> }
+          { profilePicture && <img src={profilePicture} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} onLoad={handleImageLoad}
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
+          }}/> }
           <h2 className="non-top-header">Consoles</h2>
           { userConsoles.length > 0 ? 
             <div className="games-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 

@@ -1,13 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useGamer } from "../GamerContext.tsx";
 import { showToast } from "../ToastHelper.ts";
+import { useState } from "react";
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export default function ManageAccount() {
   const {gamer, setGamer} = useGamer();
   const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
+  
   async function handleAccountUpdate(firstname: string, lastname: string, profilePicture: string) {
     const response = await fetch(apiUrl + `/gamer/${gamer?.id}`, {
       method: "PATCH",
@@ -83,7 +89,11 @@ export default function ManageAccount() {
     <div className="manage-account-page">
       <Link to="/" className="back-to-profile">Back to Profile</Link>
       <h1>{gamer?.username}'s Account</h1>
-      { gamer?.profile_picture && <img src={gamer?.profile_picture} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} /> }
+      { gamer?.profile_picture && <img src={gamer?.profile_picture} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} onLoad={handleImageLoad}
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
+          }} /> }
       <form className="edit-account-info manage-account" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let accountInfoForm = document.querySelector("form.edit-account-info"); 

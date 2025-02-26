@@ -157,6 +157,10 @@ div.card-list {
   padding: 24px;
 }
 
+div.games-list {
+  margin-bottom: 24px;
+}
+
 div.card {
   display: flex;
   flex-direction: column;

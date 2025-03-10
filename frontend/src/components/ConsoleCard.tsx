@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper.ts";
 import Icon from '@mdi/react';
 import { mdiPencilOutline, mdiTrashCanOutline   } from '@mdi/js';
-import ConfirmDeleteModal from "./ConfirmDeleteModal.tsx";
+import ConfirmationModal from "./ConfirmationModal.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type ConsoleCardProps = {
@@ -76,7 +76,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
         <div className="console-owned emoji">{userConsole?.is_owned ? "💸" : "🙏"}</div>
         { userConsole?.is_favorite && <div className="console-favorite favorite emoji">❤️</div> } 
       </div>
-      <ConfirmDeleteModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteConsole} confirmationMessage={confirmDeleteMessage} />
+      <ConfirmationModal isModalOpen={isModalOpen} closeModal={closeModal} handleClick={handleDeleteConsole} confirmationMessage={confirmDeleteMessage} />
     </div>
   )
 }

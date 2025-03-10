@@ -78,7 +78,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
         <div className="game-completed emoji">{userGame?.is_completed ? "💯" : "⏳"}</div>
         { userGame?.is_favorite && <div className="game-favorite favorite emoji">❤️</div> }
       </div>
-      <ConfirmationModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteGame} confirmationMessage={confirmDeleteMessage} />
+      <ConfirmationModal isModalOpen={isModalOpen} closeModal={closeModal} handleClick={handleDeleteGame} confirmationMessage={confirmDeleteMessage} />
     </div>
   )
 }

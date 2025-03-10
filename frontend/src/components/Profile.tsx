@@ -61,6 +61,11 @@ export default function Profile() {
     return userGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} setRefresh={setRefresh} />);
   }
 
+  function getUserPublicProfileURL() {
+    navigator.clipboard.writeText(`${window.location.origin}/users/${gamer?.username}`);
+    showToast("success", "Public profile URL copied to clipboard. Share it with your friends!");
+  }
+
   if (loading) {
     return <Loading />
   }
@@ -69,6 +74,9 @@ export default function Profile() {
     <>
       <div className="full-profile">
         <h1>Welcome, {gamer?.username}!</h1>
+        <div className="get-my-url">
+          <button className="get-my-url" type="button" onClick={getUserPublicProfileURL}>Get My Public Profile URL</button>
+        </div>
         <div className="consoles-section">
           <h2 className="non-top-header">Your Consoles</h2>
           { userConsoles.length > 0 ? <div className="consoles-list card-list">

@@ -18,6 +18,8 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const confirmDeleteMessage = "Are you sure you would like to delete this console? Note that doing this will also delete any associated games.";
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -74,7 +76,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
         <div className="console-owned emoji">{userConsole?.is_owned ? "💸" : "🙏"}</div>
         { userConsole?.is_favorite && <div className="console-favorite favorite emoji">❤️</div> } 
       </div>
-      <ConfirmDeleteModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteConsole} deletionType="CONSOLE" />
+      <ConfirmDeleteModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteConsole} confirmationMessage={confirmDeleteMessage} />
     </div>
   )
 }

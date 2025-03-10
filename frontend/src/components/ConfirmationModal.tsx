@@ -1,17 +1,13 @@
 import Modal from 'react-modal';
 
-type ConfirmDeleteModalProps = {
+type ConfirmationModalProps = {
   isModalOpen: boolean,
   closeModal: () => void,
   handleDelete: () => void,
-  deletionType: "CONSOLE" | "GAME"
+  confirmationMessage: string
 }
 
-export default function ConfirmDeleteModal ({isModalOpen, closeModal, handleDelete, deletionType}: ConfirmDeleteModalProps) {
-  let confirmationMessage = (deletionType === "CONSOLE") 
-  ? "Are you sure you would like to delete this console?\nNote that doing this will also delete any associated games." 
-  : "Are you sure you would like to delete this game?";
-
+export default function ConfirmationModal ({isModalOpen, closeModal, handleDelete, confirmationMessage}: ConfirmationModalProps) {
   return (
     <Modal
       isOpen={isModalOpen}

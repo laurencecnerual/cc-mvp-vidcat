@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper.ts";
 import Icon from '@mdi/react';
 import { mdiPencilOutline, mdiTrashCanOutline  } from '@mdi/js';
-import ConfirmDeleteModal from "./ConfirmDeleteModal.tsx";
+import ConfirmationModal from "./ConfirmationModal.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type GameCardProps = {
@@ -17,6 +17,8 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const confirmDeleteMessage = "Are you sure you would like to delete this game?";
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -76,7 +78,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
         <div className="game-completed emoji">{userGame?.is_completed ? "💯" : "⏳"}</div>
         { userGame?.is_favorite && <div className="game-favorite favorite emoji">❤️</div> }
       </div>
-      <ConfirmDeleteModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteGame} deletionType="GAME" />
+      <ConfirmationModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteGame} confirmationMessage={confirmDeleteMessage} />
     </div>
   )
 }

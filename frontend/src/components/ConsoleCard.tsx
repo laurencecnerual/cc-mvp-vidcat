@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper.ts";
 import Icon from '@mdi/react';
 import { mdiPencilOutline, mdiTrashCanOutline   } from '@mdi/js';
+import ConfirmDeleteModal from "./ConfirmDeleteModal.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type ConsoleCardProps = {
@@ -15,16 +16,19 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   const {gamer} = useGamer();
   const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    showToast("info", "Deletion aborted");
+  }
 
   const handleImageLoad = () => {
     setIsLoaded(true);
   };
 
   async function handleDeleteConsole() {
-    if (!window.confirm("Are you sure you would like to delete this console?\nNote that doing this will also delete any associated games.")) {
-      return showToast("info", "Deletion aborted");
-    }
-    
     const response = await fetch(apiUrl + `/userConsole/${userConsole.id}`, {
       method: "DELETE",
       credentials: "include",
@@ -52,7 +56,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
       <div className="card-header">
         { gamer?.id === userConsole.gamer_id && <div className="buttons">
           <button type="button" className="edit" onClick={handleEditConsole}><Icon path={mdiPencilOutline} size={0.8} /></button>
-          <button type="button" className="delete" onClick={handleDeleteConsole}><Icon path={mdiTrashCanOutline} size={0.8} /></button>
+          <button type="button" className="delete" onClick={openModal}><Icon path={mdiTrashCanOutline} size={0.8} /></button>
         </div> }
         <div className="console-name">{userConsole?.name}</div>
       </div>
@@ -70,6 +74,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
         <div className="console-owned emoji">{userConsole?.is_owned ? "💸" : "🙏"}</div>
         { userConsole?.is_favorite && <div className="console-favorite favorite emoji">❤️</div> } 
       </div>
+      <ConfirmDeleteModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteConsole} deletionType="CONSOLE" />
     </div>
   )
 }

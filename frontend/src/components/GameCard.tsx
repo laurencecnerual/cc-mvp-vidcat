@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper.ts";
 import Icon from '@mdi/react';
 import { mdiPencilOutline, mdiTrashCanOutline  } from '@mdi/js';
+import ConfirmDeleteModal from "./ConfirmDeleteModal.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
 type GameCardProps = {
@@ -15,16 +16,19 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   const {gamer} = useGamer();
   const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    showToast("info", "Deletion aborted");
+  }
 
   const handleImageLoad = () => {
     setIsLoaded(true);
   };
 
-  async function handleDeleteGame() {
-    if (!window.confirm("Are you sure you would like to delete this game?")) {
-      return showToast("info", "Deletion aborted");
-    }
-    
+  async function handleDeleteGame() {  
     const response = await fetch(apiUrl + `/usergame/${userGame.id}`, {
       method: "DELETE",
       credentials: "include",
@@ -52,7 +56,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
       <div className="card-header">
         { gamer?.id === userGame.gamer_id && <div className="buttons">
           <button type="button" className="edit" onClick={handleEditGame}><Icon path={mdiPencilOutline} size={0.8} /></button>
-          <button type="button" className="delete" onClick={handleDeleteGame}><Icon path={mdiTrashCanOutline} size={0.8} /></button>
+          <button type="button" className="delete" onClick={openModal}><Icon path={mdiTrashCanOutline} size={0.8} /></button>
         </div> }
         <div className="game-name">{userGame?.name}</div>
       </div>
@@ -72,6 +76,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
         <div className="game-completed emoji">{userGame?.is_completed ? "💯" : "⏳"}</div>
         { userGame?.is_favorite && <div className="game-favorite favorite emoji">❤️</div> }
       </div>
+      <ConfirmDeleteModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteGame} deletionType="GAME" />
     </div>
   )
 }

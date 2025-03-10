@@ -16,6 +16,9 @@ import { GamerContext } from "./GamerContext.tsx"
 import {Routes, Route, Navigate} from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 function App() {
   const { gamer, isLoggedIn } = useContext(GamerContext);

@@ -20,9 +20,11 @@ export default function ConfirmDeleteModal ({isModalOpen, closeModal, handleDele
       className="modal"
       overlayClassName="overlay"
     >
-      <h2>{confirmationMessage}</h2>
-      <button type="button" onClick={handleDelete}>Yes</button>
-      <button type="button" onClick={closeModal}>No</button>
+      <p className="confirmation-message">{confirmationMessage}</p>
+      <div className="confirmation-buttons">
+        <button className="yes" type="button" onClick={handleDelete}>Yes</button>
+        <button className="no" type="button" onClick={closeModal}>No</button>
+      </div>
     </Modal>
   )
 }

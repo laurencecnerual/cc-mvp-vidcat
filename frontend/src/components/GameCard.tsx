@@ -12,6 +12,13 @@ type GameCardProps = {
   setRefresh?: (arg0: boolean) => void
 }
 
+type RecommendedGame = {
+  name: string,
+  release_year: number,
+  consoles: string,
+  reason: string
+}
+
 export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   const {gamer} = useGamer();
   const navigate = useNavigate();
@@ -63,11 +70,33 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
     });
 
     if (response.status === 200) {
-      showToast("success", "Success");
       const reply = await response.json();
       console.log(reply);
+
+      try {
+        const recommendedGame: RecommendedGame = JSON.parse(reply);
+
+        const consoleList = recommendedGame.consoles.split(", ");
+        let availableOn: string;
+
+        if (consoleList.length === 1) {
+          availableOn = consoleList[0];
+        } else if (consoleList.length === 2) {
+          availableOn = consoleList[0] + " and " + consoleList[1];
+        } else {
+          consoleList[consoleList.length - 1] = "and " + consoleList[consoleList.length - 1];
+          availableOn = consoleList.join(", ");
+        }
+
+        const recommendation = `If you like '${userGame.name}', you might also enjoy '${recommendedGame.name}' (${recommendedGame.release_year}), available on ${availableOn}. => ${recommendedGame.reason}`
+
+        showToast("recommendation", recommendation);
+      } catch (err) {
+        showToast("error", "There was an issue with the reply received");
+      }
+
     } else {
-      showToast("error", "There was an error");
+      showToast("error", "There was an error getting recommendations");
     }
   }
 

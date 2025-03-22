@@ -28,6 +28,20 @@ export const showToast = (type: string, message: string) => {
     case 'warn':
       toast.warn(message, toastOptions);
       break;
+    case 'recommendation':
+      toastOptions.autoClose = false;
+      toastOptions.closeButton = true;
+      toastOptions.pauseOnHover = true;
+      toastOptions.hideProgressBar = true;
+      toastOptions.closeOnClick = false;
+      toastOptions.style = {
+        top: "40vh",
+        minWidth: "50vw",
+        maxWidth: "90vw"
+      };
+
+      toast.info(message, toastOptions);
+      break
     default:
       break;
   } 

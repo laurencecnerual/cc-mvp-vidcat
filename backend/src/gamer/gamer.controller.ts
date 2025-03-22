@@ -190,7 +190,13 @@ export const getGameRecommendationsForUser = async (req: Request, res: Response)
   const question = "Recommend me video games I do not yet own that exist on consoles I do own and are similar to " + gameOfInterest + ". " + consoleCollection + gameCollection;
 
   try {
-    const answer = await askChatGPT(question);
+    let answer = await askChatGPT(question);
+    let trailingCommaIndex = answer.length - 3;
+
+    if (answer[trailingCommaIndex] === ",") {
+      answer = answer.slice(0, trailingCommaIndex) + answer.slice(trailingCommaIndex + 1);
+    }
+
     return res.status(200).json(answer);
   } catch(err) {
     return res.status(500).send("Error Generating Recommendations")

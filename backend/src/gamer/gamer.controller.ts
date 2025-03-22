@@ -2,7 +2,7 @@ import { getGamerByUsername, addUser, updateLastLogin, updateGamerByID, getGamer
 import { getAllUserConsoles } from "../userconsole/userconsole.model";
 import { getAllUserGames } from "../usergame/usergame.model";
 import { Request, Response } from "express";
-//import { askChatGPT } from "../recommendationGenerator"
+import { askChatGPT } from "../recommendationGenerator"
 const bcrypt = require("bcrypt");
 
 async function hashPassword(plainTextPassword: string) {
@@ -187,7 +187,12 @@ export const getGameRecommendationsForUser = async (req: Request, res: Response)
   const consoleCollection = "[CONSOLES I OWN]: " + allConsolesForUser.map(console => `${console.name}`).join(", ") +  ". ";
   const gameCollection = "[GAMES I OWN]: " + allGamesForUser.map(game => `'${game.name}'`).join(", ") +  ". ";
 
-  const query = "List 5 video games I do not yet own that exist on consoles I do own and are similar to " + gameOfInterest + ". " + consoleCollection + gameCollection;
+  const question = "List 5 video games I do not yet own that exist on consoles I do own and are similar to " + gameOfInterest + ". " + consoleCollection + gameCollection;
 
-  res.status(200).json(query);
+  try {
+    const answer = await askChatGPT(question);
+    return res.status(200).json(answer);
+  } catch(err) {
+    return res.status(500).send("Error Generating Recommendations")
+  }
 };

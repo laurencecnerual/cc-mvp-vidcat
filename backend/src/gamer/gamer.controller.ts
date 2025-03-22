@@ -187,7 +187,7 @@ export const getGameRecommendationsForUser = async (req: Request, res: Response)
   const consoleCollection = "[CONSOLES I OWN]: " + allConsolesForUser.map(console => `${console.name}`).join(", ") +  ". ";
   const gameCollection = "[GAMES I OWN]: " + allGamesForUser.map(game => `'${game.name}'`).join(", ") +  ". ";
 
-  const question = "List 5 video games I do not yet own that exist on consoles I do own and are similar to " + gameOfInterest + ". " + consoleCollection + gameCollection;
+  const question = "Recommend me video games I do not yet own that exist on consoles I do own and are similar to " + gameOfInterest + ". " + consoleCollection + gameCollection;
 
   try {
     const answer = await askChatGPT(question);

@@ -14,7 +14,7 @@ export const askChatGPT = async (userQuestion: string): Promise<string> => {
           {
             role: 'system',
             content:
-              'Format response as JSON string. Each object should have these keys: name, release_year, consoles, reason. Make consoles a comma separated string and only include ones the user owns. Make reason one sentence long.',
+              'Format response as JSON string with these keys: name, release_year, consoles, reason. Make consoles a comma separated string and only include ones the user owns. Make reason only one sentence long. Answer with 1 game, but do not always pick the same game.',
           },
           {
             role: 'user',
@@ -22,9 +22,9 @@ export const askChatGPT = async (userQuestion: string): Promise<string> => {
           },
         ],
         max_tokens: 300,
-        temperature: 0.0,
-        frequency_penalty: 0.0,
-        presence_penalty: 0.0,
+        temperature: 0.7,
+        frequency_penalty: 0.5,
+        presence_penalty: 0.5,
       }),
     });
 

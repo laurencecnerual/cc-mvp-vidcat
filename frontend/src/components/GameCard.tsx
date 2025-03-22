@@ -54,7 +54,21 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   }
 
   async function getRecommendation() {
-    alert("Implement me");
+    const response = await fetch(apiUrl + `/recommendation?rawg_id=${userGame.rawg_id}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if (response.status === 200) {
+      showToast("success", "Success");
+      const reply = await response.json();
+      console.log(reply);
+    } else {
+      showToast("error", "There was an error");
+    }
   }
 
   return (

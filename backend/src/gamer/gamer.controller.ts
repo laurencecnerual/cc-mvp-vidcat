@@ -2,6 +2,7 @@ import { getGamerByUsername, addUser, updateLastLogin, updateGamerByID, getGamer
 import { getAllUserConsoles } from "../userconsole/userconsole.model";
 import { getAllUserGames } from "../usergame/usergame.model";
 import { Request, Response } from "express";
+//import { askChatGPT } from "../recommendationGenerator"
 const bcrypt = require("bcrypt");
 
 async function hashPassword(plainTextPassword: string) {
@@ -165,4 +166,28 @@ export const getGamerProfile = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).send(err);
   }
+};
+
+export const getGameRecommendationsForUser = async (req: Request, res: Response) => {
+  if (!req.query.rawg_id) {
+    return res.status(400).send("Game ID Required");
+  }
+
+  const userID = Number(req.session.gamer_id)
+  const gameID = Number(req.query.rawg_id);
+  const allGamesForUser = await getAllUserGames(userID);
+  const allConsolesForUser = await getAllUserConsoles(userID);
+  const gamesMatchingID = allGamesForUser.filter(game => game.rawg_id === gameID);
+
+  if (!gamesMatchingID) {
+    return res.status(400).send("Invalid Game ID Received");
+  }
+
+  const gameOfInterest = `'${gamesMatchingID[0].name}'`;
+  const consoleCollection = "[CONSOLES I OWN]: " + allConsolesForUser.map(console => `${console.name}`).join(", ") +  ". ";
+  const gameCollection = "[GAMES I OWN]: " + allGamesForUser.map(game => `'${game.name}'`).join(", ") +  ". ";
+
+  const query = "List 5 video games I do not yet own that exist on consoles I do own and are similar to " + gameOfInterest + ". " + consoleCollection + gameCollection;
+
+  res.status(200).json(query);
 };

@@ -5,7 +5,7 @@ const cors = require("cors");
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
-import { signup, login, logout, getGamerProfile, updateGamer, sendUserID } from './gamer/gamer.controller';
+import { signup, login, logout, getGamerProfile, updateGamer, sendUserID, getGameRecommendationsForUser } from './gamer/gamer.controller';
 import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole, getSingleUserConsole, updateUserConsole } from './userconsole/userconsole.controller'
 import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole, getSingleUserGame, updateUserGame } from './usergame/usergame.controller'
 import { checkIsAuthenticated, checkIsAuthorizedByParams, getGamerIDFromUserConsole, getGamerIDFromUserGame, checkIsAuthorizedByReqBody } from "./authMiddleware";
@@ -58,6 +58,7 @@ app.post("/login", login);
 app.get("/session", checkIsAuthenticated, sendUserID);
 app.post("/logout", logout);
 app.get("/profile/:username", getGamerProfile);
+app.get("/recommendation", checkIsAuthenticated, getGameRecommendationsForUser);
 
 app.get("/console", checkIsAuthenticated, getConsoles);
 app.get("/console/:id", checkIsAuthenticated, getSingleConsole);

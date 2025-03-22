@@ -71,7 +71,6 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
 
     if (response.status === 200) {
       const reply = await response.json();
-      console.log(reply);
 
       try {
         const recommendedGame: RecommendedGame = JSON.parse(reply);

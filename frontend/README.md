@@ -20,8 +20,9 @@ Live on Render at https://vidcat.onrender.com/
   - Mark your favorites
   - Leave your personal rating
   - Leave a review
+  - Get recommendations for similar games from ChatGPT
 
 - View your collection
   - Enjoy the nostalgia of seeing pictures of your consoles and games
-  - See interesting stats such release dates and official ratings
+  - See interesting stats such as release dates and official ratings
   - Share your collection with friends via your public profile link: [https://vidcat.onrender.com/users/PutYourUsernameHere](https://vidcat.onrender.com/users/laurencecnerual)

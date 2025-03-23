@@ -8,6 +8,8 @@ Live on Render at https://vidcat-backend.onrender.com/
 - Express.js
 - Knex.js
 - PostgreSQL
+- RAWG API
+- OpenAI API
 
 ## Architecture
 
@@ -38,6 +40,8 @@ Live on Render at https://vidcat-backend.onrender.com/
 - PATCH `/gamer/:id`: Used to update the target user with the payload sent in the body. Responds with the updated user object
 
 - GET `/profile/:username`: Used to get the public profile of the user. Responds with an object containing the user's `userconsoles` (array), `usergames` (array), and `profilePicture` (string)
+
+- GET `/recommendation`: Used to get an AI-generated game recommendation similar to a specific game that the user owns. The game must be specified using the query parameter `rawg_id`. Responds with a single JSON object representing the recommended game, consisting of `name`, `release_year`, `consoles` (a comma-separated string), and `reason`
 
 #### Console related
 

@@ -225,6 +225,7 @@ div.buttons {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  padding-bottom: 4px;
 }
 
 .game-picture, .console-picture {

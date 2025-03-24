@@ -3,7 +3,7 @@ import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../ToastHelper.ts";
 import Icon from '@mdi/react';
-import { mdiPencilOutline, mdiTrashCanOutline, mdiHeartSearch } from '@mdi/js';
+import { mdiPencilOutline, mdiTrashCanOutline, mdiRobotLoveOutline } from '@mdi/js';
 import ConfirmationModal from "./ConfirmationModal.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -24,6 +24,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const buttonIconSize = 0.9;
 
   const confirmDeleteMessage = "Are you sure you would like to delete this game?";
 
@@ -103,9 +104,9 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
     <div className={ gamer?.id === userGame.gamer_id ? "own-card card" : "card" }>
       <div className="card-header">
         { gamer?.id === userGame.gamer_id && <div className="buttons">
-          <button type="button" className="edit" onClick={handleEditGame}><Icon path={mdiPencilOutline} size={0.8} /></button>
-          <button type="button" className="recommend" onClick={getRecommendation}><Icon path={mdiHeartSearch} size={0.8} /></button>
-          <button type="button" className="delete" onClick={openModal}><Icon path={mdiTrashCanOutline} size={0.8} /></button>
+          <button type="button" className="edit" onClick={handleEditGame}><Icon path={mdiPencilOutline} size={buttonIconSize} /></button>
+          <button type="button" className="recommend" onClick={getRecommendation}><Icon path={mdiRobotLoveOutline} size={buttonIconSize} /></button>
+          <button type="button" className="delete" onClick={openModal}><Icon path={mdiTrashCanOutline} size={buttonIconSize} /></button>
         </div> }
         <div className="game-name">{userGame?.name}</div>
       </div>

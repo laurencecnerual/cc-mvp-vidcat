@@ -17,6 +17,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const buttonIconSize = 0.9;
 
   const confirmDeleteMessage = "Are you sure you would like to delete this console? Note that doing this will also delete any associated games.";
 
@@ -57,8 +58,8 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
     <div className={ gamer?.id === userConsole.gamer_id ? "own-card card" : "card" }>
       <div className="card-header">
         { gamer?.id === userConsole.gamer_id && <div className="buttons">
-          <button type="button" className="edit" onClick={handleEditConsole}><Icon path={mdiPencilOutline} size={0.8} /></button>
-          <button type="button" className="delete" onClick={openModal}><Icon path={mdiTrashCanOutline} size={0.8} /></button>
+          <button type="button" className="edit" onClick={handleEditConsole}><Icon path={mdiPencilOutline} size={buttonIconSize} /></button>
+          <button type="button" className="delete" onClick={openModal}><Icon path={mdiTrashCanOutline} size={buttonIconSize} /></button>
         </div> }
         <div className="console-name">{userConsole?.name}</div>
       </div>

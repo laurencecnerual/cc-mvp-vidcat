@@ -191,10 +191,6 @@ div.card-content {
   gap: 16px;
 }
 
-div.own-card:hover {
-  border-color: rgba(255, 111, 97, 1);
-}
-
 div.console-name, div.game-name {
   font-size: 1.3rem;
 }

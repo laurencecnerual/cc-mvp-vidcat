@@ -55,7 +55,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
   }
 
   return (
-    <div className={ gamer?.id === userConsole.gamer_id ? "own-card card" : "card" }>
+    <div className={ gamer?.id === userConsole.gamer_id ? "own-card card" : "other-card card" }>
       <div className="card-header">
         { gamer?.id === userConsole.gamer_id && <div className="buttons">
           <button type="button" className="edit" onClick={handleEditConsole}><Icon path={mdiPencilOutline} size={buttonIconSize} /></button>

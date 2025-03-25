@@ -432,6 +432,11 @@ button.get-my-url {
 
   div.console-name, div.game-name {
     font-size: 1.1rem;
+    padding-bottom: 2px;
+  }
+
+  div.other-card div.console-name, div.other-card div.game-name {
+    padding-top: 4px;
   }
 
   .game-picture, .console-picture {

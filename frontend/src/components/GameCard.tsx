@@ -101,7 +101,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   }
 
   return (
-    <div className={ gamer?.id === userGame.gamer_id ? "own-card card" : "card" }>
+    <div className={ gamer?.id === userGame.gamer_id ? "own-card card" : "other-card card" }>
       <div className="card-header">
         { gamer?.id === userGame.gamer_id && <div className="buttons">
           <button type="button" className="edit" onClick={handleEditGame}><Icon path={mdiPencilOutline} size={buttonIconSize} /></button>

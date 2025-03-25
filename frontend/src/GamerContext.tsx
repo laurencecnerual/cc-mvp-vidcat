@@ -32,6 +32,8 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
     });
 
     if (response.status === 200) {
+      localStorage.removeItem('gamer');
+      localStorage.removeItem('gameList');
       setGamer(null);
       setIsLoggedIn(false);
     } else {
@@ -39,8 +41,7 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
     }
   }
 
-  // checks if still logged into the backend and if not, forces a full logout
-  async function handleCheckLoggedIn() {
+  async function handleCheckLoggedIn(savedGamer: string) {
     const response = await fetch(apiUrl + "/session", {
       method: "GET",
       credentials: "include",
@@ -52,26 +53,18 @@ export const GamerProvider: React.FC<React.PropsWithChildren<{}>> = ({ children 
     if (response.status === 401) {
       handleLogout();
     } else if (response.status === 200) {
+      setGamer(JSON.parse(savedGamer));
       setIsLoggedIn(true);
     }
   }
 
   useEffect(() => {
     const savedGamer = localStorage.getItem('gamer');
-    
-    if (savedGamer) {
-      setGamer(JSON.parse(savedGamer));
-    }
 
-    handleCheckLoggedIn();
-  }, []);
-
-  useEffect(() => {
-    if (gamer) {
+    if (gamer && (!savedGamer || gamer != JSON.parse(savedGamer))) {
       localStorage.setItem('gamer', JSON.stringify(gamer));
-    } else {
-      localStorage.removeItem('gamer');
-      localStorage.removeItem('gameList');
+    } else if (savedGamer && !gamer) {
+        handleCheckLoggedIn(savedGamer);
     }
   }, [gamer]);
 

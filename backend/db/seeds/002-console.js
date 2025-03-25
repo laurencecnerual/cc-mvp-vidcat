@@ -194,6 +194,13 @@ exports.seed = async function(knex) {
       release_year: 2020,
       picture: "https://upload.wikimedia.org/wikipedia/commons/5/54/Xbox_Series_S_with_controller.jpg",
       is_handheld: false
+    },
+    {
+      name: 'Steam Deck',
+      maker: 'Valve',
+      release_year: 2022,
+      picture: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Steam_Deck_%28front%29.png",
+      is_handheld: true
     }
   ]);
 };

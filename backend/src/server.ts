@@ -40,7 +40,7 @@ app.use(
       httpOnly: true, 
       secure: process.env.NODE_ENV_TYPE === "production", 
       sameSite: "Lax",
-      maxAge: 1000 * 60 * 60 * 24,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
       domain: undefined
     },
   })

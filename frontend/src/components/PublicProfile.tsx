@@ -56,7 +56,7 @@ export default function PublicProfile() {
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',
           }}/> }
-          <IconLegend />
+          { (userConsoles.length > 0 || userGames.length > 0) && <IconLegend /> }
           <h2 className="non-top-header">Consoles</h2>
           { userConsoles.length > 0 ? 
             <div className="consoles-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 

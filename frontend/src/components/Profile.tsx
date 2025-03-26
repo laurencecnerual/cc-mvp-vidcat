@@ -5,6 +5,7 @@ import { useGamer } from "../GamerContext.tsx";
 import GameCard from "./GameCard.tsx";
 import ConsoleCard from "./ConsoleCard.tsx";
 import Loading from "./Loading.tsx";
+import IconLegend from "./IconLegend.tsx";
 import { showToast } from "../ToastHelper.ts";
 
 export default function Profile() {
@@ -77,6 +78,7 @@ export default function Profile() {
         <div className="get-my-url">
           <button className="get-my-url" type="button" onClick={getUserPublicProfileURL}>Get My Public Profile URL</button>
         </div>
+        <IconLegend />
         <div className="consoles-section">
           <h2 className="non-top-header">Your Consoles</h2>
           { userConsoles.length > 0 ? <div className="consoles-list card-list">

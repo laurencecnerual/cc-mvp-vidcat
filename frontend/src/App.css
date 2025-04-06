@@ -413,6 +413,17 @@ span.emoji {
   padding: 3px 1px;
 }
 
+.legend-icon {
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+div.active-icon {
+  background-color: rgba(129, 199, 132, 1);
+  color: #F5F5DC;
+}
+
 @media only screen and (max-width: 600px) {
   div.banner {
     padding: 12px 10px;

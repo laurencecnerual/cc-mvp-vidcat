@@ -56,13 +56,14 @@ export default function PublicProfile() {
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',
           }}/> }
-          { (userConsoles.length > 0 || userGames.length > 0) && <IconLegend /> }
           <h2 className="non-top-header">Consoles</h2>
+          { (userConsoles.length > 0) && <IconLegend isGameLegend={false} /> }
           { userConsoles.length > 0 ? 
             <div className="consoles-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 
             : <p className="nothing-registered">No Consoles Registered</p> 
           }
           <h2 className="non-top-header">Games</h2>
+          { (userGames.length > 0) && <IconLegend isGameLegend={true} /> }
           { userGames.length > 0 ? 
             <div className="games-list card-list">{ userGames.map(ug => <GameCard key={ug.id} userGame={ug} />) }</div> 
             : <p className="nothing-registered">No Games Registered</p> 

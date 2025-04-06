@@ -1,15 +1,43 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type IconLegendProps = {
-  isGameLegend: boolean
+  isGameLegend: boolean,
+  displayedItems: UserConsoleWithConsoleData[] | UserGameWithGameData[],
+  setDisplayedItems: Function
 }
 
-export default function IconLegend({isGameLegend}: IconLegendProps) {
+export default function IconLegend({isGameLegend, displayedItems, setDisplayedItems}: IconLegendProps) {
   const [filterOwned, setFilterOwned] = useState(false);
   const [filterWanted, setFilterWanted] = useState(false);
   const [filterLoved, setFilterLoved] = useState(false);
   const [filterBeaten, setFilterBeaten] = useState(false);
   const [filterWIP, setFilterWIP] = useState(false);
+
+  useEffect(() => {
+    let itemsToDisplay: UserConsoleWithConsoleData[] | UserGameWithGameData[] = displayedItems;
+
+    if (filterOwned) {
+      itemsToDisplay = itemsToDisplay.filter((item) => item.is_owned) as UserConsoleWithConsoleData[] | UserGameWithGameData[];
+    } 
+    
+    if (filterWanted) {
+      itemsToDisplay = itemsToDisplay.filter((item) => !item.is_owned) as UserConsoleWithConsoleData[] | UserGameWithGameData[];
+    } 
+    
+    if (filterLoved) {
+      itemsToDisplay = itemsToDisplay.filter((item) => item.is_favorite) as UserConsoleWithConsoleData[] | UserGameWithGameData[];
+    }
+    
+    if (filterBeaten) {
+      itemsToDisplay = itemsToDisplay.filter((item) => 'is_completed' in item && item.is_completed) as UserGameWithGameData[];
+    } 
+    
+    if (filterWIP) {
+      itemsToDisplay = itemsToDisplay.filter((item) => 'is_completed' in item && !item.is_completed) as UserGameWithGameData[];
+    } 
+
+    setDisplayedItems(itemsToDisplay);
+  }, [filterOwned, filterWanted, filterLoved, filterBeaten, filterWIP])
 
   function handleToggle(state: boolean, setState: Function) {
     setState(!state);

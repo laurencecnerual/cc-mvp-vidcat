@@ -11,7 +11,9 @@ import { showToast } from "../ToastHelper.ts";
 export default function Profile() {
   const {gamer} = useGamer();
   const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
+  const [displayedUserConsoles, setDisplayedUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
+  const [displayedUserGames, setDisplayedUserGames] = useState<UserGameWithGameData[]>([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
 
@@ -55,11 +57,11 @@ export default function Profile() {
   }
 
   function generateConsoleCards() {
-    return userConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} setRefresh={setRefresh} />);
+    return displayedUserConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} setRefresh={setRefresh} />);
   }
 
   function generateGameCards() {
-    return userGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} setRefresh={setRefresh} />);
+    return displayedUserGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} setRefresh={setRefresh} />);
   }
 
   function getUserPublicProfileURL() {
@@ -80,14 +82,14 @@ export default function Profile() {
         </div>
         <div className="consoles-section">
           <h2 className="non-top-header">Your Consoles</h2>
-          { (userConsoles.length > 0) && <IconLegend isGameLegend={false} /> }
+          { (userConsoles.length > 0) && <IconLegend isGameLegend={false} displayedItems={userConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
           { userConsoles.length > 0 ? <div className="consoles-list card-list">
             { generateConsoleCards() }
           </div> : <p className="nothing-registered">No Consoles Registered - <Link to="/add-console">Add some</Link></p> }
         </div>
         <div className="games-section">
           <h2 className="non-top-header">Your Games</h2>
-          { (userGames.length > 0) && <IconLegend isGameLegend={true} /> }
+          { (userGames.length > 0) && <IconLegend isGameLegend={true} displayedItems={userGames} setDisplayedItems={setDisplayedUserGames} /> }
           { userGames.length > 0 ? <div className="games-list card-list">
             { generateGameCards() }
           </div> : <p className="nothing-registered">No Games Registered - <Link to="/add-game">Add some</Link></p> }

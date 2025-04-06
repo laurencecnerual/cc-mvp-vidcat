@@ -13,7 +13,9 @@ export default function PublicProfile() {
   const username = useParams().username || "";
   const [loading, setLoading] = useState(true);
   const [userConsoles, setUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
+  const [displayedUserConsoles, setDisplayedUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
+  const [displayedUserGames, setDisplayedUserGames] = useState<UserGameWithGameData[]>([]);
   const [profilePicture, setProfilePicture] = useState<string>();
   const [validatedUsername, setValidatedUsername] = useState<string>("");
   const [isLoaded, setIsLoaded] = useState(false);
@@ -57,15 +59,15 @@ export default function PublicProfile() {
             transition: 'opacity 1s ease-in-out',
           }}/> }
           <h2 className="non-top-header">Consoles</h2>
-          { (userConsoles.length > 0) && <IconLegend isGameLegend={false} /> }
+          { (userConsoles.length > 0) && <IconLegend isGameLegend={false} displayedItems={userConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
           { userConsoles.length > 0 ? 
-            <div className="consoles-list card-list">{ userConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 
+            <div className="consoles-list card-list">{ displayedUserConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 
             : <p className="nothing-registered">No Consoles Registered</p> 
           }
           <h2 className="non-top-header">Games</h2>
-          { (userGames.length > 0) && <IconLegend isGameLegend={true} /> }
+          { (userGames.length > 0) && <IconLegend isGameLegend={true} displayedItems={userGames} setDisplayedItems={setDisplayedUserGames} /> }
           { userGames.length > 0 ? 
-            <div className="games-list card-list">{ userGames.map(ug => <GameCard key={ug.id} userGame={ug} />) }</div> 
+            <div className="games-list card-list">{ displayedUserGames.map(ug => <GameCard key={ug.id} userGame={ug} />) }</div> 
             : <p className="nothing-registered">No Games Registered</p> 
           }
         </div>

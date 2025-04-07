@@ -44,6 +44,26 @@ export default function PublicProfile() {
     setLoading(false);
   }
 
+    function generateConsoleGridAndCards() {
+      if (displayedUserConsoles.length > 0) {
+        return <div className="consoles-list card-list">
+          { displayedUserConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} />) }
+        </div>
+      } else {
+        return <p className="over-filtered">Oops, it looks like you've filtered too much. Try removing some criteria.</p>
+      }
+    }
+  
+    function generateGameGridAndCards() {
+      if (displayedUserGames.length > 0) {
+        return <div className="games-list card-list">
+          { displayedUserGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} />) }
+        </div>
+      } else {
+        return <p className="over-filtered">Oops, it looks like you've filtered too much. Try removing some criteria.</p>
+      }
+    }
+
   if (loading) {
     return <Loading />
   }
@@ -60,14 +80,16 @@ export default function PublicProfile() {
           }}/> }
           <h2 className="non-top-header">Consoles</h2>
           { (userConsoles.length > 0) && <IconLegend isGameLegend={false} displayedItems={userConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
-          { userConsoles.length > 0 ? 
-            <div className="consoles-list card-list">{ displayedUserConsoles.map(uc => <ConsoleCard key={uc.id} userConsole={uc} />) }</div> 
-            : <p className="nothing-registered">No Consoles Registered</p> 
+          { 
+            userConsoles.length > 0 ? 
+            generateConsoleGridAndCards() 
+            : <p className="nothing-registered">No Consoles Registered</p>
           }
           <h2 className="non-top-header">Games</h2>
           { (userGames.length > 0) && <IconLegend isGameLegend={true} displayedItems={userGames} setDisplayedItems={setDisplayedUserGames} /> }
-          { userGames.length > 0 ? 
-            <div className="games-list card-list">{ displayedUserGames.map(ug => <GameCard key={ug.id} userGame={ug} />) }</div> 
+          { 
+            userGames.length > 0 ? 
+            generateGameGridAndCards() 
             : <p className="nothing-registered">No Games Registered</p> 
           }
         </div>

@@ -56,12 +56,24 @@ export default function Profile() {
     setLoading(false);
   }
 
-  function generateConsoleCards() {
-    return displayedUserConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} setRefresh={setRefresh} />);
+  function generateConsoleGridAndCards() {
+    if (displayedUserConsoles.length > 0) {
+      return <div className="consoles-list card-list">
+        { displayedUserConsoles.map((userConsole) => <ConsoleCard key={userConsole.id} userConsole={userConsole} setRefresh={setRefresh} />) }
+      </div>
+    } else {
+      return <p className="over-filtered">Oops, it looks like you've filtered too much. Try removing some criteria.</p>
+    }
   }
 
-  function generateGameCards() {
-    return displayedUserGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} setRefresh={setRefresh} />);
+  function generateGameGridAndCards() {
+    if (displayedUserGames.length > 0) {
+      return <div className="games-list card-list">
+        { displayedUserGames.map((userGame) => <GameCard key={userGame.id} userGame={userGame} setRefresh={setRefresh} />) }
+      </div>
+    } else {
+      return <p className="over-filtered">Oops, it looks like you've filtered too much. Try removing some criteria.</p>
+    }
   }
 
   function getUserPublicProfileURL() {
@@ -83,16 +95,20 @@ export default function Profile() {
         <div className="consoles-section">
           <h2 className="non-top-header">Your Consoles</h2>
           { (userConsoles.length > 0) && <IconLegend isGameLegend={false} displayedItems={userConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
-          { userConsoles.length > 0 ? <div className="consoles-list card-list">
-            { generateConsoleCards() }
-          </div> : <p className="nothing-registered">No Consoles Registered - <Link to="/add-console">Add some</Link></p> }
+          { 
+            userConsoles.length > 0 ? 
+            generateConsoleGridAndCards() 
+            : <p className="nothing-registered">No Consoles Registered - <Link to="/add-console">Add some</Link></p>
+          }
         </div>
         <div className="games-section">
           <h2 className="non-top-header">Your Games</h2>
           { (userGames.length > 0) && <IconLegend isGameLegend={true} displayedItems={userGames} setDisplayedItems={setDisplayedUserGames} /> }
-          { userGames.length > 0 ? <div className="games-list card-list">
-            { generateGameCards() }
-          </div> : <p className="nothing-registered">No Games Registered - <Link to="/add-game">Add some</Link></p> }
+          { 
+            userGames.length > 0 ? 
+            generateGameGridAndCards() 
+            : <p className="nothing-registered">No Games Registered - <Link to="/add-game">Add some</Link></p> 
+          }
         </div>
       </div>
     </>

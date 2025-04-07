@@ -302,11 +302,11 @@ a.no-consoles {
   justify-content: center;
 }
 
-.nothing-registered {
+.nothing-registered, .over-filtered {
   margin: 0;
   text-align: center;
-  padding-bottom: 25vh;
   font-size: 1.2rem;
+  padding: 0 8px 5vh
 }
 
 .nothing-registered a {

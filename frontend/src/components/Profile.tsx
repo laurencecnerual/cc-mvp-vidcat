@@ -94,7 +94,7 @@ export default function Profile() {
         </div>
         <div className="consoles-section">
           <h2 className="non-top-header">Your Consoles</h2>
-          { (userConsoles.length > 0) && <IconLegend isGameLegend={false} items={userConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
+          { (userConsoles.length > 0) && <IconLegend items={userConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
           { 
             userConsoles.length > 0 ? 
             generateConsoleGridAndCards() 
@@ -103,7 +103,7 @@ export default function Profile() {
         </div>
         <div className="games-section">
           <h2 className="non-top-header">Your Games</h2>
-          { (userGames.length > 0) && <IconLegend isGameLegend={true} items={userGames} setDisplayedItems={setDisplayedUserGames} /> }
+          { (userGames.length > 0) && <IconLegend items={userGames} setDisplayedItems={setDisplayedUserGames} /> }
           { 
             userGames.length > 0 ? 
             generateGameGridAndCards() 

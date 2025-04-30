@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 
 type IconLegendProps = {
-  isGameLegend: boolean,
   items: UserConsoleWithConsoleData[] | UserGameWithGameData[],
   setDisplayedItems: Function
 }
 
-export default function IconLegend({isGameLegend, items, setDisplayedItems}: IconLegendProps) {
+export default function IconLegend({ items, setDisplayedItems }: IconLegendProps) {
   const [filterOwned, setFilterOwned] = useState(false);
   const [filterWanted, setFilterWanted] = useState(false);
   const [filterLoved, setFilterLoved] = useState(false);
   const [filterBeaten, setFilterBeaten] = useState(false);
   const [filterWIP, setFilterWIP] = useState(false);
+  const isGameLegend = items.length > 0 ? items[0].hasOwnProperty("rawg_id") : false
 
   useEffect(() => {
     let itemsToDisplay: UserConsoleWithConsoleData[] | UserGameWithGameData[] = items;

@@ -4,8 +4,8 @@ import { useParams } from 'react-router';
 import ConsoleCard from './ConsoleCard';
 import GameCard from './GameCard';
 import Loading from "./Loading.tsx";
-import IconLegend from './IconLegend.tsx';
 import { showToast } from '../ToastHelper.ts';
+import SortAndFilter from './SortAndFilter.tsx';
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -79,14 +79,14 @@ export default function PublicProfile() {
             transition: 'opacity 1s ease-in-out',
           }}/> }
           <h2 className="non-top-header">Consoles</h2>
-          { (userConsoles.length > 0) && <IconLegend masterItems={userConsoles} setMasterItems={setUserConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
+          { (userConsoles.length > 0) && <SortAndFilter masterItems={userConsoles} setMasterItems={setUserConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
           { 
             userConsoles.length > 0 ? 
             generateConsoleGridAndCards() 
             : <p className="nothing-registered">No Consoles Registered</p>
           }
           <h2 className="non-top-header">Games</h2>
-          { (userGames.length > 0) && <IconLegend masterItems={userGames} setMasterItems={setUserGames} setDisplayedItems={setDisplayedUserGames} /> }
+          { (userGames.length > 0) && <SortAndFilter masterItems={userGames} setMasterItems={setUserGames} setDisplayedItems={setDisplayedUserGames} /> }
           { 
             userGames.length > 0 ? 
             generateGameGridAndCards() 

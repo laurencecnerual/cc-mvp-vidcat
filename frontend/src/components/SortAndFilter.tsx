@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
-type IconLegendProps = {
+type SortAndFilterProps = {
   masterItems: UserConsoleWithConsoleData[] | UserGameWithGameData[],
   setMasterItems: Function, 
   setDisplayedItems: Function
 }
 
-export default function IconLegend({ masterItems, setMasterItems, setDisplayedItems }: IconLegendProps) {
+export default function SortAndFilter({ masterItems, setMasterItems, setDisplayedItems }: SortAndFilterProps) {
   const [filterOwned, setFilterOwned] = useState(false);
   const [filterWanted, setFilterWanted] = useState(false);
   const [filterLoved, setFilterLoved] = useState(false);

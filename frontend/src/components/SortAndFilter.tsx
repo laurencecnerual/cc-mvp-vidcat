@@ -92,7 +92,7 @@ export default function SortAndFilter({ masterItems, setMasterItems, setDisplaye
     setState(!state);
   }
 
-  function getLegendIconClassName(state: boolean): string {
+  function getFilterIconClassName(state: boolean): string {
     return state ? "legend-icon active-icon" : "legend-icon";
   }
 
@@ -104,11 +104,11 @@ export default function SortAndFilter({ masterItems, setMasterItems, setDisplaye
     <>
       <div className="filter-sort-container">
         <div className="filter-legend">
-          <div className={getLegendIconClassName(filterOwned)} onClick={() => handleToggle(filterOwned, setFilterOwned)}><span className="emoji">💸</span> Own it</div>
-          <div className={getLegendIconClassName(filterWanted)} onClick={() => handleToggle(filterWanted, setFilterWanted)}><span className="emoji">🙏</span> Want it</div>
-          <div className={getLegendIconClassName(filterLoved)} onClick={() => handleToggle(filterLoved, setFilterLoved)}><span className="emoji">❤️</span> Love it</div>
-          { itemsAreGames && <div className={getLegendIconClassName(filterBeaten)} onClick={() => handleToggle(filterBeaten, setFilterBeaten)}><span className="emoji">💯</span> Beat it</div> }
-          { itemsAreGames && <div className={getLegendIconClassName(filterWIP)} onClick={() => handleToggle(filterWIP, setFilterWIP)}><span className="emoji">⏳</span> WIP</div> }
+          <div className={getFilterIconClassName(filterOwned)} onClick={() => handleToggle(filterOwned, setFilterOwned)}><span className="emoji">💸</span> Own it</div>
+          <div className={getFilterIconClassName(filterWanted)} onClick={() => handleToggle(filterWanted, setFilterWanted)}><span className="emoji">🙏</span> Want it</div>
+          <div className={getFilterIconClassName(filterLoved)} onClick={() => handleToggle(filterLoved, setFilterLoved)}><span className="emoji">❤️</span> Love it</div>
+          { itemsAreGames && <div className={getFilterIconClassName(filterBeaten)} onClick={() => handleToggle(filterBeaten, setFilterBeaten)}><span className="emoji">💯</span> Beat it</div> }
+          { itemsAreGames && <div className={getFilterIconClassName(filterWIP)} onClick={() => handleToggle(filterWIP, setFilterWIP)}><span className="emoji">⏳</span> WIP</div> }
         </div>
         <select className="sort-dropdown" name="sort-order" onChange={handleSortOrderUpdate}>
           <option value="add-date-old-first" >Date Added: Old to New</option>

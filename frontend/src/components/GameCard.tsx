@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
-import { showToast } from "../ToastHelper.ts";
+import { showToast, removeToast } from "../ToastHelper.ts";
 import Icon from '@mdi/react';
 import { mdiPencilOutline, mdiTrashCanOutline, mdiRobotLoveOutline } from '@mdi/js';
 import ConfirmationModal from "./ConfirmationModal.tsx";
@@ -62,6 +62,8 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
   }
 
   async function getRecommendation() {
+    const loadingToastID = showToast("loading", "Generating recommendation...");
+
     const response = await fetch(apiUrl + `/recommendation?rawg_id=${userGame.rawg_id}`, {
       method: "GET",
       credentials: "include",
@@ -90,13 +92,25 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
 
         const recommendation = `If you like '${userGame.name}', you might also enjoy '${recommendedGame.name}' (${recommendedGame.release_year}), available on ${availableOn}. => ${recommendedGame.reason}`
 
+        if (loadingToastID) {
+          removeToast(loadingToastID);
+        }
+
         showToast("recommendation", recommendation);
       } catch (err) {
+        if (loadingToastID) {
+          removeToast(loadingToastID);
+        }
+
         showToast("error", "There was an issue with the reply received");
       }
 
     } else {
-      showToast("error", "There was an error getting recommendations");
+        if (loadingToastID) {
+          removeToast(loadingToastID);
+        }
+
+        showToast("error", "There was an error getting recommendations");
     }
   }
 

@@ -1,4 +1,8 @@
-import { toast, ToastOptions } from 'react-toastify';
+import { Id, toast, ToastOptions } from 'react-toastify';
+
+export const removeToast = (id: Id) => {
+  toast.dismiss(id);
+}
 
 export const showToast = (type: string, message: string) => {
   const toastOptions = {
@@ -17,17 +21,20 @@ export const showToast = (type: string, message: string) => {
 
   switch(type) {
     case 'success':
-      toast.success(message, toastOptions);
-      break;
+      return toast.success(message, toastOptions);
     case 'error':
-      toast.error(message, toastOptions);
-      break;
+      return toast.error(message, toastOptions);
     case 'info':
-      toast.info(message, toastOptions);
-      break;
+      return toast.info(message, toastOptions);
     case 'warn':
-      toast.warn(message, toastOptions);
-      break;
+      return toast.warn(message, toastOptions);
+    case 'loading':
+      toastOptions.style = {
+        top: "40vh",
+        maxWidth: "90vw"
+      };
+
+      return toast.loading(message, toastOptions);
     case 'recommendation':
       toastOptions.autoClose = false;
       toastOptions.closeButton = true;
@@ -40,9 +47,8 @@ export const showToast = (type: string, message: string) => {
         maxWidth: "90vw"
       };
 
-      toast.info(message, toastOptions);
-      break
+      return toast.info(message, toastOptions);
     default:
-      break;
+      return undefined;
   } 
 };

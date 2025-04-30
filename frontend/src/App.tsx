@@ -35,8 +35,6 @@ function App() {
           <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />
           <Route path="edit-console" element={gamer ? <EditConsole /> : <Navigate to="/login" />} />
           <Route path="edit-game" element={gamer ? <EditGame /> : <Navigate to="/login" />} />
-          {/* Redirect to preserve obsolete profile path listed in resume */}
-          <Route path="laurencecnerual" element={<Navigate to="/users/laurencecnerual" />} />
           <Route path="/users/:username" element={<PublicProfile />} />
           <Route path="*" element={<Navigate to="/not-found" />} />
           <Route path="not-found" element={<NotFound />} />

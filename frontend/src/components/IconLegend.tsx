@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 
 type IconLegendProps = {
   isGameLegend: boolean,
-  displayedItems: UserConsoleWithConsoleData[] | UserGameWithGameData[],
+  items: UserConsoleWithConsoleData[] | UserGameWithGameData[],
   setDisplayedItems: Function
 }
 
-export default function IconLegend({isGameLegend, displayedItems, setDisplayedItems}: IconLegendProps) {
+export default function IconLegend({isGameLegend, items, setDisplayedItems}: IconLegendProps) {
   const [filterOwned, setFilterOwned] = useState(false);
   const [filterWanted, setFilterWanted] = useState(false);
   const [filterLoved, setFilterLoved] = useState(false);
@@ -14,7 +14,7 @@ export default function IconLegend({isGameLegend, displayedItems, setDisplayedIt
   const [filterWIP, setFilterWIP] = useState(false);
 
   useEffect(() => {
-    let itemsToDisplay: UserConsoleWithConsoleData[] | UserGameWithGameData[] = displayedItems;
+    let itemsToDisplay: UserConsoleWithConsoleData[] | UserGameWithGameData[] = items;
 
     if (filterOwned) {
       itemsToDisplay = itemsToDisplay.filter((item) => item.is_owned) as UserConsoleWithConsoleData[] | UserGameWithGameData[];

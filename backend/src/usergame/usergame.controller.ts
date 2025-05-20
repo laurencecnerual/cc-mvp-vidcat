@@ -26,6 +26,42 @@ export const getSingleGame = async (req: Request, res: Response) => {
   }
 };
 
+interface ScreenshotObject {
+  image: string,
+  hidden: boolean,
+  width: number,
+  height: number
+}
+
+interface ScreenshotEndpointResponse {
+  count: number,
+  next: string | null,
+  previous: string | null,
+  results: ScreenshotObject[]
+}
+
+export const getGameScreenshots = async (req: Request, res: Response) => {
+  const gameID = parseInt(req.params.id);
+
+  try {
+    const targetGame = await getGameByID(gameID);
+
+    if (!targetGame) {
+      return res.status(404).send("Game Not Found");
+    }
+
+    const RAWG_API_GAME_SCREENSHOTS_ENDPOINT_URL = `https://api.rawg.io/api/games/${gameID}/screenshots?key=${process.env.RAWG_API_KEY}`;
+
+    const rawResponse = await fetch(RAWG_API_GAME_SCREENSHOTS_ENDPOINT_URL);
+    const jsonResponse: ScreenshotEndpointResponse = await rawResponse.json();
+    const screenshotsList = jsonResponse.results.map((result: ScreenshotObject) => result.image); //extract only the URLs
+    
+    res.status(200).json(screenshotsList);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 export const getUserGames = async (req: Request, res: Response) => {
   const userID = parseInt(req.params.id);
 

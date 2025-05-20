@@ -61,6 +61,12 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
     });
   }
 
+  function handleViewGame() {
+    navigate("/view-game", {
+      state: { userGame: userGame }
+    });
+  }
+
   async function getRecommendation() {
     const loadingToastID = showToast("loading", "Generating recommendation...");
 
@@ -124,7 +130,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
         </div> }
         <div className="game-name">{userGame?.name}</div>
       </div>
-      <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} onLoad={handleImageLoad}
+      <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} onClick={handleViewGame} onLoad={handleImageLoad}
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',

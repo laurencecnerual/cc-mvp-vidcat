@@ -7,7 +7,7 @@ const MemoryStore = require("memorystore")(session);
 const crypto = require("crypto");
 import { signup, login, logout, getGamerProfile, updateGamer, sendUserID, getGameRecommendationsForUser } from './gamer/gamer.controller';
 import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole, getSingleUserConsole, updateUserConsole } from './userconsole/userconsole.controller'
-import { getGames, getSingleGame, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole, getSingleUserGame, updateUserGame } from './usergame/usergame.controller'
+import { getGames, getSingleGame, getGameScreenshots, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole, getSingleUserGame, updateUserGame } from './usergame/usergame.controller'
 import { checkIsAuthenticated, checkIsAuthorizedByParams, getGamerIDFromUserConsole, getGamerIDFromUserGame, checkIsAuthorizedByReqBody } from "./authMiddleware";
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
@@ -71,6 +71,7 @@ app.delete("/userconsole/:id", checkIsAuthenticated, getGamerIDFromUserConsole, 
 
 app.get("/game", checkIsAuthenticated, getGames);
 app.get("/game/:id", checkIsAuthenticated, getSingleGame);
+app.get("/game/:id/screenshot", getGameScreenshots);
 
 app.get("/usergame/:id", checkIsAuthenticated, getSingleUserGame);
 app.get("/gamer/:id/usergame", checkIsAuthenticated, checkIsAuthorizedByParams, getUserGames);

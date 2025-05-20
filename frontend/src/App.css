@@ -30,7 +30,7 @@ div.top-mid-bot {
   justify-content: space-between;
 }
 
-div.edit-console-page, div.edit-game-page, div.manage-account-page {
+div.edit-console-page, div.edit-game-page, div.view-game-page, div.manage-account-page {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -78,7 +78,7 @@ h2 {
   font-size: 1.8rem;
 }
 
-.public-profile, .full-profile, .edit-game-page, .edit-console-page, .manage-account-page {
+.public-profile, .full-profile, .edit-game-page, .view-game-page, .edit-console-page, .manage-account-page {
   overflow-y: auto;
 }
 
@@ -236,12 +236,40 @@ div.buttons {
   height: auto;
 }
 
+.game-picture {
+    border: solid rgb(129, 199, 132) 3px;
+}
+
+.game-picture:hover {
+  cursor: pointer;
+  border: solid #FF6F61 3px;
+}
+
 img.edit-view {
   max-width: 90vw;
   max-height: 55vh;
   width: auto;
   height: auto;
   border-radius: 10px;
+}
+
+.screenshots-title {
+  margin-top: 10px;
+}
+
+div.all-screenshots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+img.game-screenshot {
+  min-width: 60vw;
+  max-width: 90vw;
+  max-height: 80vh;
 }
 
 img.console-picture {

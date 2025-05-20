@@ -8,6 +8,7 @@ import NewGame from './components/NewGame.tsx';
 import ManageAccount from './components/ManageAccount.tsx';
 import EditConsole from './components/EditConsole.tsx';
 import EditGame from './components/EditGame.tsx';
+import ViewGame from './components/ViewGame.tsx';
 import Header from './components/Header.tsx';
 import Footer from './components/Footer.tsx';
 import PublicProfile from './components/PublicProfile.tsx';
@@ -35,6 +36,7 @@ function App() {
           <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />
           <Route path="edit-console" element={gamer ? <EditConsole /> : <Navigate to="/login" />} />
           <Route path="edit-game" element={gamer ? <EditGame /> : <Navigate to="/login" />} />
+          <Route path="view-game" element={<ViewGame />} />
           <Route path="/users/:username" element={<PublicProfile />} />
           <Route path="*" element={<Navigate to="/not-found" />} />
           <Route path="not-found" element={<NotFound />} />

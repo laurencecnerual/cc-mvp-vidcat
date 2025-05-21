@@ -2,6 +2,8 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { showToast } from "../ToastHelper";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -11,15 +13,10 @@ export default function ViewGame() {
   const userGame = location.state.userGame;
   const [screenshots, setScreenshots] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     handleFetchScreenshots();
   }, [loading])
-
-  const handleImageLoad = () => {
-    setIsLoaded(true);
-  };
 
   async function handleFetchScreenshots() {
     const response = await fetch(apiUrl + `/game/${userGame.rawg_id}/screenshot`);
@@ -42,18 +39,24 @@ export default function ViewGame() {
     <div className="view-game-page">
       <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back-to-profile">Back to Profile</Link>
         <h2 className="screenshots-title">{`Enter ${userGame.name} (${userGame.released.slice(0,4)})`}</h2>
-        <div className="all-screenshots">
-          {screenshots.map(screenshotURL => {
-            return <img 
-              className="game-screenshot" src={screenshotURL} 
-              onLoad={handleImageLoad}
-              style={{
-                opacity: isLoaded ? 1 : 0,
-                transition: 'opacity 1s ease-in-out',
-              }} 
-            /> 
-          })}
-        </div>
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          slidesPerView={1}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{
+            delay: 8000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          loop
+        >
+        {screenshots.map((screenshotURL) => (
+          <SwiperSlide key={screenshotURL.split("/").pop()}>
+            <img className="game-screenshot" src={screenshotURL} alt={`Screenshot at ${screenshotURL}`} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }

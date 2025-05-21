@@ -236,13 +236,23 @@ div.buttons {
   height: auto;
 }
 
-.game-picture {
-    border: solid rgb(129, 199, 132) 3px;
+.game-picture-container {
+  position: relative;
 }
 
 .game-picture:hover {
   cursor: pointer;
-  border: solid #FF6F61 3px;
+}
+
+div.top-right-icon {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: rgba(97, 204, 254, 0.8);
+  color: #003366;
+  border-radius: 10px;
+  padding: 1px 3px;
+  cursor: pointer;
 }
 
 img.edit-view {
@@ -267,7 +277,7 @@ div.all-screenshots {
 }
 
 img.game-screenshot {
-  min-width: 60vw;
+  min-width: 40vw;
   max-width: 90vw;
   max-height: 80vh;
 }
@@ -437,10 +447,11 @@ div.filter-legend {
 
 .sort-dropdown {
   font-size: 0.95rem;
-  padding: 6px 4px;
-  border-radius: 5px;
+  padding: 10px 3px;
+  border-radius: 10px;
   margin-bottom: 6px;
   color: #003366;
+  border-color: #003366;
   background-color: #F5F5DC;
   font-weight: bold;
   text-align: center;

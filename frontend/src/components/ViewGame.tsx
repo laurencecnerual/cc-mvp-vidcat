@@ -26,7 +26,7 @@ export default function ViewGame() {
 
     if (response.status === 200) {
       const screenshotURLs = await response.json();
-      setScreenshots(screenshotURLs);
+      setScreenshots([userGame.background_image_link].concat(screenshotURLs));
     } else if (response.status === 404) {
       showToast("error", "Game not found");
     } else {
@@ -41,7 +41,7 @@ export default function ViewGame() {
   return (
     <div className="view-game-page">
       <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back-to-profile">Back to Profile</Link>
-        <h2 className="screenshots-title">{"Enter " + userGame.name}</h2>
+        <h2 className="screenshots-title">{`Enter ${userGame.name} (${userGame.released.slice(0,4)})`}</h2>
         <div className="all-screenshots">
           {screenshots.map(screenshotURL => {
             return <img 

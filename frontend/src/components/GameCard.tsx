@@ -3,7 +3,7 @@ import { useGamer } from "../GamerContext.tsx";
 import { useNavigate } from "react-router-dom";
 import { showToast, removeToast } from "../ToastHelper.ts";
 import Icon from '@mdi/react';
-import { mdiPencilOutline, mdiTrashCanOutline, mdiRobotLoveOutline } from '@mdi/js';
+import { mdiPencilOutline, mdiTrashCanOutline, mdiRobotLoveOutline, mdiMagnify } from '@mdi/js';
 import ConfirmationModal from "./ConfirmationModal.tsx";
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -130,11 +130,15 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
         </div> }
         <div className="game-name">{userGame?.name}</div>
       </div>
-      <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} onClick={handleViewGame} onLoad={handleImageLoad}
-          style={{
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 1s ease-in-out',
-          }}/>
+      <div className="game-picture-container">
+        <img className="game-picture" src={userGame?.background_image_link} alt={"Photo of the game " + userGame?.name} onClick={handleViewGame} onLoad={handleImageLoad}
+            style={{
+              opacity: isLoaded ? 1 : 0,
+              transition: 'opacity 1s ease-in-out',
+            }}
+        />
+        <div className="top-right-icon" onClick={handleViewGame}><Icon path={mdiMagnify} size={buttonIconSize} /></div>
+      </div>
       <div className="card-content">
         <div className="game-released">Released {userGame?.released.toString().split("T")[0]}</div>
         <div className="game-official-rating">{userGame?.rating  + " stars (officially)"}</div>

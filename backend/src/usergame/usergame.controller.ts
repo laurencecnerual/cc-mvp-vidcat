@@ -1,10 +1,30 @@
-import { getAllGamesOrderByName, getGameByID, getAllUserGames, addUserGame, deleteUserGameByID, getAllUserConsoleGames, getUserGameByID, updateUserGameByID } from './usergame.model'; 
+import { getAllGamesOrderByName, getGamesByPage, getGameByID, getGameCount, getAllUserGames, addUserGame, deleteUserGameByID, getAllUserConsoleGames, getUserGameByID, updateUserGameByID } from './usergame.model'; 
 import { Request, Response } from "express";
 
 export const getGames = async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string) || undefined;
+  const limit = 40;
+
   try {
-    const allGames = await getAllGamesOrderByName();
-    res.status(200).json(allGames);
+    if (!page) {
+      const allGames = await getAllGamesOrderByName();
+      res.status(200).json(allGames);
+    } else {
+      const totalGames = await getGameCount()
+      const gamesOnPage = await getGamesByPage(page, limit);
+
+      const payload = {
+        gameRangeStart: (page - 1) * limit + 1,
+        gameRangeEnd: (page - 1) * limit + limit,
+        totalGames: totalGames,
+        currentPage: page,
+        totalPages: Math.ceil(totalGames / limit),
+        games: gamesOnPage
+
+      };
+
+      res.status(200).json(payload);
+    }
   } catch (err) {
     res.status(500).send(err);
   }
@@ -55,7 +75,7 @@ export const getGameScreenshots = async (req: Request, res: Response) => {
     const rawResponse = await fetch(RAWG_API_GAME_SCREENSHOTS_ENDPOINT_URL);
     const jsonResponse: ScreenshotEndpointResponse = await rawResponse.json();
     const screenshotsList = jsonResponse.results.map((result: ScreenshotObject) => result.image); //extract only the URLs
-    
+
     res.status(200).json(screenshotsList);
   } catch (err) {
     res.status(500).send(err);

@@ -10,6 +10,22 @@ export const getAllGamesOrderByName = (): Promise<Partial<Game>[]> => {
     .orderBy("name", "asc");
 };
 
+export const getGamesByPage = (page: number, limit: number): Promise<Game[]> => {
+  const offset = (page - 1) * limit;
+
+  return knex
+    .select("*")
+    .from(GAME_TABLE)
+    .orderBy("name", "asc")
+    .limit(limit)
+    .offset(offset);
+};
+
+export const getGameCount = async (): Promise<number> => {
+  const result = await knex('game').count('rawg_id as count');
+  return Number(result[0].count);
+};
+
 export const getGameByID = (gameID: number): Promise<Game> => {
   return knex
   .select("*")

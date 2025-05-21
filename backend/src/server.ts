@@ -60,8 +60,8 @@ app.post("/logout", logout);
 app.get("/profile/:username", getGamerProfile);
 app.get("/recommendation", checkIsAuthenticated, getGameRecommendationsForUser);
 
-app.get("/console", checkIsAuthenticated, getConsoles);
-app.get("/console/:id", checkIsAuthenticated, getSingleConsole);
+app.get("/console", getConsoles);
+app.get("/console/:id", getSingleConsole);
 
 app.get("/userconsole/:id", checkIsAuthenticated, getSingleUserConsole);
 app.get("/gamer/:id/userconsole", checkIsAuthenticated, checkIsAuthorizedByParams, getUserConsoles);
@@ -69,8 +69,8 @@ app.post("/gamer/:id/userconsole", checkIsAuthenticated, checkIsAuthorizedByPara
 app.patch("/userconsole/:id", checkIsAuthenticated, getGamerIDFromUserConsole, checkIsAuthorizedByReqBody, updateUserConsole);
 app.delete("/userconsole/:id", checkIsAuthenticated, getGamerIDFromUserConsole, checkIsAuthorizedByReqBody, removeUserConsole);
 
-app.get("/game", checkIsAuthenticated, getGames);
-app.get("/game/:id", checkIsAuthenticated, getSingleGame);
+app.get("/game", getGames);
+app.get("/game/:id", getSingleGame);
 app.get("/game/:id/screenshot", getGameScreenshots);
 
 app.get("/usergame/:id", checkIsAuthenticated, getSingleUserGame);

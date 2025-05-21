@@ -47,7 +47,7 @@ div.edit-console-page, div.edit-game-page, div.view-game-page, div.manage-accoun
 }
 
 img.game-screenshot {
-  min-width: 40vw;
+  min-width: 20vw;
   max-width: 80vw;
   max-height: 70vh;
 }
@@ -91,7 +91,7 @@ div.disclaimer {
   bottom: 0;
 }
 
-h1, h2 {
+h1, h2, h3 {
   text-align: center;
   margin: 0;
   padding: 8px 0;
@@ -103,6 +103,10 @@ h1 {
 
 h2 {
   font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.6rem;
 }
 
 .public-profile, .full-profile, .edit-game-page, .view-game-page, .edit-console-page, .manage-account-page {
@@ -132,7 +136,7 @@ form.manage-account, form.edit-console, form.edit-game {
   margin-bottom: 40px;
 }
 
-a.back-to-profile {
+a.back-to-profile, a.back {
   padding: 8px 0 0 16px;
 }
 
@@ -201,6 +205,23 @@ div.card {
   box-shadow: 6px 6px rgba(0, 51, 102, 0.6);
   height: 95%;
   overflow-x: hidden;
+}
+
+div.generic-card {
+  justify-content: space-around;
+  max-height: 400px;
+}
+
+div.all-games {
+  padding-top: 12px;
+  padding-bottom: 28px;
+}
+
+div.page-change-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 div.card-header {
@@ -518,6 +539,10 @@ div.active-icon {
 
   div.card {
     padding: 2px;
+  }
+
+  div.generic-card {
+    max-height: 300px;
   }
 
   div.buttons { 

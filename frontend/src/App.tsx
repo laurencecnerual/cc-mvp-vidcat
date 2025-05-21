@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import './App.css'
 import Login from "./components/Login.tsx"
 import Signup from "./components/Signup.tsx"
+import AllGames from './components/AllGames.tsx';
 import Profile from './components/Profile.tsx';
 import NewConsole from './components/NewConsole.tsx';
 import NewGame from './components/NewGame.tsx';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" element={(isLoggedIn && gamer) ? <Profile /> : <Navigate to="/login" />} />
           <Route path="login" element={!gamer ? <Login /> : <Navigate to="/" />} /> 
           <Route path="signup" element={!gamer ? <Signup /> : <Navigate to="/" />}  />
+          <Route path="all-games" element={<AllGames />} />
           <Route path="manage-account" element={gamer ? <ManageAccount /> : <Navigate to="/login" />} />
           <Route path="add-console" element={gamer ? <NewConsole /> : <Navigate to="/login" />} />
           <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />

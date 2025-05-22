@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { showToast } from "../ToastHelper";
 import Loading from "./Loading";
 import GenericGameCard from "./GenericGameCard";
@@ -10,7 +10,8 @@ export default function AllGames() {
   const navigate = useNavigate();
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "1");
   const [totalPages, setTotalPages] = useState(1);
   const [totalGames, setTotalGames] = useState(0);
   const [gameRangeStart, setGameRangeStart] = useState(0);
@@ -40,14 +41,14 @@ export default function AllGames() {
   function goToNextPage(increment: number) {
     let newPage = currentPage + increment
     if (newPage > totalPages) newPage -= totalPages;
-    setCurrentPage(newPage)
+    setSearchParams({ page: newPage.toString() });
     setLoading(true);
   }
 
   function goToPreviousPage(increment: number) {
     let newPage = currentPage - increment
     if (newPage < 1) newPage += totalPages;
-    setCurrentPage(newPage)
+    setSearchParams({ page: newPage.toString() });
     setLoading(true);
   }
 

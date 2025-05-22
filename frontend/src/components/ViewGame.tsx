@@ -38,7 +38,10 @@ export default function ViewGame() {
   return (
     <div className="view-game-page">
       <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back-to-profile">Back to Profile</Link>
-        <h2 className="screenshots-title">{`Enter ${userGame.name} (${userGame.released.slice(0,4)})`}</h2>
+        { userGame.released ? 
+          <h2 className="screenshots-title">{`Enter ${userGame.name} (${userGame.released.slice(0,4)})`}</h2> 
+          : <h2 className="screenshots-title">{`Enter ${userGame.name}`}</h2>
+        }
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           slidesPerView={1}

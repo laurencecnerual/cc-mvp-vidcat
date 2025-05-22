@@ -140,7 +140,7 @@ export default function GameCard ({userGame, setRefresh}: GameCardProps) {
         <div className="top-right-icon" onClick={handleViewGame}><Icon path={mdiMagnify} size={buttonIconSize} /></div>
       </div>
       <div className="card-content">
-        <div className="game-released">Released {userGame?.released.toString().split("T")[0]}</div>
+        { userGame?.released && <div className="game-released">Released {userGame?.released.toString().split("T")[0]}</div> }
         <div className="game-official-rating">{userGame?.rating  + " stars (officially)"}</div>
         { userGame?.personal_rating && <div className="game-personal-rating">{userGame?.personal_rating + " stars (from me)"}</div> }
         { userGame?.personal_review && <div className="game-personal-review">{"Thoughts: " + userGame?.personal_review}</div> }

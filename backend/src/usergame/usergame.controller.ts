@@ -15,7 +15,7 @@ export const getGames = async (req: Request, res: Response) => {
 
       const payload = {
         gameRangeStart: (page - 1) * limit + 1,
-        gameRangeEnd: (page - 1) * limit + limit,
+        gameRangeEnd: (page - 1) * limit + gamesOnPage.length,
         totalGames: totalGames,
         currentPage: page,
         totalPages: Math.ceil(totalGames / limit),

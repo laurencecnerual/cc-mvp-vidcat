@@ -63,9 +63,11 @@ Live on Render at https://vidcat-backend.onrender.com/
 
 #### Game related
 
-- GET  `/game`: Used to get an array consisting of all games
+- GET  `/game`: Used to get an array consisting of all games (for performance reasons, the `rawg_id` and `name` attributes only) or a selection of 40 games (including all attributes) depending on whether the query parameter `page` is included in the request. When paginated results are requested, responds with an object containing `games` (array), `gameRangeStart` (number), `gameRangeEnd` (number), `currentPage` (number), `totalPages` (number), and `totalGames` (number)
 
 - GET  `/game/:id`: Used to get a single game by its ID
+
+- GET  `/game/:id/screenshot`: Used to get screenshots (an array of string URLs) for a given game directly from RAWG API (as opposed to from the database)
 
 #### Usergame related
 

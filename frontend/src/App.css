@@ -220,8 +220,14 @@ div.all-games {
 div.page-change-buttons {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 48px;
   margin-bottom: 16px;
+}
+
+div.page-change-buttons-left, div.page-change-buttons-right {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 div.card-header {

@@ -53,12 +53,16 @@ export default function AllGames() {
 
   function generatePageChangeButtons() {
     return <div className="page-change-buttons">
-        <button type="button" onClick={() => goToPreviousPage(100)}>{"<<<"}</button>
-        <button type="button" onClick={() => goToPreviousPage(10)}>{"<<"}</button>
-        <button type="button" onClick={() => goToPreviousPage(1)}>{"<"}</button>
-        <button type="button" onClick={() => goToNextPage(1)}>{">"}</button>
-        <button type="button" onClick={() => goToNextPage(10)}>{">>"}</button>
-        <button type="button" onClick={() => goToNextPage(100)}>{">>>"}</button>
+        <div className="page-change-buttons-left">
+          <button type="button" onClick={() => goToPreviousPage(100)}>{"<<<"}</button>
+          <button type="button" onClick={() => goToPreviousPage(10)}>{"<<"}</button>
+          <button type="button" onClick={() => goToPreviousPage(1)}>{"<"}</button>
+        </div>
+        <div className="page-change-buttons-right">
+          <button type="button" onClick={() => goToNextPage(1)}>{">"}</button>
+          <button type="button" onClick={() => goToNextPage(10)}>{">>"}</button>
+          <button type="button" onClick={() => goToNextPage(100)}>{">>>"}</button>
+        </div>
       </div>
   }
 

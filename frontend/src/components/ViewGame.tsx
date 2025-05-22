@@ -37,7 +37,7 @@ export default function ViewGame() {
 
   return (
     <div className="view-game-page">
-      <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back-to-profile">Back to Profile</Link>
+      <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back">Back</Link>
         { userGame.released ? 
           <h2 className="screenshots-title">{`Enter ${userGame.name} (${userGame.released.slice(0,4)})`}</h2> 
           : <h2 className="screenshots-title">{`Enter ${userGame.name}`}</h2>
@@ -56,7 +56,7 @@ export default function ViewGame() {
         >
         {screenshots.map((screenshotURL) => (
           <SwiperSlide key={screenshotURL.split("/").pop()}>
-            <img className="game-screenshot" src={screenshotURL} alt={`Screenshot at ${screenshotURL}`} />
+            <img className="game-screenshot" src={screenshotURL} alt={`Screenshot at ${screenshotURL}`} loading="lazy"/>
           </SwiperSlide>
         ))}
       </Swiper>

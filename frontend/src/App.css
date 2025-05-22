@@ -400,10 +400,18 @@ div.intro {
   flex-direction: column;
 }
 
-p.intro-text, .out-of-bounds {
+p.intro-text, .intro-hook, .internal-hook, .out-of-bounds {
   text-align: center;
-  margin: 0 6px;
   font-size: 1.4rem;
+  margin: 0;
+}
+
+p.intro-text, p.internal-hook {
+  margin-bottom: 28px;
+}
+
+p.intro-hook, p.internal-hook {
+  font-size: 1.3rem;
 }
 
 .non-top-header {
@@ -591,9 +599,18 @@ div.active-icon {
     padding: 1px;
   }
 
-  p.intro-text {
-    padding: 0 12px;
+  p.intro-text, p.internal-hook {
     font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  p.intro-hook {
+    font-size: 1.1rem;
+  }
+
+  .out-of-bounds, p.intro-hook, p.internal-hook {
+    display: flex;
+    flex-direction: column;
   }
 
   div.disclaimer {

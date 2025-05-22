@@ -5,7 +5,7 @@ export default function Intrduction() {
     <div className="intro">
       <h1 className="intro-header">Welcome to VidCat!</h1>
       <p className="intro-text">A place to keep track of the games and consoles you own and want!</p>
-      <p className="intro-text">Need a little convincing? <Link to="/all-games" className="all-games-invitation">Check out our games!</Link></p>
+      <p className="intro-hook">Need a little convincing? <Link to="/all-games" className="all-games-invitation">Check out our games!</Link></p>
     </div>
   )
 }

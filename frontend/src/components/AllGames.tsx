@@ -100,7 +100,7 @@ export default function AllGames() {
           </div>
           {generatePageChangeButtons()}
         </div>
-        : <p className="out-of-bounds">Looks like you went too high. Try going <Link to={"/all-games?page=" + totalPages}>here</Link> instead.</p>
+        : <p className="out-of-bounds">Looks like you went too high. <Link to={"/all-games?page=" + totalPages}>Try going here  instead.</Link></p>
       }
     </>
   )

@@ -108,7 +108,7 @@ export default function NewGame() {
         )
       }}>
         <h2>New Game</h2>
-        <p className="intro-text">Need some help deciding? <Link to="/all-games" className="all-games-invitation">View our full catalog!</Link></p>
+        <p className="internal-hook">Need some inspiration? <Link to="/all-games" className="all-games-invitation">View our full catalog!</Link></p>
         <div id="game-name" className="label-input-pair">
           <label htmlFor="game-name">Game<span className="mandatory">*</span></label>
           <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>

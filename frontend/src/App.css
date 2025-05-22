@@ -400,9 +400,9 @@ div.intro {
   flex-direction: column;
 }
 
-p.intro-text {
+p.intro-text, .out-of-bounds {
   text-align: center;
-  margin-top: 0;
+  margin: 0 6px;
   font-size: 1.4rem;
 }
 

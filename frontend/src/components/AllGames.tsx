@@ -11,15 +11,29 @@ export default function AllGames() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = parseInt(searchParams.get("page") || "1");
+  let currentPage = parseInt(searchParams.get("page") || "1");
   const [totalPages, setTotalPages] = useState(1);
   const [totalGames, setTotalGames] = useState(0);
   const [gameRangeStart, setGameRangeStart] = useState(0);
   const [gameRangeEnd, setGameRangeEnd] = useState(0);
 
   useEffect(() => {
+    const pageParam = searchParams.get("page");
+    const pageNumber = parseInt(pageParam || "", 10);
+
+    if (isNaN(pageNumber) || pageNumber < 1) {
+      currentPage = 1;
+      setSearchParams({ page: "1" });
+    } 
+
     handleFetchGames();
-  }, [currentPage]);
+  }, [searchParams]);
+
+  useEffect(() => {
+  if (!searchParams.get("page")) {
+    setSearchParams({ page: "1" });
+  }
+}, []);
 
   async function handleFetchGames() {
     const response = await fetch(apiUrl + `/game?page=${currentPage}`);
@@ -72,17 +86,22 @@ export default function AllGames() {
   }
 
   return (
-    <div className="all-games">
-      <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back">Back</Link>
-      <h1>{`All Games (${totalGames.toLocaleString()} total!)`}</h1>
-      <h2>{`Page ${currentPage} of ${totalPages}`}</h2>
-      <h3>{`Games ${gameRangeStart.toLocaleString()} ~ ${gameRangeEnd.toLocaleString()}`}</h3>
-      {generatePageChangeButtons()}
-      <div className="games-list card-list">
-        { games.map(game => <GenericGameCard game={game} key={game.rawg_id} />) }
-      </div>
-      {generatePageChangeButtons()}
-    </div>
+    <>
+      {
+        games.length > 0 ?
+        <div className="all-games">
+          <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back">Back</Link>
+          <h1>{`All Games (${totalGames.toLocaleString()} total!)`}</h1>
+          <h2>{`Page ${currentPage} of ${totalPages}`}</h2>
+          <h3>{`Games ${gameRangeStart.toLocaleString()} ~ ${gameRangeEnd.toLocaleString()}`}</h3>
+          {generatePageChangeButtons()}
+          <div className="games-list card-list">
+            { games.map(game => <GenericGameCard game={game} key={game.rawg_id} />) }
+          </div>
+          {generatePageChangeButtons()}
+        </div>
+        : <p className="out-of-bounds">Looks like you went too high. Try going <Link to={"/all-games?page=" + totalPages}>here</Link> instead.</p>
+      }
+    </>
   )
-
 }

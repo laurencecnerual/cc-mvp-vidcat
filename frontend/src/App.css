@@ -31,7 +31,7 @@ div.banner a.active-link {
 div.top-mid-bot {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 97vh;
   justify-content: space-between;
 }
 
@@ -262,6 +262,10 @@ button {
   background-color: #61ccfe;
   color: #003366;
   font-weight: bold;
+}
+
+button.collapse-button {
+  padding: 4px 6px;
 }
 
 button.form {

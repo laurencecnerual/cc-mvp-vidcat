@@ -7,6 +7,8 @@ import ConsoleCard from "./ConsoleCard.tsx";
 import Loading from "./Loading.tsx";
 import { showToast } from "../ToastHelper.ts";
 import SortAndFilter from "./SortAndFilter.tsx";
+import Icon from '@mdi/react';
+import { mdiArrowCollapseAll, mdiArrowExpandAll } from '@mdi/js';
 
 export default function Profile() {
   const {gamer} = useGamer();
@@ -16,6 +18,9 @@ export default function Profile() {
   const [displayedUserGames, setDisplayedUserGames] = useState<UserGameWithGameData[]>([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [consoleSectionOpen, setConsoleSectionOpen] = useState(true);
+  const [gameSectionOpen, setGameSectionOpen] = useState(true);
+  const toggleButtonSize = 0.9;
 
   useEffect(() => {
     handleLoading();
@@ -81,6 +86,10 @@ export default function Profile() {
     showToast("success", "Public profile URL copied to clipboard. Share it with your friends!");
   }
 
+  function toggleCollapseExpand(currentValue: boolean, setState: Function) {
+    setState(!currentValue);
+  }
+
   if (loading) {
     return <Loading />
   }
@@ -92,24 +101,32 @@ export default function Profile() {
         <div className="get-my-url">
           <button className="get-my-url" type="button" onClick={getUserPublicProfileURL}>Get My Public Profile URL</button>
         </div>
-        <div className="consoles-section">
-          <h2 className="non-top-header">Your Consoles</h2>
+        {
+          consoleSectionOpen ?
+          <h2 className="non-top-header">Your Consoles <button className="collapse-button" type="button" onClick={() => toggleCollapseExpand(consoleSectionOpen, setConsoleSectionOpen)}><Icon path={mdiArrowCollapseAll} size={toggleButtonSize} /></button></h2>
+          : <h2 className="non-top-header">Your Consoles <button className="collapse-button" type="button" onClick={() => toggleCollapseExpand(consoleSectionOpen, setConsoleSectionOpen)}><Icon path={mdiArrowExpandAll} size={toggleButtonSize} /></button></h2>
+        }
+        { consoleSectionOpen && <div className="consoles-section">
           { (userConsoles.length > 0) && <SortAndFilter masterItems={userConsoles} setMasterItems={setUserConsoles} setDisplayedItems={setDisplayedUserConsoles} /> }
           { 
             userConsoles.length > 0 ? 
             generateConsoleGridAndCards() 
             : <p className="nothing-registered">No Consoles Registered - <Link to="/add-console">Add some</Link></p>
           }
-        </div>
-        <div className="games-section">
-          <h2 className="non-top-header">Your Games</h2>
+        </div> }
+        {
+          gameSectionOpen ?
+          <h2 className="non-top-header">Your Games <button className="collapse-button" type="button" onClick={() => toggleCollapseExpand(gameSectionOpen, setGameSectionOpen)}><Icon path={mdiArrowCollapseAll} size={toggleButtonSize} /></button></h2>
+          : <h2 className="non-top-header">Your Games <button className="collapse-button" type="button" onClick={() => toggleCollapseExpand(gameSectionOpen, setGameSectionOpen)}><Icon path={mdiArrowExpandAll} size={toggleButtonSize} /></button></h2>
+        }
+        { gameSectionOpen && <div className="games-section">
           { (userGames.length > 0) && <SortAndFilter masterItems={userGames} setMasterItems={setUserGames} setDisplayedItems={setDisplayedUserGames} /> }
           { 
             userGames.length > 0 ? 
             generateGameGridAndCards() 
             : <p className="nothing-registered">No Games Registered - <Link to="/add-game">Add some</Link></p> 
           }
-        </div>
+        </div> }
       </div>
     </>
   );

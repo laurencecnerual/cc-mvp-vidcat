@@ -63,7 +63,7 @@ export default function ConsoleCard ({userConsole, setRefresh}: ConsoleCardProps
         </div> }
         <div className="console-name">{userConsole?.name}</div>
       </div>
-      <img className="console-picture" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} onLoad={handleImageLoad}
+      <img className="console-picture" loading="lazy" src={userConsole?.picture} alt={"Photo of the console " + userConsole?.name} onLoad={handleImageLoad}
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',

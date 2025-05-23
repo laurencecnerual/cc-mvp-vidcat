@@ -82,7 +82,7 @@ export default function PublicProfile() {
       { validatedUsername ?
         <div className="public-profile">
           <h1>{`${validatedUsername}'s Public Profile`}</h1>
-          { profilePicture && <img src={profilePicture} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} onLoad={handleImageLoad}
+          { profilePicture && <img src={profilePicture} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} onLoad={handleImageLoad} loading="lazy"
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',

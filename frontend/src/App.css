@@ -188,6 +188,14 @@ div.card-list {
   padding: 4px 24px 24px;
 }
 
+div.all-game-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 28px;
+  grid-auto-rows: 350px;
+  padding: 4px 24px 24px;
+}
+
 div.games-list {
   margin-bottom: 24px;
 }
@@ -209,7 +217,6 @@ div.card {
 
 div.generic-card {
   justify-content: space-around;
-  max-height: 400px;
 }
 
 div.all-games {
@@ -555,12 +562,15 @@ div.active-icon {
     grid-auto-rows: 350px;
   }
 
-  div.card {
-    padding: 2px;
+  div.all-game-card-list {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    padding: 4px 16px 20px;
+    gap: 20px;
+    grid-auto-rows: 250px;
   }
 
-  div.generic-card {
-    max-height: 300px;
+  div.card {
+    padding: 2px;
   }
 
   div.buttons { 

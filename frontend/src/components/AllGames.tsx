@@ -95,7 +95,7 @@ export default function AllGames() {
           <h2>{`Page ${currentPage} of ${totalPages}`}</h2>
           <h3>{`Games ${gameRangeStart.toLocaleString()} ~ ${gameRangeEnd.toLocaleString()}`}</h3>
           {generatePageChangeButtons()}
-          <div className="games-list card-list">
+          <div className="all-game-card-list">
             { games.map(game => <GenericGameCard game={game} key={game.rawg_id} />) }
           </div>
           {generatePageChangeButtons()}

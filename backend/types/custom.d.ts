@@ -56,6 +56,11 @@ declare global {
     background_image_link: string
   }
 
+  interface FollowPair {
+    follower_id: number,
+    followee_id: number
+  }
+
   type UserConsoleWithConsoleData = UserConsole & Console;
 
   type UserGameWithGameData = UserGame & Game;

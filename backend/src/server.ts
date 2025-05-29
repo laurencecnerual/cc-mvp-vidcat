@@ -9,6 +9,7 @@ import { signup, login, logout, getGamerProfile, updateGamer, sendUserID, getGam
 import { getConsoles, getSingleConsole, getUserConsoles, createUserConsole, removeUserConsole, getSingleUserConsole, updateUserConsole } from './userconsole/userconsole.controller'
 import { getGames, getSingleGame, getGameScreenshots, getUserGames, createUserGame, removeUserGame, getUserGamesForConsole, getSingleUserGame, updateUserGame } from './usergame/usergame.controller'
 import { checkIsAuthenticated, checkIsAuthorizedByParams, getGamerIDFromUserConsole, getGamerIDFromUserGame, checkIsAuthorizedByReqBody } from "./authMiddleware";
+import { createFollowPair, getFollowPairsByType, removeFollowPair } from "./follower/follower.controller";
 
 const sessionSecret = process.env.SESSION_SECRET || crypto.randomBytes(64).toString("hex");
 const frontendURL = process.env.FRONT_END_URL;
@@ -79,6 +80,10 @@ app.post("/gamer/:id/usergame", checkIsAuthenticated, checkIsAuthorizedByParams,
 app.patch("/usergame/:id", checkIsAuthenticated, getGamerIDFromUserGame, checkIsAuthorizedByReqBody, updateUserGame);
 app.delete("/usergame/:id", checkIsAuthenticated, getGamerIDFromUserGame, checkIsAuthorizedByReqBody, removeUserGame);
 app.get("/userconsole/:id/usergame", checkIsAuthenticated, getGamerIDFromUserConsole, checkIsAuthorizedByReqBody, getUserGamesForConsole);
+
+app.get("/gamer/:id/follower", getFollowPairsByType);
+app.post("/gamer/:follower_id/follower", createFollowPair);
+app.delete("/gamer/:follower_id/follower/:followee_id", removeFollowPair);
 
 const server = app.listen(PORT, () => {
   console.log(`Express server is up and running on ${PORT}`);

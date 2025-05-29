@@ -41,7 +41,7 @@ export const getFollowerStats = async (gamerID: number):  Promise<FollowerStats>
 };
 
 export const createFollowPair = async (req: Request, res: Response) => {
-  const followerID = parseInt(req.params.follower_id);
+  const followerID = parseInt(req.params.id);
   const followeeID = req.body.followee_id;
 
   if (!followeeID) {
@@ -78,7 +78,7 @@ export const createFollowPair = async (req: Request, res: Response) => {
 };
 
 export const removeFollowPair = async (req: Request, res: Response) => {
-  const followerID = parseInt(req.params.follower_id);
+  const followerID = parseInt(req.params.id);
   const followeeID = parseInt(req.params.followee_id);
 
   const followPair: FollowPair = {

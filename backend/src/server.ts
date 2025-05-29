@@ -82,8 +82,8 @@ app.delete("/usergame/:id", checkIsAuthenticated, getGamerIDFromUserGame, checkI
 app.get("/userconsole/:id/usergame", checkIsAuthenticated, getGamerIDFromUserConsole, checkIsAuthorizedByReqBody, getUserGamesForConsole);
 
 app.get("/gamer/:id/follower", getFollowPairsByType);
-app.post("/gamer/:follower_id/follower", createFollowPair);
-app.delete("/gamer/:follower_id/follower/:followee_id", removeFollowPair);
+app.post("/gamer/:id/follower", createFollowPair);
+app.delete("/gamer/:id/follower/:followee_id", removeFollowPair);
 
 app.use((req: Request, res: Response) => {
   res.status(404).send("Route not found");

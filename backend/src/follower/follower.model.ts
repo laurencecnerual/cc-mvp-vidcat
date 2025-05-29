@@ -1,16 +1,19 @@
 const knex = require("../knex");
 const FOLLOWER_TABLE = "follower";
+const GAMER_TABLE = "gamer";
 
-export const getAllUsersFollowingTheGamer = (gamerID: number): Promise<FollowPair[]> => {
+export const getAllUsersFollowingTheGamer = (gamerID: number): Promise<FollowPairData[]> => {
   return knex
-  .select("*")
+  .join(GAMER_TABLE, "follower_id", "=", "id")
+  .select("id", "username", "profile_picture")
   .from(FOLLOWER_TABLE)
   .where({followee_id: gamerID});
 };
 
-export const getAllUsersTheGamerIsFollowing = (gamerID: number): Promise<FollowPair[]> => {
+export const getAllUsersTheGamerIsFollowing = (gamerID: number): Promise<FollowPairData[]> => {
   return knex
-  .select("*")
+  .join(GAMER_TABLE, "followee_id", "=", "id")
+  .select("id", "username", "profile_picture")
   .from(FOLLOWER_TABLE)
   .where({follower_id: gamerID});
 };

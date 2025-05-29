@@ -61,6 +61,12 @@ declare global {
     followee_id: number
   }
 
+  interface FollowPairData {
+    id: number,
+    username: string,
+    profile_picture: string
+  }
+
   type UserConsoleWithConsoleData = UserConsole & Console;
 
   type UserGameWithGameData = UserGame & Game;

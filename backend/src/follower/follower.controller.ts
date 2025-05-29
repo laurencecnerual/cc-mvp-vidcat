@@ -11,15 +11,15 @@ export const getFollowPairsByType = async (req: Request, res: Response) => {
   }
 
   try {
-    let followPairs: FollowPair[] = [];
+    let followPairData: FollowPairData[] = [];
 
     if (type === "followers") {
-      followPairs = await getAllUsersFollowingTheGamer(gamerID)
+      followPairData = await getAllUsersFollowingTheGamer(gamerID)
     } else if (type === "following") {
-      followPairs = await getAllUsersTheGamerIsFollowing(gamerID)
+      followPairData = await getAllUsersTheGamerIsFollowing(gamerID)
     }
 
-    res.status(200).json(followPairs);
+    res.status(200).json(followPairData);
   } catch (err) {
     res.status(500).send(err);
   }

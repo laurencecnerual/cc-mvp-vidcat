@@ -81,9 +81,9 @@ app.patch("/usergame/:id", checkIsAuthenticated, getGamerIDFromUserGame, checkIs
 app.delete("/usergame/:id", checkIsAuthenticated, getGamerIDFromUserGame, checkIsAuthorizedByReqBody, removeUserGame);
 app.get("/userconsole/:id/usergame", checkIsAuthenticated, getGamerIDFromUserConsole, checkIsAuthorizedByReqBody, getUserGamesForConsole);
 
-app.get("/gamer/:id/follower", getFollowPairsByType);
-app.post("/gamer/:id/follower", createFollowPair);
-app.delete("/gamer/:id/follower/:followee_id", removeFollowPair);
+app.get("/gamer/:id/follower", checkIsAuthenticated, checkIsAuthorizedByParams, getFollowPairsByType);
+app.post("/gamer/:id/follower", checkIsAuthenticated, checkIsAuthorizedByParams, createFollowPair);
+app.delete("/gamer/:id/follower/:followee_id", checkIsAuthenticated, checkIsAuthorizedByParams, removeFollowPair);
 
 app.use((req: Request, res: Response) => {
   res.status(404).send("Route not found");

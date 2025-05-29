@@ -22,7 +22,9 @@ export const getGamesByPage = (page: number, limit: number): Promise<Game[]> => 
 };
 
 export const getGameCount = async (): Promise<number> => {
-  const result = await knex('game').count('rawg_id as count');
+  const result = await knex(GAME_TABLE)
+  .count('rawg_id as count');
+
   return Number(result[0].count);
 };
 
@@ -69,7 +71,7 @@ export const deleteUserGameByID = (userGameID: number): Promise<UserGame> => {
   return knex(USERGAME_TABLE)
   .returning("*")
   .where({ id: userGameID })
-  .del()
+  .del();
 };
 
 export const getAllUserConsoleGames = (userConsoleID: number): Promise<UserGame[]> => {

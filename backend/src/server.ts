@@ -85,6 +85,10 @@ app.get("/gamer/:id/follower", getFollowPairsByType);
 app.post("/gamer/:follower_id/follower", createFollowPair);
 app.delete("/gamer/:follower_id/follower/:followee_id", removeFollowPair);
 
+app.use((req: Request, res: Response) => {
+  res.status(404).send("Route not found");
+});
+
 const server = app.listen(PORT, () => {
   console.log(`Express server is up and running on ${PORT}`);
 });

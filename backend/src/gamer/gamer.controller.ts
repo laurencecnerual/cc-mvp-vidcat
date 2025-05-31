@@ -161,7 +161,8 @@ export const getGamerProfile = async (req: Request, res: Response) => {
     res.status(200).json({
       userconsoles: allConsolesForUser,
       usergames: allGamesForUser,
-      profilePicture: gamer.profile_picture
+      profilePicture: gamer.profile_picture,
+      id: gamer.id
     });
   } catch (err) {
     res.status(500).send(err);

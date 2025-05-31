@@ -66,7 +66,7 @@ export const createFollowPair = async (req: Request, res: Response) => {
   const existingPairs = await getSpecificFollowPair(followPair);
 
   if (existingPairs.length > 0) {
-    return res.status(403).send("Gamer Already a Follower");
+    return res.status(400).send("Gamer Already a Follower");
   }
 
   try {

@@ -3,6 +3,7 @@ import { getAllUserConsoles } from "../userconsole/userconsole.model";
 import { getAllUserGames } from "../usergame/usergame.model";
 import { Request, Response } from "express";
 import { askChatGPT } from "../recommendationGenerator"
+import { getSpecificFollowPair } from '../follower/follower.model';
 const bcrypt = require("bcrypt");
 
 async function hashPassword(plainTextPassword: string) {
@@ -149,6 +150,7 @@ export const logout = (req: Request, res: Response) => {
 //For public user profile (i.e. all userconsoles and usergames for the given gamer's username)
 export const getGamerProfile = async (req: Request, res: Response) => {
   const username = req.params.username;
+  const profileViewerID = req.session.gamer_id;
   const gamer = await getGamerByUsername(username);
 
   if (!gamer) {
@@ -158,12 +160,29 @@ export const getGamerProfile = async (req: Request, res: Response) => {
   try {
     const allConsolesForUser = await getAllUserConsoles(gamer.id);
     const allGamesForUser = await getAllUserGames(gamer.id);
-    res.status(200).json({
+
+    const payload = {
       userconsoles: allConsolesForUser,
       usergames: allGamesForUser,
       profilePicture: gamer.profile_picture,
-      id: gamer.id
-    });
+      id: gamer.id,
+      viewerIsFollower: false
+    }
+
+    if (profileViewerID) {
+      const followPair: FollowPair = {
+        follower_id: profileViewerID,
+        followee_id: gamer.id
+      }
+
+      const existingPairs = await getSpecificFollowPair(followPair);
+
+      if (existingPairs.length > 0) {
+        payload.viewerIsFollower = true;
+      }
+    }
+
+    res.status(200).json(payload);
   } catch (err) {
     res.status(500).send(err);
   }

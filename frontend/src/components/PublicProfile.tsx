@@ -8,6 +8,7 @@ import { showToast } from '../ToastHelper.ts';
 import SortAndFilter from './SortAndFilter.tsx';
 import Icon from '@mdi/react';
 import { mdiArrowCollapseAll, mdiArrowExpandAll } from '@mdi/js';
+import { useGamer } from '../GamerContext.tsx';
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -19,11 +20,14 @@ export default function PublicProfile() {
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
   const [displayedUserGames, setDisplayedUserGames] = useState<UserGameWithGameData[]>([]);
   const [profilePicture, setProfilePicture] = useState<string>();
+  const [profileID, setProfileID] = useState<number>(-1); // The user ID for this profile
   const [validatedUsername, setValidatedUsername] = useState<string>("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [consoleSectionOpen, setConsoleSectionOpen] = useState(true);
   const [gameSectionOpen, setGameSectionOpen] = useState(true);
   const toggleButtonSize = 0.9;
+  const [isFollowing, setIsFollowing] = useState(false); // Is the viewing user already following this profile
+  const {gamer} = useGamer(); // The viewing user
 
   const handleImageLoad = () => {
     setIsLoaded(true);
@@ -34,13 +38,19 @@ export default function PublicProfile() {
   }, [loading])
 
   async function handleFetchProfile() {
-    const response = await fetch(apiUrl + `/profile/${username}`);
+    const response = await fetch(apiUrl + `/profile/${username}`, {
+      method: 'GET',
+      credentials: 'include'
+    });
 
     if (response.status === 200) {
       const collectionObject = await response.json();
+      console.log(JSON.stringify(collectionObject))
       setUserConsoles(collectionObject.userconsoles);
       setUserGames(collectionObject.usergames);
       setProfilePicture(collectionObject.profilePicture)
+      setProfileID(collectionObject.id);
+      collectionObject.viewerIsFollower && setIsFollowing(true);
       setValidatedUsername(username);
     } else if (response.status !== 404) {
       showToast("error", "There was an error loading the user's profile");
@@ -73,6 +83,47 @@ export default function PublicProfile() {
     setState(!currentValue);
   }
 
+  function handleGetAppropriateButton() {
+    return isFollowing ?
+      <button className="unfollow" type="button" onClick={handleUnfollow}>{"Unfollow " + validatedUsername}</button>
+      : <button className="follow" type="button" onClick={handleFollow}>{"Follow " + validatedUsername}</button> 
+  }
+
+  async function handleFollow() {
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}/follower`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ followee_id: profileID })
+    });
+
+    if (response.status === 201) {
+      showToast("success", "Follow successful");
+      setIsFollowing(true);
+    } else {
+      showToast("error", "Unable to follow");
+    }
+  }
+
+  async function handleUnfollow() {
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}/follower/${profileID}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if (response.status === 200) {
+      showToast("success", "Unfollow successful");
+      setIsFollowing(false);
+    } else {
+      showToast("error", "Unable to unfollow");
+    }
+  }
+
   if (loading) {
     return <Loading />
   }
@@ -87,6 +138,7 @@ export default function PublicProfile() {
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',
           }}/> }
+          { gamer && gamer.id !== profileID && handleGetAppropriateButton() }
           {
             consoleSectionOpen ?
             <h2 className="non-top-header">Consoles <button className="collapse-button" type="button" onClick={() => toggleCollapseExpand(consoleSectionOpen, setConsoleSectionOpen)}><Icon path={mdiArrowCollapseAll} size={toggleButtonSize} /></button></h2>

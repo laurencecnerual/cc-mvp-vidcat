@@ -28,6 +28,8 @@ export default function PublicProfile() {
   const toggleButtonSize = 0.9;
   const [isFollowing, setIsFollowing] = useState(false); // Is the viewing user already following this profile
   const {gamer} = useGamer(); // The viewing user
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0); 
 
   const handleImageLoad = () => {
     setIsLoaded(true);
@@ -45,11 +47,12 @@ export default function PublicProfile() {
 
     if (response.status === 200) {
       const collectionObject = await response.json();
-      console.log(JSON.stringify(collectionObject))
       setUserConsoles(collectionObject.userconsoles);
       setUserGames(collectionObject.usergames);
-      setProfilePicture(collectionObject.profilePicture)
+      setProfilePicture(collectionObject.profilePicture);
       setProfileID(collectionObject.id);
+      setFollowerCount(collectionObject.followerCount);
+      setFollowingCount(collectionObject.followingCount);
       collectionObject.viewerIsFollower && setIsFollowing(true);
       setValidatedUsername(username);
     } else if (response.status !== 404) {
@@ -138,6 +141,11 @@ export default function PublicProfile() {
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',
           }}/> }
+          <p className="stats">
+            <div>{userGames.length === 1 ? "1 Game" : `${userGames.length} Games`}</div>
+            <div>{followerCount === 1 ? "1 Follower" : `${followerCount} Followers`}</div>
+            <div>{`${followingCount} Following`}</div>
+          </p>
           { gamer && gamer.id !== profileID && handleGetAppropriateButton() }
           {
             consoleSectionOpen ?

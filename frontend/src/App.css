@@ -352,11 +352,16 @@ img.account-profile-picture, img.public-profile-picture {
   border-radius: 10px;
 }
 
-button.follow, button.unfollow {
+button.follow, button.unfollow, p.stats {
   display: flex;
   margin: auto;
   margin-top: 12px;
   padding: 8px;
+}
+
+p.stats {
+  justify-content: center;
+  gap: 16px;
 }
 
 div.emoji-section {

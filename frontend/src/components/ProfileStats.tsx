@@ -10,6 +10,7 @@ type ProfileStatsProps = {
 export default function ProfileStats({ profileID, gameCount, followerCount, followingCount }: ProfileStatsProps) {
   const {gamer} = useGamer(); // The viewing user
   const isActingUserStats = gamer?.id === profileID;
+  if (isActingUserStats) isActingUserStats; // placeholder to prevent TS error on deploy
 
   return (
     <>

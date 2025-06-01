@@ -4,6 +4,7 @@ import { getAllUserGames } from "../usergame/usergame.model";
 import { Request, Response } from "express";
 import { askChatGPT } from "../recommendationGenerator"
 import { getSpecificFollowPair } from '../follower/follower.model';
+import { getFollowerStats } from '../follower/follower.controller';
 const bcrypt = require("bcrypt");
 
 async function hashPassword(plainTextPassword: string) {
@@ -160,13 +161,16 @@ export const getGamerProfile = async (req: Request, res: Response) => {
   try {
     const allConsolesForUser = await getAllUserConsoles(gamer.id);
     const allGamesForUser = await getAllUserGames(gamer.id);
+    const followerStats = await getFollowerStats(gamer.id)
 
     const payload = {
       userconsoles: allConsolesForUser,
       usergames: allGamesForUser,
       profilePicture: gamer.profile_picture,
       id: gamer.id,
-      viewerIsFollower: false
+      viewerIsFollower: false,
+      followerCount: followerStats.follower_count,
+      followingCount: followerStats.following_count
     }
 
     if (profileViewerID) {

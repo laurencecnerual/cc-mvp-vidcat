@@ -9,6 +9,7 @@ import { showToast } from "../ToastHelper.ts";
 import SortAndFilter from "./SortAndFilter.tsx";
 import Icon from '@mdi/react';
 import { mdiArrowCollapseAll, mdiArrowExpandAll } from '@mdi/js';
+import ProfileStats from "./ProfileStats.tsx";
 
 export default function Profile() {
   const {gamer} = useGamer();
@@ -21,6 +22,8 @@ export default function Profile() {
   const [consoleSectionOpen, setConsoleSectionOpen] = useState(true);
   const [gameSectionOpen, setGameSectionOpen] = useState(true);
   const toggleButtonSize = 0.9;
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0); 
 
   useEffect(() => {
     handleLoading();
@@ -28,8 +31,23 @@ export default function Profile() {
   }, [loading, refresh])
 
   async function handleLoading() {
+    await handleFetchFollowerStats();
     await handleFetchUserConsoles();
     await handleFetchUserGames();
+  }
+
+  async function handleFetchFollowerStats() {
+    const response = await fetch(apiUrl + `/gamer/${gamer?.id}/follower/count`, {
+      credentials: "include"
+    });
+
+    if (response.status === 200) {
+      const stats = await response.json();
+      setFollowerCount(stats.follower_count);
+      setFollowingCount(stats.following_count);
+    } else {
+      showToast("error", "There was an error loading your follower info");
+    }
   }
 
   async function handleFetchUserConsoles() {
@@ -101,6 +119,7 @@ export default function Profile() {
         <div className="get-my-url">
           <button className="get-my-url" type="button" onClick={getUserPublicProfileURL}>Get My Public Profile URL</button>
         </div>
+        <ProfileStats profileID={gamer?.id || 0} gameCount={userGames.length} followerCount={followerCount} followingCount={followingCount}/>
         {
           consoleSectionOpen ?
           <h2 className="non-top-header">Your Consoles <button className="collapse-button" type="button" onClick={() => toggleCollapseExpand(consoleSectionOpen, setConsoleSectionOpen)}><Icon path={mdiArrowCollapseAll} size={toggleButtonSize} /></button></h2>

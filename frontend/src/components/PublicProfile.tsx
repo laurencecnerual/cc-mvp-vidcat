@@ -9,6 +9,7 @@ import SortAndFilter from './SortAndFilter.tsx';
 import Icon from '@mdi/react';
 import { mdiArrowCollapseAll, mdiArrowExpandAll } from '@mdi/js';
 import { useGamer } from '../GamerContext.tsx';
+import ProfileStats from './ProfileStats.tsx';
 
 const apiUrl: string = import.meta.env.VITE_API_URL;
 
@@ -141,11 +142,7 @@ export default function PublicProfile() {
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',
           }}/> }
-          <p className="stats">
-            <div>{userGames.length === 1 ? "1 Game" : `${userGames.length} Games`}</div>
-            <div>{followerCount === 1 ? "1 Follower" : `${followerCount} Followers`}</div>
-            <div>{`${followingCount} Following`}</div>
-          </p>
+          <ProfileStats profileID={profileID} gameCount={userGames.length} followerCount={followerCount} followingCount={followingCount}/>
           { gamer && gamer.id !== profileID && handleGetAppropriateButton() }
           {
             consoleSectionOpen ?

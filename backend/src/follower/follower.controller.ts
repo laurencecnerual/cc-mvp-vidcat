@@ -40,6 +40,17 @@ export const getFollowerStats = async (gamerID: number):  Promise<FollowerStats>
   } as FollowerStats;
 };
 
+export const getFollowerCounts = async (req: Request, res: Response) => {
+  const gamerID = parseInt(req.params.id);
+
+  try {
+    const followerCounts = await getFollowerStats(gamerID);
+    res.status(200).json(followerCounts);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}
+
 export const createFollowPair = async (req: Request, res: Response) => {
   const followerID = parseInt(req.params.id);
   const followeeID = req.body.followee_id;

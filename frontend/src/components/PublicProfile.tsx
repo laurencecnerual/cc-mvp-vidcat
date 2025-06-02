@@ -20,7 +20,7 @@ export default function PublicProfile() {
   const [displayedUserConsoles, setDisplayedUserConsoles] = useState<UserConsoleWithConsoleData[]>([]);
   const [userGames, setUserGames] = useState<UserGameWithGameData[]>([]);
   const [displayedUserGames, setDisplayedUserGames] = useState<UserGameWithGameData[]>([]);
-  const [profilePicture, setProfilePicture] = useState<string>();
+  const [profilePicture, setProfilePicture] = useState<string>("/no-profile-picture.png");
   const [profileID, setProfileID] = useState<number>(-1); // The user ID for this profile
   const [validatedUsername, setValidatedUsername] = useState<string>("");
   const [isLoaded, setIsLoaded] = useState(false);
@@ -31,7 +31,6 @@ export default function PublicProfile() {
   const {gamer} = useGamer(); // The viewing user
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
-  const [imgSrc, setImgSrc] = useState(profilePicture || "/no-profile-picture.png");
 
   const handleImageLoad = () => {
     setIsLoaded(true);
@@ -42,7 +41,7 @@ export default function PublicProfile() {
   }, [loading])
 
   const handleBadImgSrc = () => {
-    setImgSrc("/no-profile-picture.png");
+    setProfilePicture("/no-profile-picture.png");
   };
 
   async function handleFetchProfile() {
@@ -142,7 +141,7 @@ export default function PublicProfile() {
       { validatedUsername ?
         <div className="public-profile">
           <h1>{`${validatedUsername}'s Public Profile`}</h1>
-          <img src={imgSrc} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} onLoad={handleImageLoad} loading="lazy" onError={handleBadImgSrc}
+          <img src={profilePicture} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} onLoad={handleImageLoad} loading="lazy" onError={handleBadImgSrc}
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',

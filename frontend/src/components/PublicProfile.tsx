@@ -54,7 +54,7 @@ export default function PublicProfile() {
       const collectionObject = await response.json();
       setUserConsoles(collectionObject.userconsoles);
       setUserGames(collectionObject.usergames);
-      setProfilePicture(collectionObject.profilePicture);
+      setProfilePicture(collectionObject.profilePicture || "/no-profile-picture.png");
       setProfileID(collectionObject.id);
       setValidatedUsername(collectionObject.username);
       setFollowerCount(collectionObject.followerCount);

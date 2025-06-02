@@ -168,6 +168,7 @@ export const getGamerProfile = async (req: Request, res: Response) => {
       usergames: allGamesForUser,
       profilePicture: gamer.profile_picture,
       id: gamer.id,
+      username: gamer.username,
       viewerIsFollower: false,
       followerCount: followerStats.follower_count,
       followingCount: followerStats.following_count

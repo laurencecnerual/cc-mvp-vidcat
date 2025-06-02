@@ -15,6 +15,11 @@ export default function FollowerManagement({ isFollowerList }: FollowerManagemen
   const {gamer} = useGamer();
   const [loading, setLoading] = useState(true);
   const [followPartners, setFollowPartners] = useState<FollowPairData[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
 
   useEffect(() => {
     handleFetchFollowerDetails();
@@ -38,10 +43,19 @@ export default function FollowerManagement({ isFollowerList }: FollowerManagemen
 
   function generatePartnerCard(partner: FollowPairData) {
     return (
-    <div className="follower-card">
-      <img className="follower-picture" src={partner.profile_picture || "/no-profile-picture.png"} alt={`Picture of ${partner.username}`} />
-      <p className="follower-name" key={partner.id}>{partner.username}</p>
-    </div> )
+      <div className="follower-card" key={partner.id}>
+        <img className="follower-picture" src={partner.profile_picture || "/no-profile-picture.png"} alt={`Picture of ${partner.username}`} loading="lazy" onLoad={handleImageLoad} onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.onerror = null;
+          target.src = "/no-profile-picture.png";
+        }}           
+        style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
+          }} />
+        <p className="follower-name">{partner.username}</p>
+      </div>
+    )
   }
 
   if (loading) {

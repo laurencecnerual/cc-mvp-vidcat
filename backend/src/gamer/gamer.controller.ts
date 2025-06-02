@@ -85,9 +85,9 @@ export const updateGamer = async (req: Request, res: Response) => {
   } 
   
   // Handle account info update
-  if (firstname) payload.firstname = firstname;
-  if (lastname) payload.lastname = lastname;
-  if (profilePicture) payload.profile_picture = profilePicture;
+  if (firstname || firstname === "") payload.firstname = firstname;
+  if (lastname || lastname === "") payload.lastname = lastname;
+  if (profilePicture || profilePicture === "") payload.profile_picture = profilePicture;
 
   try {
     const modifiedGamers = await updateGamerByID(gamerID, payload);

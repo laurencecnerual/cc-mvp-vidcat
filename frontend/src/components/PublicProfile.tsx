@@ -56,10 +56,10 @@ export default function PublicProfile() {
       setUserGames(collectionObject.usergames);
       setProfilePicture(collectionObject.profilePicture);
       setProfileID(collectionObject.id);
+      setValidatedUsername(collectionObject.username);
       setFollowerCount(collectionObject.followerCount);
       setFollowingCount(collectionObject.followingCount);
       collectionObject.viewerIsFollower && setIsFollowing(true);
-      setValidatedUsername(username);
     } else if (response.status !== 404) {
       showToast("error", "There was an error loading the user's profile");
     }

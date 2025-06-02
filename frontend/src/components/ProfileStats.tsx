@@ -15,9 +15,9 @@ export default function ProfileStats({ profileID, gameCount, followerCount, foll
   return (
     <>
       <p className="stats">
-        <div>{gameCount === 1 ? "1 Game" : `${gameCount} Games`}</div>
-        <div>{followerCount === 1 ? "1 Follower" : `${followerCount} Followers`}</div>
-        <div>{`${followingCount} Following`}</div>
+        <span>{gameCount === 1 ? "1 Game" : `${gameCount} Games`}</span>
+        <span>{followerCount === 1 ? "1 Follower" : `${followerCount} Followers`}</span>
+        <span>{`${followingCount} Following`}</span>
       </p>
     </>
   )

@@ -364,6 +364,13 @@ p.stats {
   gap: 16px;
 }
 
+div.partner-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 div.emoji-section {
   padding-top: 12px;
   display: flex;

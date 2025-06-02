@@ -19,8 +19,8 @@ export default function ProfileStats({ profileID, gameCount, followerCount, foll
     <>
       <p className="stats">
         <span>{gameText}</span>
-        { (isActingUserStats && followerCount > 0) ? <Link to="#">{followerText}</Link> : <span>{followerText}</span> } 
-        { (isActingUserStats && followingCount > 0) ? <Link to="#">{followingText}</Link> : <span>{followingText}</span> } 
+        { (isActingUserStats && followerCount > 0) ? <Link to="/follower-list">{followerText}</Link> : <span>{followerText}</span> } 
+        { (isActingUserStats && followingCount > 0) ? <Link to="/following-list">{followingText}</Link> : <span>{followingText}</span> } 
       </p>
     </>
   )

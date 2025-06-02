@@ -19,6 +19,7 @@ import {Routes, Route, Navigate} from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
+import FollowerManagement from './components/FollowerManagement.tsx';
 
 Modal.setAppElement('#root');
 
@@ -34,6 +35,8 @@ function App() {
           <Route path="signup" element={!gamer ? <Signup /> : <Navigate to="/" />}  />
           <Route path="all-games" element={<AllGames />} />
           <Route path="manage-account" element={gamer ? <ManageAccount /> : <Navigate to="/login" />} />
+          <Route path="follower-list" element={gamer ? <FollowerManagement isFollowerList={true} /> : <Navigate to="/login" />} />
+          <Route path="following-list" element={gamer ? <FollowerManagement isFollowerList={false} /> : <Navigate to="/login" />} />
           <Route path="add-console" element={gamer ? <NewConsole /> : <Navigate to="/login" />} />
           <Route path="add-game" element={gamer ? <NewGame /> : <Navigate to="/login" />} />
           <Route path="edit-console" element={gamer ? <EditConsole /> : <Navigate to="/login" />} />

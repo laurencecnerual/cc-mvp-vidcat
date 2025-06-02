@@ -30,7 +30,8 @@ export default function PublicProfile() {
   const [isFollowing, setIsFollowing] = useState(false); // Is the viewing user already following this profile
   const {gamer} = useGamer(); // The viewing user
   const [followerCount, setFollowerCount] = useState(0);
-  const [followingCount, setFollowingCount] = useState(0); 
+  const [followingCount, setFollowingCount] = useState(0);
+  const [imgSrc, setImgSrc] = useState(profilePicture || "/no-profile-picture.png");
 
   const handleImageLoad = () => {
     setIsLoaded(true);
@@ -39,6 +40,10 @@ export default function PublicProfile() {
   useEffect(() => {
     handleFetchProfile();
   }, [loading])
+
+  const handleBadImgSrc = () => {
+    setImgSrc("/no-profile-picture.png");
+  };
 
   async function handleFetchProfile() {
     const response = await fetch(apiUrl + `/profile/${username}`, {
@@ -137,7 +142,7 @@ export default function PublicProfile() {
       { validatedUsername ?
         <div className="public-profile">
           <h1>{`${validatedUsername}'s Public Profile`}</h1>
-          <img src={profilePicture ? profilePicture : "/no-profile-picture.png"} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} onLoad={handleImageLoad} loading="lazy"
+          <img src={imgSrc} className="public-profile-picture" alt={validatedUsername + "'s profile picture"} onLoad={handleImageLoad} loading="lazy" onError={handleBadImgSrc}
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',

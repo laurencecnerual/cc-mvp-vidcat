@@ -9,10 +9,16 @@ export default function ManageAccount() {
   const {gamer, setGamer} = useGamer();
   const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [imgSrc, setImgSrc] = useState(gamer?.profile_picture || "/no-profile-picture.png");
 
   const handleImageLoad = () => {
     setIsLoaded(true);
   };
+
+  const handleBadImgSrc = () => {
+    setImgSrc("/no-profile-picture.png");
+  };
+
   
   async function handleAccountUpdate(firstname: string, lastname: string, profilePicture: string) {
     const response = await fetch(apiUrl + `/gamer/${gamer?.id}`, {
@@ -89,7 +95,7 @@ export default function ManageAccount() {
     <div className="manage-account-page">
       <Link to="/" className="back-to-profile">Back to Profile</Link>
       <h1>{gamer?.username}'s Account</h1>
-      <img src={gamer?.profile_picture ? gamer.profile_picture : "/no-profile-picture.png"} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} onLoad={handleImageLoad}
+      <img src={imgSrc} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} onLoad={handleImageLoad} onError={handleBadImgSrc}
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',

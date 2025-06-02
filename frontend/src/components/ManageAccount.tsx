@@ -89,11 +89,11 @@ export default function ManageAccount() {
     <div className="manage-account-page">
       <Link to="/" className="back-to-profile">Back to Profile</Link>
       <h1>{gamer?.username}'s Account</h1>
-      { gamer?.profile_picture && <img src={gamer?.profile_picture} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} onLoad={handleImageLoad}
+      <img src={gamer?.profile_picture ? gamer.profile_picture : "/no-profile-picture.png"} className="account-profile-picture" alt={gamer?.username + "'s profile picture"} onLoad={handleImageLoad}
           style={{
             opacity: isLoaded ? 1 : 0,
             transition: 'opacity 1s ease-in-out',
-          }} /> }
+          }} />
       <form className="edit-account-info manage-account" action="" onSubmit={(event) => {
         event.preventDefault(); 
         let accountInfoForm = document.querySelector("form.edit-account-info"); 

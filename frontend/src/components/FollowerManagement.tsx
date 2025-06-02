@@ -36,17 +36,25 @@ export default function FollowerManagement({ isFollowerList }: FollowerManagemen
     setLoading(false);
   }
 
+  function generatePartnerCard(partner: FollowPairData) {
+    return (
+    <div className="follower-card">
+      <img className="follower-picture" src={partner.profile_picture || "/no-profile-picture.png"} alt={`Picture of ${partner.username}`} />
+      <p className="follower-name" key={partner.id}>{partner.username}</p>
+    </div> )
+  }
+
   if (loading) {
     return <Loading />
   }
 
   return (
     <>
-      <div className="followerPage">
+      <div className="follower-page">
         <Link to="/" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back">Back</Link>
-        <h1 className="follower-list">{isFollowerList ? "Your Followers" : "Currently Following"}</h1>
-        <div className="partner-list">
-          {followPartners.map(partner => <p key={partner.id}>{"・"+ partner.username}</p>)}
+        <h1>{isFollowerList ? "Your Followers" : "Currently Following"}</h1>
+        <div className="follower-list">
+          {followPartners.map(partner => generatePartnerCard(partner))}
         </div>
       </div>
     </>

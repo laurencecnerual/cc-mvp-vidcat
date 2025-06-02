@@ -35,7 +35,7 @@ div.top-mid-bot {
   justify-content: space-between;
 }
 
-div.edit-console-page, div.edit-game-page, div.view-game-page, div.manage-account-page {
+div.edit-console-page, div.edit-game-page, div.view-game-page, div.manage-account-page, div.follower-page {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -109,7 +109,7 @@ h3 {
   font-size: 1.6rem;
 }
 
-.public-profile, .full-profile, .edit-game-page, .view-game-page, .edit-console-page, .manage-account-page {
+.public-profile, .full-profile, .edit-game-page, .view-game-page, .edit-console-page, .manage-account-page, .follower-page {
   overflow-y: auto;
 }
 
@@ -364,11 +364,40 @@ p.stats {
   gap: 16px;
 }
 
-div.partner-list {
+div.follower-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 28px;
+  grid-auto-rows: 160px;
+  padding: 4px 24px 24px;
+  flex-grow: 1;
+}
+
+div.follower-card {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 16px;
+  padding: 12px;
+  border: 6px solid transparent;
+  border-radius: 10px;
+  background-color: rgb(129, 199, 132);
+  color: #F5F5DC;
+  box-shadow: 6px 6px rgba(0, 51, 102, 0.6);
+  cursor: pointer;
+}
+
+div.follower-card:hover {
+  border: 6px solid #FF6F61;
+}
+
+img.follower-picture {
+  max-height: 125px;
+  max-width: 125px;
+  border-radius: 10px;
+}
+
+p.follower-name {
+  font-size: 1.5rem;
 }
 
 div.emoji-section {
@@ -673,5 +702,17 @@ div.active-icon {
   span.emoji {
     font-size: 1.1rem;
     padding: 2px;
+  }
+
+  div.follower-list {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    grid-auto-rows: 90px;
+    padding: 4px 24px 24px;
+  }
+
+  img.follower-picture {
+      max-height: 70px;
+      max-width: 70px;
   }
 }

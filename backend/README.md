@@ -25,6 +25,8 @@ Live on Render at https://vidcat-backend.onrender.com/
   
 - `usergame`: Stores the games that users register on their accounts. Each entry is related to a specific `gamer`, a specific `userconsole` they previously registered, and a specific `game`
 
+- `follower`: Stores `follower_id` and `followee_id`, representing the relationship between two gamers. The combination of these two fields also serves as the record's primary key
+
 ### Endpoints
 
 #### User (Gamer) related
@@ -82,6 +84,16 @@ Live on Render at https://vidcat-backend.onrender.com/
 - PATCH `/usergame/:id`: Used to update the target usergame with the payload sent in the body. Responds with the updated usergame object
 
 - DELETE `/usergame/:id`: Used to delete the target usergame. Responds with the deleted usergame
+
+#### Follower related
+
+- GET  `/gamer/:id/follower`: Used to get an array consisting of all gamers in a follower-followee relationship with the given gamer ID. Expects a query parameter `type` that controls whether it responds with all of the followers of the gamer (`type='followers'`) or all followees the gamer is following (`type='following'`). In either case, the response array contains objects consisting of `id`, `username`, and `profile_picture`
+
+- GET  `/gamer/:id/follower/count`: Used to the get `follower_count` and `following_count` for a given gamer ID
+
+- POST `/gamer/:id/follower`: Used to create a new follower-followee relationship, representing the act of following. Expects `followee_id` in the request body. Responds with the newly created relationship
+  
+- DELETE `/gamer/:id/follower/:followee_id`: Used to delete the target follower-followee relationship, representing the act of unfollowing. Responds with the deleted relationship
 
 ### Authentication
 Handled using a combination of `bycrypt` and `express-session`

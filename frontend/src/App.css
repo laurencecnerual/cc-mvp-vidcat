@@ -398,6 +398,8 @@ img.follower-picture {
 
 p.follower-name {
   font-size: 1.5rem;
+  text-decoration: underline dotted;
+  text-underline-offset: 6px;
 }
 
 div.emoji-section {

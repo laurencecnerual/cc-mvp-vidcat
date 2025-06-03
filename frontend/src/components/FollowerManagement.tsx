@@ -43,7 +43,7 @@ export default function FollowerManagement({ isFollowerList }: FollowerManagemen
 
   function generatePartnerCard(partner: FollowPairData) {
     return (
-      <div className="follower-card" key={partner.id}>
+      <div className="follower-card" key={partner.id} onClick={() => navigate(`/users/${partner.username}`)}>
         <img className="follower-picture" src={partner.profile_picture || "/no-profile-picture.png"} alt={`Picture of ${partner.username}`} loading="lazy" onLoad={handleImageLoad} onError={(e) => {
           const target = e.target as HTMLImageElement;
           target.onerror = null;

@@ -13,21 +13,24 @@ Live on Render at https://vidcat-backend.onrender.com/
 
 ## Architecture
 
-### Database Tables
+### Database
+Schema viewable here: https://dbdiagram.io/d/vidcat-6840f59d76955641c2b81c22
 
-- `gamer`: Stores users
-  
-- `console`: Stores custom-prepared game console data
-  
-- `userconsole`: Stores the consoles that users register on their accounts. Each entry is related to a specific `gamer` and a specific `console`
-  
-- `game`: Stores RAWG API official video game data
-  
-- `usergame`: Stores the games that users register on their accounts. Each entry is related to a specific `gamer`, a specific `userconsole` they previously registered, and a specific `game`
+#### Tables
 
-- `follower`: Stores `follower_id` and `followee_id`, representing the relationship between two gamers. The combination of these two fields also serves as the record's primary key
+1. `gamer`: Stores users
+  
+2. `console`: Stores custom-prepared game console data
+  
+3. `userconsole`: Stores the consoles that users register on their accounts. Each entry is related to a specific `gamer` and a specific `console`
+  
+4. `game`: Stores RAWG API official video game data
+  
+5. `usergame`: Stores the games that users register on their accounts. Each entry is related to a specific `gamer`, a specific `userconsole` they previously registered, and a specific `game`
 
-### Endpoints
+6. `follower`: Stores `follower_id` and `followee_id`, representing the relationship between two gamers. The combination of these two fields also serves as the record's primary key
+
+### REST Endpoints
 
 #### User (Gamer) related
 

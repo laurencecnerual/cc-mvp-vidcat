@@ -201,6 +201,13 @@ exports.seed = async function(knex) {
       release_year: 2022,
       picture: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Steam_Deck_%28front%29.png",
       is_handheld: true
+    },
+    {
+      name: 'Nintendo Switch 2',
+      maker: 'Nintendo',
+      release_year: 2025,
+      picture: "https://upload.wikimedia.org/wikipedia/commons/f/f2/Nintendo_Switch_2-Spieleequipment_20250605.png",
+      is_handheld: false
     }
   ]);
 };

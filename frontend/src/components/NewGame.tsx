@@ -91,61 +91,63 @@ export default function NewGame() {
 
   return (
     <>
-      <Link to="/" className="back-to-profile">Back to Profile</Link>
-      { userConsoleList.length > 0 ? <form className="new-game" action="" onSubmit={(event) => {
-        event.preventDefault(); 
-        let form = document.querySelector("form"); 
-        handleAddGame
-        (
-          gamer?.id,
-          (form?.querySelector("input.game-name") as HTMLInputElement).value,
-          (form?.querySelector("input.console-name") as HTMLInputElement).value,
-          (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
-          (form?.querySelector("input.is-completed") as HTMLInputElement)?.checked,
-          (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked,
-          Number((form?.querySelector("input.personal-rating") as HTMLInputElement)?.value),
-          (form?.querySelector("textarea.personal-review") as HTMLInputElement)?.value
-        )
-      }}>
-        <h2>New Game</h2>
-        <p className="internal-hook">Need some inspiration? <Link to="/all-games" className="all-games-invitation">View our full catalog!</Link></p>
-        <div id="game-name" className="label-input-pair">
-          <label htmlFor="game-name">Game<span className="mandatory">*</span></label>
-          <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>
-          <datalist id="game-list">
-            {gameList.map((game) => <option key={"" + game.rawg_id} id={"" + game.rawg_id} value={game.name}>{game.name}</option>)}
-          </datalist>
-        </div>
-        <div id="console-name" className="label-input-pair">
-          <label htmlFor="console-name">Console<span className="mandatory">*</span></label>
-          <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
-          <datalist id="console-list">
-            {userConsoleList.map((userConsole) => <option key={"" + userConsole.id} id={"" + userConsole.id} value={userConsole.name}>{userConsole.name}</option>)}
-          </datalist>
-        </div>
-        <div id="is-owned" className="label-input-pair">
-          <label htmlFor="is-owned">I own it</label>
-          <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
-        </div>
-        <div id="is-completed" className="label-input-pair">
-          <label htmlFor="is-completed">I beat it</label>
-          <input type="checkbox" className="is-completed" id="is-completed" name="is-completed"/>
-        </div>
-        <div id="is-favorite" className="label-input-pair">
-          <label htmlFor="is-favorite">It's a favorite of mine</label>
-          <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
-        </div>
-        <div id="personal-rating" className="label-input-pair">
-          <label htmlFor="personal-rating">Rating</label>
-          <input type="number" step="0.01" min="1.00" max="5.00" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="1.00 ~ 5.00"/>
-        </div>
-        <div id="personal-review" className="label-input-pair">
-          <label htmlFor="personal-review">Review</label>
-          <textarea className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
-        </div>
-        <button className="add-game form" type="submit">Add Game</button>
-      </form>
-      : <Link to="/add-console" className="no-consoles">Please add at least one console first</Link> }
+      <div className="new-game-page">
+        <Link to="/" className="back-to-profile">Back to Profile</Link>
+        { userConsoleList.length > 0 ? <form className="new-game" action="" onSubmit={(event) => {
+          event.preventDefault(); 
+          let form = document.querySelector("form"); 
+          handleAddGame
+          (
+            gamer?.id,
+            (form?.querySelector("input.game-name") as HTMLInputElement).value,
+            (form?.querySelector("input.console-name") as HTMLInputElement).value,
+            (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
+            (form?.querySelector("input.is-completed") as HTMLInputElement)?.checked,
+            (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked,
+            Number((form?.querySelector("input.personal-rating") as HTMLInputElement)?.value),
+            (form?.querySelector("textarea.personal-review") as HTMLInputElement)?.value
+          )
+        }}>
+          <h2>New Game</h2>
+          <p className="internal-hook">Need some inspiration? <Link to="/all-games" className="all-games-invitation">View our full catalog!</Link></p>
+          <div id="game-name" className="label-input-pair">
+            <label htmlFor="game-name">Game<span className="mandatory">*</span></label>
+            <input type="text" list="game-list" className="game-name" id="game-name" name="game-name" required/>
+            <datalist id="game-list">
+              {gameList.map((game) => <option key={"" + game.rawg_id} id={"" + game.rawg_id} value={game.name}>{game.name}</option>)}
+            </datalist>
+          </div>
+          <div id="console-name" className="label-input-pair">
+            <label htmlFor="console-name">Console<span className="mandatory">*</span></label>
+            <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
+            <datalist id="console-list">
+              {userConsoleList.map((userConsole) => <option key={"" + userConsole.id} id={"" + userConsole.id} value={userConsole.name}>{userConsole.name}</option>)}
+            </datalist>
+          </div>
+          <div id="is-owned" className="label-input-pair">
+            <label htmlFor="is-owned">I own it</label>
+            <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
+          </div>
+          <div id="is-completed" className="label-input-pair">
+            <label htmlFor="is-completed">I beat it</label>
+            <input type="checkbox" className="is-completed" id="is-completed" name="is-completed"/>
+          </div>
+          <div id="is-favorite" className="label-input-pair">
+            <label htmlFor="is-favorite">It's a favorite of mine</label>
+            <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
+          </div>
+          <div id="personal-rating" className="label-input-pair">
+            <label htmlFor="personal-rating">Rating</label>
+            <input type="number" step="0.01" min="1.00" max="5.00" className="personal-rating" id="personal-rating" name="personal-rating" placeholder="1.00 ~ 5.00"/>
+          </div>
+          <div id="personal-review" className="label-input-pair">
+            <label htmlFor="personal-review">Review</label>
+            <textarea className="personal-review" id="personal-review" name="personal-review" placeholder="Write your review here"/>
+          </div>
+          <button className="add-game form" type="submit">Add Game</button>
+        </form>
+        : <Link to="/add-console" className="no-consoles">Please add at least one console first</Link> }
+      </div>
     </>
   );
 }

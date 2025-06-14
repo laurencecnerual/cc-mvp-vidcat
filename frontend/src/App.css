@@ -35,7 +35,7 @@ div.top-mid-bot {
   justify-content: space-between;
 }
 
-div.edit-console-page, div.edit-game-page, div.view-game-page, div.manage-account-page, div.follower-page {
+div.edit-console-page, div.edit-game-page, div.view-game-page, div.manage-account-page, div.follower-page, div.new-game-page, div.new-console-page {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -109,7 +109,7 @@ h3 {
   font-size: 1.6rem;
 }
 
-.public-profile, .full-profile, .edit-game-page, .view-game-page, .edit-console-page, .manage-account-page, .follower-page {
+.public-profile, .full-profile, .edit-game-page, .view-game-page, .edit-console-page, .manage-account-page, .follower-page, .new-game-page, .new-console-page {
   overflow-y: auto;
 }
 
@@ -661,6 +661,11 @@ div.active-icon {
   div.emoji {
     font-size: 1.5rem;
     padding: 1px;
+  }
+
+  form.new-game {
+    height: auto;
+    margin-bottom: 40px;
   }
 
   p.intro-text, p.internal-hook {

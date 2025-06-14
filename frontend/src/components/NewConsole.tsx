@@ -53,36 +53,38 @@ export default function NewConsole() {
 
   return (
     <>
-      <Link to="/" className="back-to-profile">Back to Profile</Link>
-      <form className="new-console" action="" onSubmit={(event) => {
-        event.preventDefault(); 
-        let form = document.querySelector("form"); 
-        handleAddConsole
-        (
-          gamer?.id,
-          (form?.querySelector("input.console-name") as HTMLInputElement).value,
-          (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
-          (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
-        )
-      }}>
-        <h2>New Console</h2>
-        <div id="console-name" className="label-input-pair">
-          <label htmlFor="console-name" >Name of Console<span className="mandatory">*</span></label>
-          <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
-          <datalist id="console-list">
-            {consoleList.map((console) => <option key={"" + console.id} id={"" + console.id} value={console.name}>{console.name}</option>)}
-          </datalist>
-        </div>
-        <div id="is-owned" className="label-input-pair">
-          <label htmlFor="is-owned">I own it</label>
-          <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
-        </div>
-        <div id="is-favorite" className="label-input-pair">
-          <label htmlFor="is-favorite">It's a favorite of mine</label>
-          <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
-        </div>
-        <button className="add-console form" type="submit">Add Console</button>
-      </form>
+      <div className="new-console-page">
+        <Link to="/" className="back-to-profile">Back to Profile</Link>
+        <form className="new-console" action="" onSubmit={(event) => {
+          event.preventDefault(); 
+          let form = document.querySelector("form"); 
+          handleAddConsole
+          (
+            gamer?.id,
+            (form?.querySelector("input.console-name") as HTMLInputElement).value,
+            (form?.querySelector("input.is-owned") as HTMLInputElement)?.checked,
+            (form?.querySelector("input.is-favorite") as HTMLInputElement)?.checked
+          )
+        }}>
+          <h2>New Console</h2>
+          <div id="console-name" className="label-input-pair">
+            <label htmlFor="console-name" >Name of Console<span className="mandatory">*</span></label>
+            <input type="text" list="console-list" className="console-name" id="console-name" name="console-name" required/>
+            <datalist id="console-list">
+              {consoleList.map((console) => <option key={"" + console.id} id={"" + console.id} value={console.name}>{console.name}</option>)}
+            </datalist>
+          </div>
+          <div id="is-owned" className="label-input-pair">
+            <label htmlFor="is-owned">I own it</label>
+            <input type="checkbox" className="is-owned" id="is-owned" name="is-owned" defaultChecked/>
+          </div>
+          <div id="is-favorite" className="label-input-pair">
+            <label htmlFor="is-favorite">It's a favorite of mine</label>
+            <input type="checkbox" className="is-favorite" id="is-favorite" name="is-favorite"/>
+          </div>
+          <button className="add-console form" type="submit">Add Console</button>
+        </form>
+      </div>
     </>
   );
 }

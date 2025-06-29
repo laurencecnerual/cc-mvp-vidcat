@@ -1,6 +1,8 @@
 # VidCat Frontend Repository
 Live on Render at https://vidcat.onrender.com/
 
+A demo of the app can also be viewed [here](https://drive.google.com/file/d/1cEpgvdM3o_jpoF8zG2Udq9y8m8QcugqI/view?usp=sharing)
+
 ## Technologies Used
 
 - React
